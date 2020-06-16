@@ -22,7 +22,8 @@ iOS support is not tested, may not work properly. Available implementations:
 
 ### Setup
 
-Ensure that you install Plugin.Toast into all your projects.
+* Available on NuGet: https://www.nuget.org/packages/Xamarin.Plugin.Toast/
+* Ensure that you install Plugin.Toast into all your projects.
 
 ### Initialization
 
