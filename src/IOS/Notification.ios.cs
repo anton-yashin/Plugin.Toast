@@ -42,7 +42,11 @@ namespace Plugin.Toast.IOS
                 onTapped: () => tcs.TrySetResult(NotificationResult.Activated)))
             {
                 UNC.AddNotificationRequest(request,
-                    error => tcs.TrySetException(new Exceptions.NotificationException(error.ToString())));
+                    error =>
+                    {
+                        if (error != null)
+                            tcs.TrySetException(new Exceptions.NotificationException(error.ToString()));
+                    });
 
                 if (cancellationToken.CanBeCanceled)
                     return await tcs.WatchCancellationAsync(cancellationToken,
