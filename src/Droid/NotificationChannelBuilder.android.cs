@@ -43,7 +43,8 @@ namespace Plugin.Toast.Droid
                 throw new InvalidOperationException("name required");
             if (id == null)
                 id = GenerateIdByName(name);
-            var nm = ANotificationManager.FromContext(Application.Context);
+            var nm = ANotificationManager.FromContext(Application.Context)
+                ?? throw new InvalidOperationException(ErrorStrings.KNotificationManagerError);
             var channel = nm.GetNotificationChannel(id);
             if (channel != null)
                 return channel;

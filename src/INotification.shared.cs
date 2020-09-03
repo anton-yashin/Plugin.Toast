@@ -12,6 +12,10 @@ namespace Plugin.Toast
         /// <param name="cancellationToken">token to hide notification</param>
         /// <returns>Notification result</returns>
         /// <exception cref="Exceptions.NotificationException"/>
+        /// <exception cref="InvalidOperationException">
+        /// Can be thrown on android if library can not get 
+        /// an Android.App.NotificationManager from Application.Context. Unlikely
+        /// </exception>
         Task<NotificationResult> ShowAsync(CancellationToken cancellationToken);
 
         /// <summary>
@@ -19,6 +23,10 @@ namespace Plugin.Toast
         /// </summary>
         /// <param name="deliveryTime">due time</param>
         /// <exception cref="Exceptions.NotificationException"/>
+        /// <exception cref="InvalidOperationException">
+        /// Can be thrown on android if library can not get
+        /// an Android.App.AlarmManager from Application.Context. Unlikely
+        /// </exception>
         /// <returns>Token to remove a notification from schedule. You can ignore it</returns>
         /// <remarks>
         /// When using a <see cref="ISnackbarExtension"/> the deliveryTime is always ignored

@@ -376,6 +376,8 @@ namespace Plugin.Toast.Droid
             var builder = new NotificationChannelBuilder();
             buildAction(builder);
             var channel = builder.Build();
+            if (channel.Id == null)
+                throw new InvalidOperationException(ErrorStrings.KChannelIdError);
             SetChannelId(channel.Id);
             return this;
         }

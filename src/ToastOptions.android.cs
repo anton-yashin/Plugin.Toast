@@ -14,7 +14,7 @@ namespace Plugin.Toast
         /// <seealso cref="global::Android.App.Application.Context"/> <br/>
         /// <seealso cref="global::Android.Content.Context.PackageName"/>
         /// </summary>
-        public string PackageName { get; set; } = Application.Context.PackageName;
+        public string PackageName { get; set; } = Application.Context.PackageName ?? "";
         /// <summary>
         /// Notification style selected by <seealso cref="INotificationManager.BuildNotification()"/>.
         /// Default value is <seealso cref="NotificationStyle.Default"/>

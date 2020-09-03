@@ -26,9 +26,11 @@ namespace ManualTests.Droid
             Plugin.Toast.NotificationManager.Init(this);
             LoadApplication(new App(_ => _.AddNotificationManager(this)));
         }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] global::Android.Content.PM.Permission[] grantResults)
+
+        public override void OnRequestPermissionsResult(int requestCode, string[]? permissions, [GeneratedEnum] Permission[]? grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(
+                requestCode, permissions ?? Array.Empty<string>(), grantResults ?? Array.Empty<Permission>());
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }

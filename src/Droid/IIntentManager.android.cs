@@ -15,6 +15,9 @@ namespace Plugin.Toast.Droid
         /// </summary>
         /// <param name="builder">notification builder</param>
         /// <param name="notificationId">id in <seealso cref="global::Android.App.NotificationManager"/></param>
+        /// <exception cref="InvalidOperationException">
+        /// if can't get PendingIntent for activity or broadcast from Application.Context
+        /// </exception>
         /// <returns>Task source for result of <see cref="INotification.ShowAsync(System.Threading.CancellationToken)"/></returns>
         TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, out int notificationId);
         /// <summary>
@@ -23,6 +26,9 @@ namespace Plugin.Toast.Droid
         /// <param name="builder">notification builder</param>
         /// <param name="build">action to build a android notification</param>
         /// <param name="notificationId">notification id. Currently not used in <seealso cref="global::Android.App.NotificationManager"/></param>
+        /// <exception cref="InvalidOperationException">
+        /// if can't get PendingIntent for activity or broadcast from Application.Context
+        /// </exception>
         /// <returns>pending intent to use in <seealso cref="global::Android.App.AlarmManager"/></returns>
         PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, out int notificationId);
     }

@@ -22,7 +22,8 @@ namespace Plugin.Toast.Droid
         {
             var tcs = intentManager.RegisterToShowImmediatly(notificationBuilder, out var notificationId);
             var notification = notificationBuilder.Build();
-            var anm = ANotificationManager.FromContext(Application.Context);
+            var anm = ANotificationManager.FromContext(Application.Context)
+                ?? throw new InvalidOperationException(ErrorStrings.KNotificationManagerError);
             using var timer = notificationBuilder.Timeout == Timeout.InfiniteTimeSpan ? null : new Timer(_ =>
             {
                 if (notificationBuilder.CleanupOnTimeout)
@@ -40,8 +41,9 @@ namespace Plugin.Toast.Droid
             var @do = CalculateDeliveryOffset(deliveryTime);
             var pi = intentManager.RegisterToShowWithDelay(notificationBuilder, out var notificationId);
 
-            AlarmManager.FromContext(Application.Context)
-                .Set(AlarmType.ElapsedRealtimeWakeup, @do, pi);
+            var am = AlarmManager.FromContext(Application.Context)
+                ?? throw new InvalidOperationException(ErrorStrings.KAlarmManagerError);
+            am.Set(AlarmType.ElapsedRealtimeWakeup, @do, pi);
 
             return new AlarmCancellation(pi);
         }
@@ -74,7 +76,7 @@ namespace Plugin.Toast.Droid
             public void Dispose()
             {
                 var am = AlarmManager.FromContext(Application.Context);
-                am.Cancel(pendingIntent);
+                am?.Cancel(pendingIntent);
             }
         }
     }
