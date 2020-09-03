@@ -26,7 +26,7 @@ namespace ManualTests.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Plugin.Toast.NotificationManager.Init();
-            LoadApplication(new App(null));
+            LoadApplication(new App(_ => _.AddNotificationManager()));
 
             return base.FinishedLaunching(app, options);
         }
