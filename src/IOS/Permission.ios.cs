@@ -31,15 +31,18 @@ namespace Plugin.Toast.IOS
             }
         }
 
-        IDictionary<string, string> ToDictionary(NSError error)
+        IDictionary<string, string> ToDictionary(NSError? error)
         {
             var result = new Dictionary<string, string>();
-            result.Add(nameof(error.LocalizedRecoveryOptions), string.Join("||", error.LocalizedRecoveryOptions));
-            result.Add(nameof(error.LocalizedRecoverySuggestion), error.LocalizedRecoverySuggestion);
-            result.Add(nameof(error.HelpAnchor), error.HelpAnchor);
-            result.Add(nameof(error.LocalizedDescription), error.LocalizedDescription);
-            result.Add(nameof(error.LocalizedFailureReason), error.LocalizedFailureReason);
-            result.Add(nameof(error.Domain), error.Domain);
+            if (error != null)
+            {
+                result.Add(nameof(error.LocalizedRecoveryOptions), string.Join("||", error.LocalizedRecoveryOptions));
+                result.Add(nameof(error.LocalizedRecoverySuggestion), error.LocalizedRecoverySuggestion);
+                result.Add(nameof(error.HelpAnchor), error.HelpAnchor);
+                result.Add(nameof(error.LocalizedDescription), error.LocalizedDescription);
+                result.Add(nameof(error.LocalizedFailureReason), error.LocalizedFailureReason);
+                result.Add(nameof(error.Domain), error.Domain);
+            }
             return result;
         }
     }
