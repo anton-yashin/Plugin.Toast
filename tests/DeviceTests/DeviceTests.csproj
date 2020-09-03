@@ -25,12 +25,12 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Moq" Version="4.14.5" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.devices" Version="2.5.25" />
     <PackageReference Include="UnitTests.HeadlessRunner" Version="2.0.0" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
     <ProjectReference Include="..\..\src\Plugin.Toast.csproj" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
@@ -52,7 +52,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0">
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
     <Reference Include="System.Numerics" />
