@@ -14,14 +14,17 @@ namespace Plugin.Toast
         private readonly IPermission permission;
 
         internal NotificationManager() : this(new ToastOptions()) { }
+        internal NotificationManager(IToastOptions options)
+            : this(options, new Permission(options))
+        { }
 
-        internal NotificationManager(IToastOptions options) 
+        internal NotificationManager(IToastOptions options, IPermission permission) 
         {
             this.notificationExtension = typeof(IIosNotificationExtension);
             this.localNotificationExtension = typeof(IIosLocalNotificationExtension);
             this.options = options;
             this.notificationReceiver = new NotificationReceiver();
-            this.permission = new Permission(options);
+            this.permission = permission;
         }
 
         public static void Init() => instance = new NotificationManager();

@@ -11,6 +11,9 @@ namespace DeviceTests
 #if __ANDROID__
         public static global::Android.App.Activity Activity { get; set; } = null!;
 #elif __IOS__
+        static ToastOptions options = new ToastOptions();
+
+        static Plugin.Toast.IOS.IPermission permission = new Plugin.Toast.IOS.Permission(options);
 #elif NETFX_CORE
 #endif
 
@@ -18,8 +21,10 @@ namespace DeviceTests
         {
 #if __ANDROID__
             return new NotificationManager(new ToastOptions(Activity));
-#else
+#elif NETFX_CORE
             return new NotificationManager(new ToastOptions());
+#elif __IOS__
+            return new NotificationManager(options, permission);
 #endif
         }
 

@@ -16,26 +16,31 @@ namespace DeviceTests
             {
                 var nm = Platform.CreateNotificationManager();
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-                await Assert.ThrowsAsync<TaskCanceledException>(()
-                    => nm.BuildNotification().AddTitle("title").AddDescription("please ignore")
-                    .Build().ShowAsync(cts.Token));
+                var task = nm.BuildNotification().AddTitle("title").AddDescription("please ignore")
+                    .Build().ShowAsync(cts.Token);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => task);
             });
 
-        [Fact]
-        public Task CancellationTokenShowAlternative()
-            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
-            {
-                var nm = Platform.CreateNotificationManager();
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-                await Assert.ThrowsAsync<TaskCanceledException>(()
-                    => nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>()
-                    .AddTitle("title").AddDescription("please ignore")
-                    .Build().ShowAsync(cts.Token));
-            });
+#if __IOS__ == false
 
         [Fact]
-        public Task ShowWithDelay()
-            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+        public async Task CancellationTokenShowAlternative()
+        {
+            var nm = Platform.CreateNotificationManager();
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Assert.ThrowsAsync<TaskCanceledException>(() => 
+            nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>()
+                .AddTitle("title").AddDescription("please ignore")
+                .Build().ShowAsync(cts.Token));
+        }
+
+#endif
+
+        [Fact]
+        public async Task ShowWithDelay()
+        {
+            await Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
@@ -43,10 +48,12 @@ namespace DeviceTests
                     .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
                 await Task.Delay(TimeSpan.FromSeconds(3));
             });
+        }
 
         [Fact]
-        public Task ShowWithDelayAlternative()
-            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+        public async Task ShowWithDelayAlternative()
+        {
+            await Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
@@ -55,5 +62,6 @@ namespace DeviceTests
                     .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
                 await Task.Delay(TimeSpan.FromSeconds(3));
             });
+        }
     }
 }
