@@ -7,7 +7,7 @@ Show local notifications using Xamarin for Android, iOS or UWP. Beta version.
 ### netstandard1.4, netstandard2.0
 
 ### Xamarin.iOS10 
-iOS support is not tested, may not work properly. Available implementations:
+Available implementations:
 * [IIosNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosNotificationExtension.shared.cs), using UNUserNotificationCenter
 * [IIosLocalNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosLocalNotificationExtension.shared.cs), using UILocalNotification
 
