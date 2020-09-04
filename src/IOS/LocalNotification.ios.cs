@@ -25,12 +25,9 @@ namespace Plugin.Toast.IOS
 
         public Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
         {
-            var tcs = new TaskCompletionSource<NotificationResult>();
             var notification = builder.Notification;
             UIApplication.SharedApplication.PresentLocalNotificationNow(notification);
-            // FIXME: may be it possible to get result of notification?
-            tcs.TrySetResult(NotificationResult.Unknown);
-            return tcs.Task;
+            return Task.FromResult(NotificationResult.Unknown);
         }
 
         sealed class ScheduledToastCancellation : IScheduledToastCancellation

@@ -21,7 +21,22 @@ namespace DeviceTests
                 await Assert.ThrowsAsync<TaskCanceledException>(() => task);
             });
 
-#if __IOS__ == false
+#if __IOS__
+
+        [Fact]
+        public Task LocalNotificationHaveUnknownResult()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                var result = await nm.BuildNotificationUsing<IIosLocalNotificationExtension>()
+                    .AddTitle("title").AddDescription("please ignore")
+                    .Build().ShowAsync(cts.Token);
+                Assert.Equal(expected: NotificationResult.Unknown, result);
+            });
+
+#else
 
         [Fact]
         public async Task CancellationTokenShowAlternative()
