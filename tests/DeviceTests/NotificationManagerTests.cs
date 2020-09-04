@@ -2,6 +2,7 @@ using Moq;
 using System;
 using Plugin.Toast;
 using Xunit;
+using System.Threading.Tasks;
 #if __ANDROID__
 using IXPlatformSpecificExtension = Plugin.Toast.Droid.IPlatformSpecificExtension;
 #elif __IOS__
@@ -52,114 +53,119 @@ namespace DeviceTests
 #endif
 
         [Fact]
-        public void CreateDefaultBuidler()
-        {
-            var nm = Platform.CreateNotificationManager();
-            var builder = nm.BuildNotification();
+        public Task CreateDefaultBuidler()
+            => Platform.iOS_InvokeOnMainThreadAsync(() =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var builder = nm.BuildNotification();
 
-            Assert.NotNull(builder);
-            Assert.True(builder is IXPlatformSpecificExtension);
-#if __ANDROID__
-            Assert.True(builder is IDroidNotificationExtension);
-            Assert.True(builder is Plugin.Toast.Droid.INotificationBuilder);
-#elif __IOS__
-            Assert.True(builder is IIosNotificationExtension);
-#elif NETFX_CORE
-            Assert.True(builder is IUwpExtension);
-#endif
-        }
-
-        [Fact]
-        public void CreateSpecificBuilderOneArg()
-        {
-            var nm = Platform.CreateNotificationManager();
-            var builder = nm.BuildNotificationUsing<ISnackbarExtension>();
-
-            Assert.NotNull(builder);
-
-#if __ANDROID__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is ISnackbarExtension);
-            Assert.False(builder is IDroidNotificationExtension);
-            Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
-#elif __IOS__
-            Assert.True(builder is IXPlatformSpecificExtension);
-            Assert.False(builder is IIosLocalNotificationExtension);
-            Assert.True(builder is IIosNotificationExtension);
-#elif NETFX_CORE
-            Assert.True(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IUwpExtension);
-#endif
-        }
+                Assert.NotNull(builder);
+                Assert.True(builder is IXPlatformSpecificExtension);
+    #if __ANDROID__
+                Assert.True(builder is IDroidNotificationExtension);
+                Assert.True(builder is Plugin.Toast.Droid.INotificationBuilder);
+    #elif __IOS__
+                Assert.True(builder is IIosNotificationExtension);
+    #elif NETFX_CORE
+                Assert.True(builder is IUwpExtension);
+    #endif
+            });
 
         [Fact]
-        public void CreateSpecificBuilderTwoArgs()
-        {
-            var nm = Platform.CreateNotificationManager();
-            var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>();
+        public Task CreateSpecificBuilderOneArg()
+            => Platform.iOS_InvokeOnMainThreadAsync(() =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var builder = nm.BuildNotificationUsing<ISnackbarExtension>();
 
-            Assert.NotNull(builder);
+                Assert.NotNull(builder);
 
 #if __ANDROID__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is ISnackbarExtension);
-            Assert.False(builder is IDroidNotificationExtension);
-            Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is ISnackbarExtension);
+                Assert.False(builder is IDroidNotificationExtension);
+                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
 #elif __IOS__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IIosLocalNotificationExtension);
-            Assert.False(builder is IIosNotificationExtension);
+                Assert.True(builder is IXPlatformSpecificExtension);
+                Assert.False(builder is IIosLocalNotificationExtension);
+                Assert.True(builder is IIosNotificationExtension);
 #elif NETFX_CORE
-            Assert.True(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IUwpExtension);
+                Assert.True(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IUwpExtension);
 #endif
-        }
+            });
 
         [Fact]
-        public void CreateSpecificBuilderMoreThreeArgs()
-        {
-            var nm = Platform.CreateNotificationManager();
-            var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>();
+        public Task CreateSpecificBuilderTwoArgs()
+            => Platform.iOS_InvokeOnMainThreadAsync(() =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>();
 
-            Assert.NotNull(builder);
+                Assert.NotNull(builder);
 
 #if __ANDROID__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is ISnackbarExtension);
-            Assert.False(builder is IDroidNotificationExtension);
-            Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is ISnackbarExtension);
+                Assert.False(builder is IDroidNotificationExtension);
+                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
 #elif __IOS__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IIosLocalNotificationExtension);
-            Assert.False(builder is IIosNotificationExtension);
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IIosLocalNotificationExtension);
+                Assert.False(builder is IIosNotificationExtension);
 #elif NETFX_CORE
-            Assert.True(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IUwpExtension);
+                Assert.True(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IUwpExtension);
 #endif
-        }
+            });
 
         [Fact]
-        public void CreateSpecificBuilderFourArgs()
-        {
-            var nm = Platform.CreateNotificationManager();
-            var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>();
+        public Task CreateSpecificBuilderMoreThreeArgs()
+            => Platform.iOS_InvokeOnMainThreadAsync(() =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>();
 
-            Assert.NotNull(builder);
+                Assert.NotNull(builder);
 
 #if __ANDROID__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is ISnackbarExtension);
-            Assert.False(builder is IDroidNotificationExtension);
-            Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is ISnackbarExtension);
+                Assert.False(builder is IDroidNotificationExtension);
+                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
 #elif __IOS__
-            Assert.False(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IIosLocalNotificationExtension);
-            Assert.False(builder is IIosNotificationExtension);
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IIosLocalNotificationExtension);
+                Assert.False(builder is IIosNotificationExtension);
 #elif NETFX_CORE
-            Assert.True(builder is IXPlatformSpecificExtension);
-            Assert.True(builder is IUwpExtension);
+                Assert.True(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IUwpExtension);
 #endif
-        }
+            });
+
+        [Fact]
+        public Task CreateSpecificBuilderFourArgs()
+            => Platform.iOS_InvokeOnMainThreadAsync(() =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>();
+
+                Assert.NotNull(builder);
+
+#if __ANDROID__
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is ISnackbarExtension);
+                Assert.False(builder is IDroidNotificationExtension);
+                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+#elif __IOS__
+                Assert.False(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IIosLocalNotificationExtension);
+                Assert.False(builder is IIosNotificationExtension);
+#elif NETFX_CORE
+                Assert.True(builder is IXPlatformSpecificExtension);
+                Assert.True(builder is IUwpExtension);
+#endif
+            });
 
         [Fact]
         public void NotificationManagerInit()

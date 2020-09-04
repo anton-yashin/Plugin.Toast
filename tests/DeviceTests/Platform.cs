@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Plugin.Toast;
 
 namespace DeviceTests
@@ -19,6 +20,58 @@ namespace DeviceTests
             return new NotificationManager(new ToastOptions(Activity));
 #else
             return new NotificationManager(new ToastOptions());
+#endif
+        }
+
+        public static Task iOS_InvokeOnMainThreadAsync(Action action)
+        {
+            _ = action ?? throw new ArgumentNullException(nameof(action));
+#if __ANDROID__ || NETFX_CORE
+            action();
+            return Task.CompletedTask;
+#elif __IOS__
+            var tcs = new TaskCompletionSource<object?>();
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    action();
+                    tcs.TrySetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            });
+            return tcs.Task;
+#else
+#error platform is not supported
+#endif
+        }
+
+        public static Task iOS_InvokeOnMainThreadAsync(Func<Task> action)
+        {
+            _ = action ?? throw new ArgumentNullException(nameof(action));
+#if __ANDROID__ || NETFX_CORE
+            action();
+            return Task.CompletedTask;
+#elif __IOS__
+            var tcs = new TaskCompletionSource<object?>();
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    await action();
+                    tcs.TrySetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            });
+            return tcs.Task;
+#else
+#error platform is not supported
 #endif
         }
     }
