@@ -363,6 +363,7 @@ MigrationBackup/
 
 # local files
 **/Templates/*T.cs
+**/*.[Gg]enerated.cs
 
 # Mobile.BuildTools
 secrets.json

@@ -103,5 +103,105 @@ namespace Plugin.Toast.IOS
             .AddDescription(string description) => AddDescription(description);
 
         #endregion
+
+        #region IExtensionPlugin support
+
+        LocalNotificationBuilder Add<T1>(T1 a1)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1>(serviceProvider, a1);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2>(T1 a1, T2 a2)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2>(serviceProvider, a1, a2);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3>(serviceProvider, a1, a2, a3);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4>(serviceProvider, a1, a2, a3, a4);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4, T5>(serviceProvider, a1, a2, a3, a4, a5);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4, T5, T6>(serviceProvider, a1, a2, a3, a4, a5, a6);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4, T5, T6, T7>(serviceProvider, a1, a2, a3, a4, a5, a6, a7);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4, T5, T6, T7, T8>(serviceProvider, a1, a2, a3, a4, a5, a6, a7, a8);
+            return this;
+        }
+
+        LocalNotificationBuilder Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)
+        {
+            this.UsePlugin<IIosLocalNotificationExtension, T1, T2, T3, T4, T5, T6, T7, T8, T9>(serviceProvider, a1, a2, a3, a4, a5, a6, a7, a8, a9);
+            return this;
+        }
+
+        IBuilder IBuilder.Add<T1>(T1 a1) => Add(a1);
+        IBuilder IBuilder.Add<T1, T2>(T1 a1, T2 a2) => Add(a1, a2);
+        IBuilder IBuilder.Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3) => Add(a1, a2, a3);
+        IBuilder IBuilder.Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4)
+            => Add(a1, a2, a3, a4);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)
+            => Add(a1, a2, a3, a4, a5);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)
+            => Add(a1, a2, a3, a4, a5, a6);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)
+            => Add(a1, a2, a3, a4, a5, a6, a7);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)
+            => Add(a1, a2, a3, a4, a5, a6, a7, a8);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)
+            => Add(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1>(T1 a1) => Add(a1);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2>(T1 a1, T2 a2) => Add(a1, a2);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3) => Add(a1, a2, a3);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4)
+            => Add(a1, a2, a3, a4);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)
+            => Add(a1, a2, a3, a4, a5);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)
+            => Add(a1, a2, a3, a4, a5, a6);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)
+            => Add(a1, a2, a3, a4, a5, a6, a7);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)
+            => Add(a1, a2, a3, a4, a5, a6, a7, a8);
+        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+            .Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)
+            => Add(a1, a2, a3, a4, a5, a6, a7, a8, a9);
+
+        #endregion
+
     }
 }

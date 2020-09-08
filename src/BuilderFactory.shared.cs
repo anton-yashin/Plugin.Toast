@@ -37,6 +37,24 @@ namespace Plugin.Toast
         INotification IBuilder.Build() => builder.Build();
         IBuilder IBuilder.WhenUsing<T>(Action<T> buildAction) => builder.WhenUsing(buildAction);
         IBuilder IBuilder.UseConfiguration<T>(T token) => builder.UseConfiguration(token);
+        IBuilder IBuilder.Add<T1>(T1 a1)
+            => builder.Add(a1);
+        IBuilder IBuilder.Add<T1, T2>(T1 a1, T2 a2)
+            => builder.Add(a1, a2);
+        IBuilder IBuilder.Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3)
+            => builder.Add(a1, a2, a3);
+        IBuilder IBuilder.Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4)
+            => builder.Add(a1, a2, a3, a4);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)
+            => builder.Add(a1, a2, a3, a4, a5);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)
+            => builder.Add(a1, a2, a3, a4, a5, a6);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)
+            => builder.Add(a1, a2, a3, a4, a5, a6, a7);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)
+            => builder.Add(a1, a2, a3, a4, a5, a6, a7, a8);
+        IBuilder IBuilder.Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)
+            => builder.Add(a1, a2, a3, a4, a5, a6, a7, a8, a9);
     }
 
     sealed class BuilderFactory<T1> : BuilderFactory, IBuilder<T1>

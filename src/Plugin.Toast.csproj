@@ -57,10 +57,10 @@
     <!-- <None Include="..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
     <PackageReference Include="mdoc" Version="5.7.4.10" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) "/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) "/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) "/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) "/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
   </ItemGroup>

@@ -59,4 +59,29 @@
     <Reference Include="System.Numerics.Vectors" />
     <Reference Include="OpenTK-1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Mocks\MockExtensionPlugin.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MockExtensionPlugin.generated.cs</LastGenOutput>
+    </None>
+    <None Update="Mocks\MockExtensionPlugin_Tests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MockExtensionPlugin_Tests.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Mocks\MockExtensionPlugin.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MockExtensionPlugin.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Mocks\MockExtensionPlugin_Tests.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MockExtensionPlugin_Tests.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
