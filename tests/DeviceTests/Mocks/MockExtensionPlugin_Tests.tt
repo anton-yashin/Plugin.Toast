@@ -36,6 +36,7 @@ namespace DeviceTests.Mocks
 
         [Fact]
         public void VerifyNoOtherCalls()
+        => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
 <#          
         CreatePluginAndContainer();
@@ -45,7 +46,7 @@ namespace DeviceTests.Mocks
             builder.Add(new object());
 
             Assert.ThrowsAny<Exception>(() => mep.VerifyNoOtherCalls());
-        }
+        });
 
 <#   
     for (int i = 1; i <= KMagicCount; i++)
@@ -220,6 +221,7 @@ private void CreateInjectTests(int count)
 #>
         [Fact]
         public void Inject<#=count#>()
+        => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
 <#+         CreateExpectedVariables(count);
             CreatePluginAndContainer();
@@ -232,10 +234,11 @@ private void CreateInjectTests(int count)
 #>
 
             mep.VerifyNoOtherCalls();
-        }
+        });
 
         [Fact]
         public void InjectAlt<#=count#>()
+        => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
 <#+         
     CreateExpectedVariables(count);
@@ -250,7 +253,7 @@ private void CreateInjectTests(int count)
 #>
 
             mep.VerifyNoOtherCalls();
-        }
+        });
 
 <#+
 
