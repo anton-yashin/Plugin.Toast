@@ -87,7 +87,7 @@ private IEnumerable<string> EnumerateDuplicateParams(string format, string dupli
 
 private void AddSingleton(string extension, int count)
 {#>
-.AddSingleton<IExtensionPlugin<<#=extension#>, <#=string.Join(", ", Enumerable.Repeat("object", count))#>>>(mep)
+            .AddSingleton<IExtensionPlugin<<#=extension#>, <#=string.Join(", ", Enumerable.Repeat("object", count))#>>>(mep)
 <#+
 }
 
@@ -121,7 +121,8 @@ private void CreateExpectedVariables(int count)
 {
     for (int i = 1; i <= count; i++)
     {
-#>var expected<#=i#> = new object();
+#>
+            var expected<#=i#> = new object();
 <#+
     }
 }
@@ -167,7 +168,8 @@ private void CreateLambdaParams(string param, int count)
 
 private void AddBuilderParams(int count)
 {
-#>builder.Add(<#+
+#>
+            builder.Add(<#+
     for (int i = 1; i <= count; i++)
     {
 #>expected<#=i#><#+
@@ -176,7 +178,9 @@ private void AddBuilderParams(int count)
 #>, <#+
         }
     }
-#>);<#+
+#>
+);
+<#+
 }
 
 private void CreateVerification(int count)
