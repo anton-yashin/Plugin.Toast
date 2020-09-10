@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">Xamarin.iOS10;MonoAndroid90;uap10.0.16299</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">Xamarin.iOS10;MonoAndroid90;</TargetFrameworks>
+    <TargetFrameworks>Xamarin.iOS10;MonoAndroid90;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <AssemblyName>DeviceTests</AssemblyName>
     <RootNamespace>DeviceTests</RootNamespace>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -16,13 +16,16 @@
 
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
     <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+    <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) And '$(OS)' != 'Windows_NT' ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.14.5" />
