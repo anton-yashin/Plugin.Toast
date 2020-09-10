@@ -23,7 +23,7 @@ namespace Plugin.Toast
         /// </summary>
         /// <typeparam name="T1">A type to forward.</typeparam>
         /// <param name="a1">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1>(T1 a1);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2}"/> in IoC and
@@ -40,7 +40,7 @@ namespace Plugin.Toast
         /// <typeparam name="T2">A type to forward.</typeparam>
         /// <param name="a1">A data to forward.</param>
         /// <param name="a2">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2>(T1 a1, T2 a2);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3}"/> in IoC and
@@ -59,7 +59,7 @@ namespace Plugin.Toast
         /// <param name="a1">A data to forward.</param>
         /// <param name="a2">A data to forward.</param>
         /// <param name="a3">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4}"/> in IoC and
@@ -80,7 +80,7 @@ namespace Plugin.Toast
         /// <param name="a2">A data to forward.</param>
         /// <param name="a3">A data to forward.</param>
         /// <param name="a4">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4, T5}"/> in IoC and
@@ -103,7 +103,7 @@ namespace Plugin.Toast
         /// <param name="a3">A data to forward.</param>
         /// <param name="a4">A data to forward.</param>
         /// <param name="a5">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4, T5, T6}"/> in IoC and
@@ -128,7 +128,7 @@ namespace Plugin.Toast
         /// <param name="a4">A data to forward.</param>
         /// <param name="a5">A data to forward.</param>
         /// <param name="a6">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4, T5, T6, T7}"/> in IoC and
@@ -155,7 +155,7 @@ namespace Plugin.Toast
         /// <param name="a5">A data to forward.</param>
         /// <param name="a6">A data to forward.</param>
         /// <param name="a7">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4, T5, T6, T7, T8}"/> in IoC and
@@ -185,7 +185,7 @@ namespace Plugin.Toast
         /// <param name="a6">A data to forward.</param>
         /// <param name="a7">A data to forward.</param>
         /// <param name="a8">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1, T2, T3, T4, T5, T6, T7, T8, T9}"/> in IoC and 
@@ -217,7 +217,7 @@ namespace Plugin.Toast
         /// <param name="a7">A data to forward.</param>
         /// <param name="a8">A data to forward.</param>
         /// <param name="a9">A data to forward.</param>
-        /// <returns>Instance of this object</returns>
+        /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9);
     }
 }
