@@ -159,9 +159,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(VisualStudioVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Plugin.Toast.csproj">
+    <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj">
       <Project>{71ce05a1-d8ca-4bcc-bcf0-ab6b6c3ac43f}</Project>
-      <Name>Xamarin.Plugin.Toast</Name>
+      <Name>Plugin.Toast</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeviceTests\DeviceTests.csproj">
       <Project>{C3302515-616A-4889-BC7D-AA9A3D2F668C}</Project>

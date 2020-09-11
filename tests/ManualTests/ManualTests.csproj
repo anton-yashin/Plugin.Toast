@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Plugin.Toast.csproj" />
+    <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj" />
   </ItemGroup>
 
   <ItemGroup>

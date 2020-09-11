@@ -29,7 +29,6 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/anton-yashin/Plugin.Toast</PackageProjectUrl>
-    <!-- <MDocDocumentationDirectory>$(MSBuildThisFileDirectory)..\docs\en</MDocDocumentationDirectory> -->
     <DebugType>portable</DebugType>
     <Configurations>Debug;Release</Configurations>
 
@@ -54,11 +53,10 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\LICENSE" PackagePath="" Pack="true" />
-    <None Include="..\README.md" PackagePath="" Pack="true" />
-    <None Include="..\nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
-    <!-- <None Include="..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
-    <PackageReference Include="mdoc" Version="5.7.4.10" PrivateAssets="All" />
+    <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
+    <None Include="..\..\README.md" PackagePath="" Pack="true" />
+    <None Include="..\..\nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
+    <!-- <None Include="..\..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
@@ -93,8 +91,4 @@
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="mdoc.targets" />
-  </ItemGroup>
-  <Import Project="$(MSBuildThisFileDirectory)mdoc.targets" />
 </Project>
