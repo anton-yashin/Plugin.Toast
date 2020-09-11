@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Plugin.Toast.Exceptions
 {
-    sealed class ExceptionUtils
+    internal sealed class ExceptionUtils
     {
 #if NETSTANDARD1_0 || NETSTANDARD2_0
         internal static NotImplementedException NotSupportedOrImplementedException =>

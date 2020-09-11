@@ -1,24 +1,23 @@
 <Project Sdk="MSBuild.Sdk.Extras/2.1.2">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid80;MonoAndroid81;MonoAndroid90;MonoAndroid10.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid81;MonoAndroid90;MonoAndroid10.0;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <!-- FIXME: got exception while xamarin android version check after Xamarin.Android.Support.Design package is installed -->
     <XamarinAndroidSupportSkipVerifyVersions>true</XamarinAndroidSupportSkipVerifyVersions>
     <!-- END FIXME -->
-    <AssemblyName>Plugin.Toast</AssemblyName>
+    <AssemblyName>Plugin.Toast.Images</AssemblyName>
     <RootNamespace>Plugin.Toast</RootNamespace>
-    <PackageId>Xamarin.Plugin.Toast</PackageId>
-    <Summary>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Summary>
-    <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast</PackageTags>
-    <Title>Plugin.Toast</Title>
+    <PackageId>Xamarin.Plugin.Toast.Images</PackageId>
+    <Summary>Xamarin.Plugin.Toast.Images: Show local notifications with images inside your Xamarin application on UWP, iOS and Android platforms</Summary>
+    <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast, image</PackageTags>
+    <Title>Plugin.Toast.Images</Title>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>0.9.0.0</AssemblyVersion>
     <AssemblyFileVersion>0.9.0.0</AssemblyFileVersion>
     <Version>0.9.1</Version>
     <VersionSuffix>-beta</VersionSuffix>
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-    <Authors>Anton Yashin</Authors>
+    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion><Authors>Anton Yashin</Authors>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Copyright © Anton Yashin 2020</Copyright>
     <RepositoryUrl>https://github.com/anton-yashin/Plugin.Toast</RepositoryUrl>
@@ -57,13 +56,10 @@
     <None Include="..\..\README.md" PackagePath="" Pack="true" />
     <None Include="..\..\nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
     <!-- <None Include="..\..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
+    <ProjectReference Include="..\Plugin.Toast\Plugin.Toast.csproj" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991864" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
@@ -73,7 +69,6 @@
     <Compile Include="**\*.netstandard.*.cs" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
     <Compile Include="**\*.uwp.cs" />
     <Compile Include="**\*.uwp.*.cs" />
     <SDKReference Include="WindowsMobile, Version=10.0.16299.0">
@@ -90,5 +85,8 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\AssemblyInfo.shared.cs" />
   </ItemGroup>
 </Project>
