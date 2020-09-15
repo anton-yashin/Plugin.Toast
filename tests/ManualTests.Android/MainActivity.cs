@@ -24,7 +24,7 @@ namespace ManualTests.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Plugin.Toast.NotificationManager.Init(this);
-            LoadApplication(new App(_ => _.AddNotificationManager(this)));
+            LoadApplication(new App(_ => _.AddNotificationManager(this).AddNotificationManagerImagesSupport()));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[]? permissions, [GeneratedEnum] Permission[]? grantResults)

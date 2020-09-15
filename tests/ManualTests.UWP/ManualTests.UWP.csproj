@@ -105,6 +105,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\platform_image.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
@@ -150,6 +151,10 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Plugin.Toast.Images\Plugin.Toast.Images.csproj">
+      <Project>{d5a3ecff-4ee1-4ab0-a170-59b3f4e96d86}</Project>
+      <Name>Plugin.Toast.Images</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj">
       <Project>{71ce05a1-d8ca-4bcc-bcf0-ab6b6c3ac43f}</Project>
       <Name>Plugin.Toast</Name>

@@ -25,7 +25,7 @@ namespace ManualTests.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new ManualTests.App(_ => _.AddNotificationManager()));
+            LoadApplication(new ManualTests.App(_ => _.AddNotificationManager().AddNotificationManagerImagesSupport()));
         }
     }
 }
