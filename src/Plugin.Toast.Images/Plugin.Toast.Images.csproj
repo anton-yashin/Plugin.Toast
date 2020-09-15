@@ -7,7 +7,7 @@
     <XamarinAndroidSupportSkipVerifyVersions>true</XamarinAndroidSupportSkipVerifyVersions>
     <!-- END FIXME -->
     <AssemblyName>Plugin.Toast.Images</AssemblyName>
-    <RootNamespace>Plugin.Toast</RootNamespace>
+    <RootNamespace>Plugin.Toast.Images</RootNamespace>
     <PackageId>Xamarin.Plugin.Toast.Images</PackageId>
     <Summary>Xamarin.Plugin.Toast.Images: Show local notifications with images inside your Xamarin application on UWP, iOS and Android platforms</Summary>
     <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast, image</PackageTags>
@@ -59,10 +59,16 @@
     <ProjectReference Include="..\Plugin.Toast\Plugin.Toast.csproj" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid81' ">
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991864" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' != 'MonoAndroid81' ">
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
     <Compile Include="**\*.netstandard.cs" />
@@ -85,8 +91,5 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Properties\AssemblyInfo.shared.cs" />
   </ItemGroup>
 </Project>
