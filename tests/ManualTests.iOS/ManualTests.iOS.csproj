@@ -115,6 +115,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\embedded_image.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -142,5 +144,8 @@
       <Project>{d60391e9-5f26-4d49-8fc5-bd7b741f23a3}</Project>
       <Name>ManualTests</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\platform_image.jpg.imageset\" />
   </ItemGroup>
 </Project>

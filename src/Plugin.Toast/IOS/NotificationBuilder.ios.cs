@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UserNotifications;
 
 namespace Plugin.Toast.IOS
@@ -13,6 +14,7 @@ namespace Plugin.Toast.IOS
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
         private readonly IServiceProvider? serviceProvider;
+        private readonly List<UNNotificationAttachment> attachments;
 
         public NotificationBuilder(IToastOptions options, INotificationReceiver notificationReceiver, IPermission permission, IServiceProvider? serviceProvider)
         {
@@ -21,6 +23,7 @@ namespace Plugin.Toast.IOS
             this.permission = permission;
             this.serviceProvider = serviceProvider;
             this.Notification = new UNMutableNotificationContent();
+            this.attachments = new List<UNNotificationAttachment>();
             if (options.Sound != null)
                 Notification.Sound = options.Sound;
 
@@ -53,6 +56,7 @@ namespace Plugin.Toast.IOS
             if (build == true)
                 throw Exceptions.ExceptionUtils.BuildTwice;
             build = true;
+            this.Notification.Attachments = attachments.ToArray();
             return new Notification(this, notificationReceiver, permission);
         }
 
@@ -173,9 +177,23 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
+        public IPlatformSpecificExtension AddAttachments(IEnumerable<UNNotificationAttachment> attachments)
+        {
+            this.attachments.AddRange(attachments);
+            return this;
+        }
+
+        [Obsolete("Use IPlatformSpecificExtension AddAttachments(IEnumerable<UNNotificationAttachment> attachments);", true)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public IPlatformSpecificExtension AddAttachments(UNNotificationAttachment[] attachments)
         {
-            Notification.Attachments = attachments;
+            this.attachments.AddRange(attachments);
+            return this;
+        }
+
+        public IPlatformSpecificExtension AddAttachment(UNNotificationAttachment attachment)
+        {
+            this.attachments.Add(attachment);
             return this;
         }
 

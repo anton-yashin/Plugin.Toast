@@ -53,25 +53,27 @@ namespace Plugin.Toast
         {
             const string KFolder = "ToastImageSource.FromResource/";
             var asn = assembly.GetName();
-            var fn = KFolder + asn.Name + "_" + asn.Version + "_" + resourcePath;
-            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fn);
+            var fn = asn.Name + "_" + asn.Version + "_" + resourcePath;
+            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, fn);
             if (File.Exists(fullFn) == false)
             {
+                var newFn = fullFn + ".new";
                 try
                 {
                     var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder);
                     if (Directory.Exists(folder) == false)
                         Directory.CreateDirectory(folder);
-                    using (var file = File.Create(fullFn))
+                    using (var file = File.Create(newFn))
                     {
                         var src = assembly.GetManifestResourceStream(resourcePath);
                         await src.CopyToAsync(file, 1024 * 80, cancellationToken);
-                        await src.FlushAsync(cancellationToken);
+                        await file.FlushAsync(cancellationToken);
                     }
+                    File.Move(newFn, fullFn);
                 }
                 catch (OperationCanceledException)
                 {
-                    File.Delete(fullFn);
+                    File.Delete(newFn);
                     throw;
                 }
             }
