@@ -12,6 +12,8 @@ namespace Plugin.Toast
         public static IServiceCollection AddNotificationManagerImagesSupport(this IServiceCollection services)
         {
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, ToastImageSource, Router.Route>, DroidImageRouter>();
+            services.TryAddSingleton<IImageCacher, ImageCacher>();
+            services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
             return services;
         }
     }

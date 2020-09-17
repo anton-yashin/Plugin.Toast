@@ -11,16 +11,20 @@ namespace ManualTests.Tests
 {
     sealed class ShowCustomImageFromUri : AbstractTest<ShowCustomImageFromUri>
     {
+        private readonly IToastImageSourceFactory toastImageSourceFactory;
+
         public ShowCustomImageFromUri(IServiceProvider serviceProvider)
             : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Show notification with custom image from uri")
-        { }
+        {
+            this.toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSourceFactory>();
+        }
 
         protected override async Task DoRunAsync()
         {
             var result = await serviceProvider.GetService<IBuilder>()
                        .AddTitle(Localization.R_SOME_TITLE)
                        .AddDescription(Localization.R_LOREM_IPSUM)
-                       .AddImage(await ToastImageSource.FromUriAsync(new Uri("https://picsum.photos/200?randomData=" + Guid.NewGuid().ToString(), UriKind.Absolute)))
+                       .AddImage(await toastImageSourceFactory.FromUriAsync(new Uri("https://picsum.photos/200?randomData=" + Guid.NewGuid().ToString(), UriKind.Absolute)))
                        .Build().ShowAsync();
             Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
         }

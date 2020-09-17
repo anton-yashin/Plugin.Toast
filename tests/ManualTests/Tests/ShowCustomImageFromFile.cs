@@ -13,9 +13,13 @@ namespace ManualTests.Tests
 {
     sealed class ShowCustomImageFromFile : AbstractTest<ShowCustomImageFromUri>
     {
+        private readonly IToastImageSourceFactory toastImageSourceFactory;
+
         public ShowCustomImageFromFile(IServiceProvider serviceProvider)
             : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Show notification with custom image from file")
-        { }
+        {
+            this.toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSourceFactory>();
+        }
 
         protected override async Task DoRunAsync()
         {
@@ -30,7 +34,7 @@ namespace ManualTests.Tests
             var result = await serviceProvider.GetService<IBuilder>()
                         .AddTitle(Localization.R_SOME_TITLE)
                         .AddDescription(Localization.R_LOREM_IPSUM)
-                        .AddImage(await ToastImageSource.FromFileAsync(fileName))
+                        .AddImage(await toastImageSourceFactory.FromFileAsync(fileName))
                         .Build().ShowAsync();
             Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
         }
