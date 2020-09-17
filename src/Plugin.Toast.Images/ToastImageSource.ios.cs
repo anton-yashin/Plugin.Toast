@@ -49,7 +49,7 @@ namespace Plugin.Toast
                 throw new FileNotFoundException("file not found", filePath);
 
             const string KFolder = "ToastImageSouce.FromBundle/";
-            var fullFn = await CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, async (stream, ct) =>
+            var fullFn = await ImageCacher.CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, async (stream, ct) =>
                 {
                     using (var src = image.AsPNG().AsStream())
                         await src.CopyToAsync(stream, 1024 * 80, ct);
@@ -67,7 +67,7 @@ namespace Plugin.Toast
             {
                 fn = fn.Replace(i.ToString(), "+" + (int)i);
             }
-            var fullFn = await CacheAsync(Path.Combine(KFolder, subfolder, fn), cancellationToken, async (stream, ct) =>
+            var fullFn = await ImageCacher.CacheAsync(Path.Combine(KFolder, subfolder, fn), cancellationToken, async (stream, ct) =>
             {
                 using (var hc = new HttpClient())
                 using (var response = await hc.GetAsync(uri))
@@ -84,7 +84,7 @@ namespace Plugin.Toast
         static async Task<ToastImageSource> PlatformFromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken)
         {
             var asn = assembly.GetName();
-            var fullFn = await CacheAsync(
+            var fullFn = await ImageCacher.CacheAsync(
                 Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
                 cancellationToken,
                 async (stream, ct) =>
@@ -94,9 +94,5 @@ namespace Plugin.Toast
                 });
             return await PlatformFromFileAsync(fullFn, cancellationToken);
         }
-
-        static string GetCacheFolderPath()
-            => NSSearchPath.GetDirectories(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomain.User).FirstOrDefault()
-            ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
     }
 }

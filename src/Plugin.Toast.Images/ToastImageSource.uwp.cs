@@ -48,7 +48,7 @@ namespace Plugin.Toast
         static async Task<ToastImageSource> PlatformFromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken)
         {
             var asn = assembly.GetName();
-            var fullFn = await CacheAsync(
+            var fullFn = await ImageCacher.CacheAsync(
                 Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
                 cancellationToken,
                 async (stream, ct) =>
@@ -59,7 +59,5 @@ namespace Plugin.Toast
             var result = await PlatformFromFileAsync(fullFn, cancellationToken);
             return result;
         }
-
-        static string GetCacheFolderPath() => Windows.Storage.ApplicationData.Current.LocalCacheFolder.Path;
     }
 }

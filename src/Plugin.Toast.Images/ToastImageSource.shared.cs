@@ -46,5 +46,12 @@ namespace Plugin.Toast
             => getCallingAssemblyMethod ?? (getCallingAssemblyMethod = typeof(Assembly).GetTypeInfo().GetDeclaredMethod("GetCallingAssembly"));
 
 #endif
+
+#if __ANDROID__ || __IOS__ || NETFX_CORE
+
+        static Lazy<IImageCacher> LazyImageCacher { get; } = new Lazy<IImageCacher>(() => new ImageCacher());
+        static IImageCacher ImageCacher => LazyImageCacher.Value;
+
+#endif
     }
 }

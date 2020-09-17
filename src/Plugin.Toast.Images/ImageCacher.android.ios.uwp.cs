@@ -1,15 +1,15 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
-    public sealed partial class ToastImageSource
+    sealed partial class ImageCacher : IImageCacher
     {
-        static async Task<string> CacheAsync(string relativePath, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> copyToAsync)
+        public async Task<string> CacheAsync(string relativePath, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> copyToAsync)
         {
             var fullFn = Path.Combine(GetCacheFolderPath(), relativePath);
             if (File.Exists(fullFn) == false)
@@ -35,5 +35,10 @@ namespace Plugin.Toast
             }
             return fullFn;
         }
+    }
+
+    internal interface IImageCacher
+    {
+        Task<string> CacheAsync(string relativePath, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> copyToAsync);
     }
 }
