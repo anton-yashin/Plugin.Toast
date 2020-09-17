@@ -36,9 +36,4 @@ namespace Plugin.Toast
             return fullFn;
         }
     }
-
-    internal interface IImageCacher
-    {
-        Task<string> CacheAsync(string relativePath, CancellationToken cancellationToken, Func<Stream, CancellationToken, Task> copyToAsync);
-    }
 }
