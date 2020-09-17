@@ -1,13 +1,9 @@
 ﻿using Plugin.Toast.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 
@@ -51,34 +47,19 @@ namespace Plugin.Toast
 
         static async Task<ToastImageSource> PlatformFromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken)
         {
-            const string KFolder = "ToastImageSource.FromResource/";
             var asn = assembly.GetName();
-            var fn = asn.Name + "_" + asn.Version + "_" + resourcePath;
-            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, fn);
-            if (File.Exists(fullFn) == false)
-            {
-                var newFn = fullFn + ".new";
-                try
+            var fullFn = await CacheAsync(
+                Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
+                cancellationToken,
+                async (stream, ct) =>
                 {
-                    var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder);
-                    if (Directory.Exists(folder) == false)
-                        Directory.CreateDirectory(folder);
-                    using (var file = File.Create(newFn))
-                    {
-                        var src = assembly.GetManifestResourceStream(resourcePath);
-                        await src.CopyToAsync(file, 1024 * 80, cancellationToken);
-                        await file.FlushAsync(cancellationToken);
-                    }
-                    File.Move(newFn, fullFn);
-                }
-                catch (OperationCanceledException)
-                {
-                    File.Delete(newFn);
-                    throw;
-                }
-            }
+                    using (var mrs = assembly.GetManifestResourceStream(resourcePath))
+                        await mrs.CopyToAsync(stream, 80 * 1024, ct);
+                });
             var result = await PlatformFromFileAsync(fullFn, cancellationToken);
             return result;
         }
+
+        static string GetCacheFolderPath() => Windows.Storage.ApplicationData.Current.LocalCacheFolder.Path;
     }
 }

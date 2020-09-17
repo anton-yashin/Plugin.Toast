@@ -40,5 +40,9 @@ namespace Plugin.Toast
             }
             throw new InvalidOperationException("please init Xamarin Forms before call this function");
         }
+
+        static string GetCacheFolderPath()
+            => Android.App.Application.Context.CacheDir?.AbsolutePath
+            ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
     }
 }

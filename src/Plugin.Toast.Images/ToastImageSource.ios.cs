@@ -2,12 +2,10 @@
 using MobileCoreServices;
 using Plugin.Toast.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
@@ -27,20 +25,21 @@ namespace Plugin.Toast
 
         static Task<ToastImageSource> PlatformFromFileAsync(string filePath, CancellationToken cancellationToken)
         {
-            NSUrl url;
+            return File.Exists(filePath)
+                ? Task.FromResult(new ToastImageSource(CreateAttachment(Guid.NewGuid().ToString(), NSUrl.FromFilename(filePath))))
+                : FromBundleAsync(filePath, cancellationToken);
+        }
 
-            if (File.Exists(filePath))
-                url = NSUrl.FromFilename(filePath);
-            else
-                return FromBundleAsync(filePath, cancellationToken);
-            var attachment = UNNotificationAttachment.FromIdentifier(Guid.NewGuid().ToString(), url, new UNNotificationAttachmentOptions(), out var error);
+        static UNNotificationAttachment CreateAttachment(string id, NSUrl url, string? typeHint = null)
+        {
+            var options = new UNNotificationAttachmentOptions() { TypeHint = typeHint };
+            var attachment = UNNotificationAttachment.FromIdentifier(id, url, options, out var error);
+
             if (error != null)
-            {
                 throw new InvalidOperationException("got error while creating attachment: " + error.ToString());
-            }
             if (attachment == null)
                 throw new InvalidOperationException("cant create attachment");
-            return Task.FromResult(new ToastImageSource(attachment));
+            return attachment;
         }
 
         static async Task<ToastImageSource> FromBundleAsync(string filePath, CancellationToken cancellationToken)
@@ -50,36 +49,12 @@ namespace Plugin.Toast
                 throw new FileNotFoundException("file not found", filePath);
 
             const string KFolder = "ToastImageSouce.FromBundle/";
-            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, filePath);
-            if (File.Exists(fullFn) == false)
-            {
-                var newFn = fullFn + ".new";
-                try
+            var fullFn = await CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, async (stream, ct) =>
                 {
-                    var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder);
-                    if (Directory.Exists(folder) == false)
-                        Directory.CreateDirectory(folder);
-                    using (var file = File.Create(newFn))
-                    {
-                        await image.AsPNG().AsStream().CopyToAsync(file, 1024 * 80, cancellationToken);
-                        await file.FlushAsync(cancellationToken);
-                    }
-                    File.Move(newFn, fullFn);
-                }
-                catch (OperationCanceledException)
-                {
-                    File.Delete(newFn);
-                    throw;
-                }
-            }
-            var attachment = UNNotificationAttachment.FromIdentifier(filePath, NSUrl.FromFilename(fullFn), new UNNotificationAttachmentOptions() { TypeHint = "public.png" }, out var error);
-            if (error != null)
-            {
-                throw new InvalidOperationException("got error while creating attachment: " + error.ToString());
-            }
-            if (attachment == null)
-                throw new InvalidOperationException("cant create attachment");
-            return new ToastImageSource(attachment);
+                    using (var src = image.AsPNG().AsStream())
+                        await src.CopyToAsync(stream, 1024 * 80, ct);
+                });
+            return new ToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(fullFn), "public.png"));
         }
 
         static async Task<ToastImageSource> PlatformFromUriAsync(Uri uri, CancellationToken cancellationToken)
@@ -92,73 +67,36 @@ namespace Plugin.Toast
             {
                 fn = fn.Replace(i.ToString(), "+" + (int)i);
             }
-            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, subfolder, fn);
-            if (File.Exists(fullFn) == false)
+            var fullFn = await CacheAsync(Path.Combine(KFolder, subfolder, fn), cancellationToken, async (stream, ct) =>
             {
-                var newFn = fullFn + ".new";
-                try
+                using (var hc = new HttpClient())
+                using (var response = await hc.GetAsync(uri))
                 {
-                    var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, subfolder);
-                    if (Directory.Exists(folder) == false)
-                        Directory.CreateDirectory(folder);
-                    using (var file = File.Create(newFn))
-                    using (var hc = new HttpClient())
-                    using (var response = await hc.GetAsync(uri))
-                    {
-                        contentType = response.Content.Headers.ContentType.MediaType;
-                        using (var src = await response.Content.ReadAsStreamAsync())
-                            await src.CopyToAsync(file, 1024 * 80, cancellationToken);
-                        await file.FlushAsync(cancellationToken);
-                    }
-                    File.Move(newFn, fullFn);
+                    contentType = response.Content.Headers.ContentType.MediaType;
+                    using (var src = await response.Content.ReadAsStreamAsync())
+                        await src.CopyToAsync(stream, 1024 * 80, cancellationToken);
                 }
-                catch (OperationCanceledException)
-                {
-                    File.Delete(newFn);
-                    throw;
-                }
-            }
-            var typeHint = UTType.CreatePreferredIdentifier(UTType.TagClassMIMEType, contentType, null);
-            var attachment = UNNotificationAttachment.FromIdentifier(uri.ToString(), NSUrl.FromFilename(fullFn), new UNNotificationAttachmentOptions() { TypeHint = typeHint }, out var error);
-            if (error != null)
-            {
-                throw new InvalidOperationException("got error while creating attachment: " + error.ToString());
-            }
-            if (attachment == null)
-                throw new InvalidOperationException("cant create attachment");
-            return new ToastImageSource(attachment);
+            });
+            return new ToastImageSource(CreateAttachment(uri.ToString(), NSUrl.FromFilename(fullFn),
+                UTType.CreatePreferredIdentifier(UTType.TagClassMIMEType, contentType, null)));
         }
 
         static async Task<ToastImageSource> PlatformFromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken)
         {
-            const string KFolder = "ToastImageSource.FromResource/";
             var asn = assembly.GetName();
-            var fn = asn.Name + "_" + asn.Version + "_" + resourcePath;
-            var fullFn = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder, fn);
-            if (File.Exists(fullFn) == false)
-            {
-                var newFn = fullFn + ".new";
-                try
+            var fullFn = await CacheAsync(
+                Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
+                cancellationToken,
+                async (stream, ct) =>
                 {
-                    var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), KFolder);
-                    if (Directory.Exists(folder) == false)
-                        Directory.CreateDirectory(folder);
-                    using (var file = File.Create(newFn))
-                    {
-                        var src = assembly.GetManifestResourceStream(resourcePath);
-                        await src.CopyToAsync(file, 1024 * 80, cancellationToken);
-                        await file.FlushAsync(cancellationToken);
-                    }
-                    File.Move(newFn, fullFn);
-                }
-                catch (OperationCanceledException)
-                {
-                    File.Delete(newFn);
-                    throw;
-                }
-            }
-            var result = await PlatformFromFileAsync(fullFn, cancellationToken);
-            return result;
+                    using (var mrs = assembly.GetManifestResourceStream(resourcePath))
+                        await mrs.CopyToAsync(stream, 80 * 1024, ct);
+                });
+            return await PlatformFromFileAsync(fullFn, cancellationToken);
         }
+
+        static string GetCacheFolderPath()
+            => NSSearchPath.GetDirectories(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomain.User).FirstOrDefault()
+            ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
     }
 }
