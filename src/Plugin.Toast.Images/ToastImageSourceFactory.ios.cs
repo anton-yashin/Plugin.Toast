@@ -70,11 +70,7 @@ namespace Plugin.Toast
                 throw new FileNotFoundException("file not found", filePath);
 
             const string KFolder = "ToastImageSouce.FromBundle/";
-            var fullFn = await imageCacher.CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, async (stream, ct) =>
-            {
-                using (var src = image.AsPNG().AsStream())
-                    await src.CopyToAsync(stream, 1024 * 80, ct);
-            });
+            var fullFn = await imageCacher.CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, image.AsPNG().AsStream);
             return new SealedToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(fullFn), "public.png"));
         }
 
@@ -83,12 +79,7 @@ namespace Plugin.Toast
             var asn = assembly.GetName();
             var fullFn = await imageCacher.CacheAsync(
                 Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
-                cancellationToken,
-                async (stream, ct) =>
-                {
-                    using (var mrs = assembly.GetManifestResourceStream(resourcePath))
-                        await mrs.CopyToAsync(stream, 80 * 1024, ct);
-                });
+                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath));
             return await FromFileAsync(fullFn, cancellationToken);
         }
     }
