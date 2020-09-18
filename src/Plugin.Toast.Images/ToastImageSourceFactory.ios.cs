@@ -16,21 +16,28 @@ namespace Plugin.Toast
     {
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageCacher imageCacher;
+        private readonly IUriToFileNameStrategy uriToFileNameStrategy;
+        private readonly IResourceToFileNameStrategy resourceToFileNameStrategy;
+        private readonly IBundleToFileNameStrategy bundleToFileNameStrategy;
 
-        public ToastImageSourceFactory(IHttpClientFactory httpClientFactory, IImageCacher imageCacher)
-            => (this.httpClientFactory, this.imageCacher) = (httpClientFactory, imageCacher);
+        public ToastImageSourceFactory(
+            IHttpClientFactory httpClientFactory,
+            IImageCacher imageCacher,
+            IUriToFileNameStrategy uriToFileNameStrategy,
+            IResourceToFileNameStrategy resourceToFileNameStrategy,
+            IBundleToFileNameStrategy bundleToFileNameStrategy)
+        {
+            this.httpClientFactory = httpClientFactory;
+            this.imageCacher = imageCacher;
+            this.uriToFileNameStrategy = uriToFileNameStrategy;
+            this.resourceToFileNameStrategy = resourceToFileNameStrategy;
+            this.bundleToFileNameStrategy = bundleToFileNameStrategy;
+        }
 
         public async Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
         {
-            const string KFolder = "ToastImageSouce.FromUri/";
             string contentType = "";
-            var subfolder = uri.Scheme + "+++" + uri.Host + "/";
-            var fn = uri.PathAndQuery;
-            foreach (var i in Path.GetInvalidFileNameChars().Concat(Path.GetInvalidPathChars()))
-            {
-                fn = fn.Replace(i.ToString(), "+" + (int)i);
-            }
-            var fullFn = await imageCacher.CacheAsync(Path.Combine(KFolder, subfolder, fn), cancellationToken, async (stream, ct) =>
+            var fullFn = await imageCacher.CacheAsync(uriToFileNameStrategy.Convert(uri), cancellationToken, async (stream, ct) =>
             {
                 var hc = httpClientFactory.CreateClient(nameof(IToastImageSourceFactory));
                 using (var response = await hc.GetAsync(uri))
@@ -64,22 +71,21 @@ namespace Plugin.Toast
                 : FromBundleAsync(filePath, cancellationToken);
         }
 
-        async Task<ToastImageSource> FromBundleAsync(string filePath, CancellationToken cancellationToken)
+        async Task<ToastImageSource> FromBundleAsync(string bundlePath, CancellationToken cancellationToken)
         {
-            var image = UIImage.FromBundle(filePath);
+            var image = UIImage.FromBundle(bundlePath);
             if (image == null)
-                throw new FileNotFoundException("file not found", filePath);
+                throw new FileNotFoundException("file not found", bundlePath);
 
-            const string KFolder = "ToastImageSouce.FromBundle/";
-            var fullFn = await imageCacher.CacheAsync(Path.Combine(KFolder, filePath), cancellationToken, image.AsPNG().AsStream);
-            return new SealedToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(fullFn), "public.png"));
+            var fullFn = await imageCacher.CacheAsync(bundleToFileNameStrategy.Convert(bundlePath), cancellationToken, image.AsPNG().AsStream);
+            return new SealedToastImageSource(CreateAttachment(bundlePath, NSUrl.FromFilename(fullFn), "public.png"));
         }
 
         public async Task<ToastImageSource> FromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken = default)
         {
             var asn = assembly.GetName();
             var fullFn = await imageCacher.CacheAsync(
-                Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath),
+                resourceToFileNameStrategy.Convert(resourcePath, assembly),
                 cancellationToken, () => assembly.GetManifestResourceStream(resourcePath));
             return await FromFileAsync(fullFn, cancellationToken);
         }
