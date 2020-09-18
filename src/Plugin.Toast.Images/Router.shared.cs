@@ -12,6 +12,6 @@ namespace Plugin.Toast
             DroidLargeIcon,
         }
 
-        internal static Exception Exception => new InvalidOperationException("data forwaring error");
+        internal static Exception Exception => new InvalidOperationException("data forwarding error");
     }
 }
