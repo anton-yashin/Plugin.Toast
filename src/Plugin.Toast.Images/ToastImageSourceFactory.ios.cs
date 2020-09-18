@@ -14,10 +14,11 @@ namespace Plugin.Toast
 {
     sealed partial class ToastImageSourceFactory : IToastImageSourceFactory
     {
+        private readonly IHttpClientFactory httpClientFactory;
         private readonly IImageCacher imageCacher;
 
-        public ToastImageSourceFactory(IImageCacher imageCacher)
-            => this.imageCacher = imageCacher;
+        public ToastImageSourceFactory(IHttpClientFactory httpClientFactory, IImageCacher imageCacher)
+            => (this.httpClientFactory, this.imageCacher) = (httpClientFactory, imageCacher);
 
         public async Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
         {
@@ -31,7 +32,7 @@ namespace Plugin.Toast
             }
             var fullFn = await imageCacher.CacheAsync(Path.Combine(KFolder, subfolder, fn), cancellationToken, async (stream, ct) =>
             {
-                using (var hc = new HttpClient())
+                var hc = httpClientFactory.CreateClient(nameof(IToastImageSourceFactory));
                 using (var response = await hc.GetAsync(uri))
                 {
                     contentType = response.Content.Headers.ContentType.MediaType;

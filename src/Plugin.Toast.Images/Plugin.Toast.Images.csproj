@@ -91,5 +91,6 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0"/>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ namespace Plugin.Toast
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, IEnumerable<ToastImageSource>, Router.Route>>(sp => sp.GetRequiredService<IOsImageRouter>());
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
+            services.AddHttpClient();
             return services;
         }
     }
