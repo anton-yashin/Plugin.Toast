@@ -67,6 +67,7 @@ namespace DeviceTests.UWP
         {
             AddTestAssembly(typeof(App).GetTypeInfo().Assembly);
             AddTestAssembly(typeof(NotificationManagerTests).GetTypeInfo().Assembly);
+            AddTestAssembly(typeof(MimeDetector_Tests).GetTypeInfo().Assembly);
         }
     }
 }

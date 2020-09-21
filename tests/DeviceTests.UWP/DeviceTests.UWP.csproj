@@ -11,7 +11,7 @@
     <AssemblyName>DeviceTests.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -159,6 +159,10 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(VisualStudioVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Plugin.Toast.Images\Plugin.Toast.Images.csproj">
+      <Project>{d5a3ecff-4ee1-4ab0-a170-59b3f4e96d86}</Project>
+      <Name>Plugin.Toast.Images</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj">
       <Project>{71ce05a1-d8ca-4bcc-bcf0-ab6b6c3ac43f}</Project>
       <Name>Plugin.Toast</Name>
@@ -166,6 +170,10 @@
     <ProjectReference Include="..\DeviceTests\DeviceTests.csproj">
       <Project>{C3302515-616A-4889-BC7D-AA9A3D2F668C}</Project>
       <Name>DeviceTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTests\UnitTests.csproj">
+      <Project>{fe8bce51-daa4-409e-8d61-0e2fb7a63b46}</Project>
+      <Name>UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

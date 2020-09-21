@@ -41,6 +41,7 @@ namespace DeviceTests.iOS
             AddTestAssembly(Assembly.GetExecutingAssembly());
 
             AddTestAssembly(typeof(NotificationManagerTests).Assembly);
+            AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
 
             // otherwise you need to ensure that the test assemblies will
             // become part of the app bundle

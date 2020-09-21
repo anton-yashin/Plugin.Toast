@@ -137,9 +137,17 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Plugin.Toast.Images\Plugin.Toast.Images.csproj">
+      <Project>{d5a3ecff-4ee1-4ab0-a170-59b3f4e96d86}</Project>
+      <Name>Plugin.Toast.Images</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeviceTests\DeviceTests.csproj">
       <Project>{c3302515-616a-4889-bc7d-aa9a3d2f668c}</Project>
       <Name>DeviceTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTests\UnitTests.csproj">
+      <Project>{fe8bce51-daa4-409e-8d61-0e2fb7a63b46}</Project>
+      <Name>UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,7 @@ namespace DeviceTests.Android
             AddTestAssembly(Assembly.GetExecutingAssembly());
             AddTestAssembly(typeof(NotificationManagerTests).Assembly);
             AddExecutionAssembly(typeof(NotificationManagerTests).Assembly);
+            AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
 
             // or in any reference assemblies
             //   AddTestAssembly(typeof(PortableTests).Assembly);
