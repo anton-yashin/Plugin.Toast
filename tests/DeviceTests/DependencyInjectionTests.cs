@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using System;
 using Plugin.Toast;
 using Xunit;

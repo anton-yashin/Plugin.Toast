@@ -1,4 +1,3 @@
-using Moq;
 using System;
 using Plugin.Toast;
 using Xunit;
@@ -46,7 +45,7 @@ namespace DeviceTests
         [Fact]
         public void CreateNotificationManagerWithIntentManager()
         {
-            var mim = new Mock<Plugin.Toast.Droid.IIntentManager>();
+            var mim = new Moq.Mock<Plugin.Toast.Droid.IIntentManager>();
             var nm = new NotificationManager(mim.Object, new ToastOptions(Platform.Activity));
             Assert.NotNull(nm);
         }

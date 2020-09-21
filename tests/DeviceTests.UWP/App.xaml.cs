@@ -65,9 +65,8 @@ namespace DeviceTests.UWP
 
         protected override void OnInitializeRunner()
         {
-            AddTestAssembly(typeof(App).GetTypeInfo().Assembly);
-            AddTestAssembly(typeof(NotificationManagerTests).GetTypeInfo().Assembly);
-            AddTestAssembly(typeof(MimeDetector_Tests).GetTypeInfo().Assembly);
+            AddTestAssembly(Assembly.GetExecutingAssembly());
+            AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
         }
     }
 }

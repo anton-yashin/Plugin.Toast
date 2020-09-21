@@ -19,8 +19,8 @@ namespace DeviceTests.Android
         protected override void OnCreate(Bundle bundle)
         {
             DeviceTests.Platform.Activity = this;
-            var hostIp = Intent.Extras?.GetString("HOST_IP", null);
-            var hostPort = Intent.Extras?.GetInt("HOST_PORT", 10578) ?? 10578;
+            var hostIp = Intent?.Extras?.GetString("HOST_IP", null);
+            var hostPort = Intent?.Extras?.GetInt("HOST_PORT", 10578) ?? 10578;
 
             if (!string.IsNullOrEmpty(hostIp))
             {
@@ -40,8 +40,7 @@ namespace DeviceTests.Android
 
             // tests can be inside the main assembly
             AddTestAssembly(Assembly.GetExecutingAssembly());
-            AddTestAssembly(typeof(NotificationManagerTests).Assembly);
-            AddExecutionAssembly(typeof(NotificationManagerTests).Assembly);
+            AddExecutionAssembly(Assembly.GetExecutingAssembly());
             AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
 
             // or in any reference assemblies
@@ -61,7 +60,7 @@ namespace DeviceTests.Android
             base.OnCreate(bundle);
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[]? permissions, [GeneratedEnum] Permission[]? grantResults)
         {
             //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 

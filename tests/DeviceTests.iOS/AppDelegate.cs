@@ -35,12 +35,11 @@ namespace DeviceTests.iOS
             }
 
             // We need this to ensure the execution assembly is part of the app bundle
-            AddExecutionAssembly(typeof(NotificationManagerTests).Assembly);
+            AddExecutionAssembly(Assembly.GetExecutingAssembly());
 
             // tests can be inside the main assembly
             AddTestAssembly(Assembly.GetExecutingAssembly());
 
-            AddTestAssembly(typeof(NotificationManagerTests).Assembly);
             AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
 
             // otherwise you need to ensure that the test assemblies will

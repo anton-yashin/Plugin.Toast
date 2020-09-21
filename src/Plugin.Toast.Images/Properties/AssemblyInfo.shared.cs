@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("DeviceTests")]
+[assembly: InternalsVisibleTo("DeviceTests.Android")]
+[assembly: InternalsVisibleTo("DeviceTests.iOS")]
+[assembly: InternalsVisibleTo("DeviceTests.UWP")]
 [assembly: InternalsVisibleTo("ManualTests")]
 [assembly: InternalsVisibleTo("UnitTests")]

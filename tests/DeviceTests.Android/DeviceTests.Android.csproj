@@ -25,6 +25,8 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -99,6 +101,12 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>3.1.8</Version>
+    </PackageReference>
+    <PackageReference Include="Moq">
+      <Version>4.14.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
@@ -112,15 +120,16 @@
       <Project>{d5a3ecff-4ee1-4ab0-a170-59b3f4e96d86}</Project>
       <Name>Plugin.Toast.Images</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DeviceTests\DeviceTests.csproj">
-      <Project>{c3302515-616a-4889-bc7d-aa9a3d2f668c}</Project>
-      <Name>DeviceTests</Name>
+    <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj">
+      <Project>{71ce05a1-d8ca-4bcc-bcf0-ab6b6c3ac43f}</Project>
+      <Name>Plugin.Toast</Name>
     </ProjectReference>
     <ProjectReference Include="..\UnitTests\UnitTests.csproj">
       <Project>{fe8bce51-daa4-409e-8d61-0e2fb7a63b46}</Project>
       <Name>UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\DeviceTests\DeviceTests.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
