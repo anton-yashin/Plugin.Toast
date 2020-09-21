@@ -19,19 +19,22 @@ namespace Plugin.Toast
         private readonly IUriToFileNameStrategy uriToFileNameStrategy;
         private readonly IResourceToFileNameStrategy resourceToFileNameStrategy;
         private readonly IBundleToFileNameStrategy bundleToFileNameStrategy;
+        private readonly IMimeDetector mimeDetector;
 
         public ToastImageSourceFactory(
             IHttpClientFactory httpClientFactory,
             IImageCacher imageCacher,
             IUriToFileNameStrategy uriToFileNameStrategy,
             IResourceToFileNameStrategy resourceToFileNameStrategy,
-            IBundleToFileNameStrategy bundleToFileNameStrategy)
+            IBundleToFileNameStrategy bundleToFileNameStrategy,
+            IMimeDetector mimeDetector)
         {
             this.httpClientFactory = httpClientFactory;
             this.imageCacher = imageCacher;
             this.uriToFileNameStrategy = uriToFileNameStrategy;
             this.resourceToFileNameStrategy = resourceToFileNameStrategy;
             this.bundleToFileNameStrategy = bundleToFileNameStrategy;
+            this.mimeDetector = mimeDetector;
         }
 
         public async Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
@@ -47,6 +50,11 @@ namespace Plugin.Toast
                         await src.CopyToAsync(stream, 1024 * 80, cancellationToken);
                 }
             });
+            if (string.IsNullOrEmpty(contentType))
+            {
+                using (var fs = File.OpenRead(fullFn))
+                    contentType = await mimeDetector.DetectAsync(fs);
+            }
             return new SealedToastImageSource(CreateAttachment(uri.ToString(), NSUrl.FromFilename(fullFn),
                 UTType.CreatePreferredIdentifier(UTType.TagClassMIMEType, contentType, null)));
         }

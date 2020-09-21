@@ -19,6 +19,7 @@ namespace Plugin.Toast
             services.TryAddSingleton<IUriToFileNameStrategy, UriToFileNameStrategy>();
             services.TryAddSingleton<IBundleToFileNameStrategy, BundleToFileNameStrategy>();
             services.TryAddSingleton<IResourceToFileNameStrategy, ResourceToFileNameStrategy>();
+            services.TryAddSingleton<IMimeDetector, MimeDetector>();
             services.AddHttpClient();
             return services;
         }
