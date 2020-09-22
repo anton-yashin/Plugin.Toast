@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,20 @@ namespace Plugin.Toast
 {
     sealed partial class ToastImageSourceFactory : IToastImageSourceFactory
     {
-        public ToastImageSourceFactory()
-        {
-        }
+        private readonly IHttpClientFactory httpClientFactory;
 
-        public Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
-            => CreateAsync(ImageSource.FromUri(uri), cancellationToken);
+        public ToastImageSourceFactory(IHttpClientFactory httpClientFactory)
+            => this.httpClientFactory = httpClientFactory;
+
+        public async Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
+        {
+            var hc = httpClientFactory.CreateClient(nameof(IToastImageSourceFactory));
+            using (var response = await hc.GetAsync(uri))
+            {
+                using (var src = await response.Content.ReadAsStreamAsync())
+                return await CreateAsync(ImageSource.FromStream(() => src), cancellationToken);
+            }
+        }
 
         public Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
             => CreateAsync(ImageSource.FromFile(filePath), cancellationToken);

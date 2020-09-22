@@ -14,6 +14,7 @@ namespace Plugin.Toast
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, ToastImageSource, Router.Route>, DroidImageRouter>();
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
+            services.AddHttpClient();
             return services;
         }
     }
