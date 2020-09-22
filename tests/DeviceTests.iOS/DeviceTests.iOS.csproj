@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ToastImageSourceFactory_Tests.cs" />
+    <EmbeddedResource Include="Images\embedded_image.jpg" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Entitlements.plist" />

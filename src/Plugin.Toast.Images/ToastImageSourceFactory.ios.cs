@@ -75,7 +75,7 @@ namespace Plugin.Toast
         public Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             return File.Exists(filePath)
-                ? Task.FromResult<ToastImageSource>(new SealedToastImageSource(CreateAttachment(Guid.NewGuid().ToString(), NSUrl.FromFilename(filePath))))
+                ? Task.FromResult<ToastImageSource>(new SealedToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(filePath))))
                 : FromBundleAsync(filePath, cancellationToken);
         }
 

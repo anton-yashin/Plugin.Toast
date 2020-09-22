@@ -55,6 +55,7 @@ namespace DeviceTests.Android
             using (var rs = GetTestImageContent())
             {
                 await rs.CopyToAsync(file);
+                await file.FlushAsync();
             }
 
             // act

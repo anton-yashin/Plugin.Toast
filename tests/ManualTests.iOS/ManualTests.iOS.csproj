@@ -115,8 +115,12 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\embedded_image.jpg" />
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\embedded_image.jpg">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
