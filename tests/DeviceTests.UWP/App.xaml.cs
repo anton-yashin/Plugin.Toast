@@ -12,6 +12,14 @@ namespace DeviceTests.UWP
 {
     public sealed partial class App : RunnerApplication
     {
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+            if (Window.Current.Content == null)
+                Xamarin.Forms.Forms.Init(e);
+            Xamarin.Forms.Application.Current = new Xamarin.Forms.Application();
+            base.OnLaunched(e);
+        }
+
         protected override void OnActivated(IActivatedEventArgs args)
         {
             base.OnActivated(args);

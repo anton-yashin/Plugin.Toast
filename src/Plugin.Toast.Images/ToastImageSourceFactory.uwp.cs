@@ -33,7 +33,7 @@ namespace Plugin.Toast
 
         internal static string CombineWithImageDirectory(string filePath)
         {
-            var imageDirectory = Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory();
+            var imageDirectory = Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory();
             if (string.IsNullOrEmpty(imageDirectory) == false)
             {
                 var directory = Path.GetDirectoryName(filePath);
