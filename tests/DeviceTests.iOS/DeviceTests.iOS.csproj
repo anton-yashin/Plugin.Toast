@@ -62,8 +62,11 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BuilderExtensions_Tests.cs" />
+    <Compile Include="IosImageRouter_Tests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Mocks\MockIosNotificationExtension.cs" />
     <Compile Include="ToastImageSourceFactory_Tests.cs" />
     <EmbeddedResource Include="Images\embedded_image.jpg" />
     <None Include="Info.plist" />
@@ -127,6 +130,9 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="LightMock">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>3.1.8</Version>
     </PackageReference>
