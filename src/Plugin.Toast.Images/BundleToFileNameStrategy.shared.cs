@@ -5,8 +5,10 @@ namespace Plugin.Toast
 {
     sealed class BundleToFileNameStrategy : IBundleToFileNameStrategy
     {
+        internal const string KFolder = "ToastImageSouce.FromBundle/";
+
         public string Convert(string bundlePath)
-            => Path.Combine("ToastImageSouce.FromBundle/", bundlePath);
+            => Path.Combine(KFolder, bundlePath);
     }
 
     public interface IBundleToFileNameStrategy

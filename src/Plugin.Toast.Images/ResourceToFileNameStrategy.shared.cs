@@ -6,10 +6,12 @@ namespace Plugin.Toast
 {
     sealed class ResourceToFileNameStrategy : IResourceToFileNameStrategy
     {
+        internal const string KFolder = "ToastImageSource.FromResource/";
+
         public string Convert(string resourcePath, Assembly assembly)
         {
             var asn = assembly.GetName();
-            return Path.Combine("ToastImageSource.FromResource/", asn.Name + "_" + asn.Version + "_" + resourcePath);
+            return Path.Combine(KFolder, asn.Name + "_" + asn.Version + "_" + resourcePath);
         }
     }
 
