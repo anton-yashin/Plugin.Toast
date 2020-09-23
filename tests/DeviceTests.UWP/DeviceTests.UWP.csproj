@@ -125,6 +125,7 @@
     <Compile Include="Mocks\MockUwpExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToastImageSourceFactory_Tests.cs" />
+    <Compile Include="UwpImageRouter_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
