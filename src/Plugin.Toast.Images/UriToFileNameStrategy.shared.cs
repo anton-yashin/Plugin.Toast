@@ -1,17 +1,19 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace Plugin.Toast
 {
     sealed class UriToFileNameStrategy : IUriToFileNameStrategy
     {
+        internal const string KFolder = "ToastImageSouce.FromUri/";
+
         public string Convert(Uri uri)
         {
-            const string KFolder = "ToastImageSouce.FromUri/";
             var subfolder = uri.Scheme + "+++" + uri.Host + "/";
             var fn = uri.PathAndQuery;
-            foreach (var i in Path.GetInvalidFileNameChars().Concat(Path.GetInvalidPathChars()))
+            if (fn.Length > 0 && fn[0] == '/')
+                fn = fn.Substring(1);
+            foreach (var i in Path.GetInvalidFileNameChars())
                 fn = fn.Replace(i.ToString(), "+" + (int)i);
             return Path.Combine(KFolder, subfolder, fn);
         }
