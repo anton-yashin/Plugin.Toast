@@ -1,4 +1,5 @@
-﻿using DeviceTests.UWP.Mocks;
+﻿using DeviceTests.Utils;
+using DeviceTests.UWP.Mocks;
 using LightMock;
 using Plugin.Toast;
 using System;
@@ -24,10 +25,7 @@ namespace DeviceTests.UWP
         }
 
         public static IEnumerable<object[]> GetInvalidRoutes()
-        {
-            foreach (var i in from i in Enum.GetValues(typeof(Router.Route)).Cast<Router.Route>() where i != Router.Route.Default select i)
-                yield return new object[] { i };
-        }
+            => EnumUtils.GetEnumValuesExclude(Router.Route.Default).Select(i => new object[] { i });
 
         [Fact]
         public void Configure()

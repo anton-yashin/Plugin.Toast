@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DeviceTests.iOS.Mocks;
+using DeviceTests.Utils;
 using Foundation;
 using Plugin.Toast;
-using UIKit;
 using UserNotifications;
 using Xunit;
 
@@ -31,20 +30,7 @@ namespace DeviceTests.iOS
         }
 
         public static IEnumerable<object[]> GetInvalidRoutesForSingle()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.Default:
-                    case Router.Route.IosSingleAttachment:
-                        break;
-                    default:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
+            => EnumUtils.GetEnumValuesExclude(Router.Route.Default, Router.Route.IosSingleAttachment).Select(i => new object[] { i });
 
         [Theory, MemberData(nameof(GetInvalidRoutesForMultiple))]
         public void ThrowsExceptionOnUnknownRouteForMultiple(object route)
@@ -65,21 +51,9 @@ namespace DeviceTests.iOS
         }
 
         public static IEnumerable<object[]> GetInvalidRoutesForMultiple()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.IosMultipleAttachments:
-                        break;
-                    default:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
+            => EnumUtils.GetEnumValuesExclude(Router.Route.IosMultipleAttachments).Select(i => new object[] { i });
 
-        [Theory, MemberData(nameof(GetValidRoutesForSingle))]
+        [Theory, InlineData(Router.Route.Default), InlineData(Router.Route.IosSingleAttachment)]
         public void ConfigureSingle(object route)
         {
             // prepare
@@ -99,21 +73,7 @@ namespace DeviceTests.iOS
             mock.Platform.Assert(_ => _.AddAttachment(attachment));
         }
 
-        public static IEnumerable<object[]> GetValidRoutesForSingle()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.Default:
-                    case Router.Route.IosSingleAttachment:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
-
-        [Theory, MemberData(nameof(GetValidRoutesForMultiple))]
+        [Theory, InlineData(Router.Route.IosMultipleAttachments)]
         public void ConfigureMultiple(object route)
         {
             // prepare
@@ -133,19 +93,5 @@ namespace DeviceTests.iOS
             // verify
             mock.Platform.Assert(_ => _.AddAttachments(many.Select(i => i.Attachment)));
         }
-
-        public static IEnumerable<object[]> GetValidRoutesForMultiple()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.IosMultipleAttachments:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
-
     }
 }

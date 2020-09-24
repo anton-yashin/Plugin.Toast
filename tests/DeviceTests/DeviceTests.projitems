@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ShowNotificationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToastImageSource_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\EnumUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Mocks\MockExtensionPlugin.tt">

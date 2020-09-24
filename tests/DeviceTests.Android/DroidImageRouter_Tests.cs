@@ -12,6 +12,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DeviceTests.Android.Mocks;
+using DeviceTests.Utils;
 using LightMock;
 using Plugin.Toast;
 using Plugin.Toast.Droid;
@@ -38,22 +39,9 @@ namespace DeviceTests.Android
         }
 
         public static IEnumerable<object[]> GetInvalidRoutes()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.Default:
-                    case Router.Route.DroidLargeIcon:
-                        break;
-                    default:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
+            => EnumUtils.GetEnumValuesExclude(Router.Route.Default, Router.Route.DroidLargeIcon).Select(i => new object[] { i });
 
-        [Theory, MemberData(nameof(GetValidRoutes))]
+        [Theory, InlineData(Router.Route.Default), InlineData(Router.Route.DroidLargeIcon)]
         public void Configure(object route)
         {
             // prepare
@@ -71,20 +59,5 @@ namespace DeviceTests.Android
             // verify
             platformContext.Assert(_ => _.SetLargeIcon(bitmap));
         }
-
-        public static IEnumerable<object[]> GetValidRoutes()
-        {
-            foreach (Router.Route i in Enum.GetValues(typeof(Router.Route)))
-            {
-                switch (i)
-                {
-                    case Router.Route.Default:
-                    case Router.Route.DroidLargeIcon:
-                        yield return new object[] { i };
-                        break;
-                }
-            }
-        }
-
     }
 }
