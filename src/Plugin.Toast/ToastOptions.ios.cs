@@ -12,8 +12,9 @@ namespace Plugin.Toast
         /// </summary>
         public UNNotificationSound? Sound { get; set; }
         /// <summary>
-        /// Default value is false
+        /// Ignored, always false.
         /// </summary>
+        [Obsolete("not supported by OS", true)]
         public bool MultipleAuthorizationRequests { get; set; }
     }
 }

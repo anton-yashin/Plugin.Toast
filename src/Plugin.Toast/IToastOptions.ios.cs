@@ -8,6 +8,7 @@ namespace Plugin.Toast
     public interface IToastOptions
     {
         UNNotificationSound? Sound { get; }
+        [Obsolete("not supported by OS", true)]
         bool MultipleAuthorizationRequests { get; }
     }
 }

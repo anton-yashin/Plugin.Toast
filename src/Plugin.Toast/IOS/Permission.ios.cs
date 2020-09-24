@@ -9,7 +9,7 @@ namespace Plugin.Toast.IOS
     sealed class Permission : IPermission, IInitialization
     {
         private readonly IToastOptions toastOptions;
-        bool approved;
+        bool? approved;
         IDictionary<string, string>? lastError;
 
         public Permission(IToastOptions toastOptions) => this.toastOptions = toastOptions;
@@ -18,10 +18,10 @@ namespace Plugin.Toast.IOS
 
         public async Task RequestAuthorizationAsync()
         {
-            if (this.approved)
+            if (this.approved == true)
                 return;
-            if (this.lastError != null && toastOptions.MultipleAuthorizationRequests == false)
-                throw new Exceptions.NotificationException("not authorized", lastError);
+            if (this.approved == false)
+                throw new Exceptions.NotificationException("not authorized", lastError ?? new Dictionary<string, string>());
             var (approved, err) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(UNAuthorizationOptions.Alert);
             this.approved = approved;
             if (approved == false)
