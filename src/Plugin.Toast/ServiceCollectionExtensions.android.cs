@@ -22,5 +22,55 @@ namespace Plugin.Toast
             @this.TryAddTransient<IDroidNotificationExtension, NotificationBuilder>();
             return @this.AddBase();
         }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+            Action<IPlatformSpecificExtension> defaultPlatformConfiguration,
+            Action<ISnackbarExtension> defaultSnackbarConfiguration)
+        {
+            _ = defaultPlatformConfiguration ?? throw new ArgumentNullException(nameof(defaultPlatformConfiguration));
+            _ = defaultSnackbarConfiguration ?? throw new ArgumentNullException(nameof(defaultSnackbarConfiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultPlatformConfiguration))
+                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(
+                sp => new DefaultConfiguration<ISnackbarExtension>(defaultSnackbarConfiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
+            Action<IPlatformSpecificExtension> defaultPlatformConfiguration,
+            Action<ISnackbarExtension> defaultSnackbarConfiguration)
+        {
+            return @this.AddNotificationManager(new ToastOptions(activity), defaultPlatformConfiguration, defaultSnackbarConfiguration);
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+            Action<IPlatformSpecificExtension> defaultPlatformConfiguration)
+        {
+            _ = defaultPlatformConfiguration ?? throw new ArgumentNullException(nameof(defaultPlatformConfiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultPlatformConfiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
+            Action<IPlatformSpecificExtension> defaultPlatformConfiguration)
+        {
+            return @this.AddNotificationManager(new ToastOptions(activity), defaultPlatformConfiguration);
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+            Action<ISnackbarExtension> defaultSnackbarConfiguration)
+        {
+            _ = defaultSnackbarConfiguration ?? throw new ArgumentNullException(nameof(defaultSnackbarConfiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(
+                sp => new DefaultConfiguration<ISnackbarExtension>(defaultSnackbarConfiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
+            Action<ISnackbarExtension> defaultSnackbarConfiguration)
+        {
+            return @this.AddNotificationManager(new ToastOptions(activity), defaultSnackbarConfiguration);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Plugin.Toast
 {
     public static partial class ServiceCollectionExtensions
     {
-        static IServiceCollection AddBase(this IServiceCollection @this)
+        internal static IServiceCollection AddBase(this IServiceCollection @this)
         {
             @this.TryAddSingleton<IInitialization, NoInitialization>();
             @this.TryAddSingleton<INotificationManager, DiNm>();

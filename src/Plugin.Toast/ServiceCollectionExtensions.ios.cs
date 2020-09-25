@@ -25,5 +25,70 @@ namespace Plugin.Toast
             @this.TryAddSingleton(typeof(IInitialization), _ => _.GetService(typeof(IPermission)));
             return @this.AddBase();
         }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            IToastOptions options, 
+            Action<IPlatformSpecificExtension> defaultConfiguration,
+            Action<IIosLocalNotificationExtension> localNotificationConiguration)
+        {
+            _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
+            _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration))
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
+                sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            Action<IPlatformSpecificExtension> defaultConfiguration,
+            Action<IIosLocalNotificationExtension> localNotificationConiguration)
+        {
+            _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
+            _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+            return @this.AddNotificationManager(new ToastOptions())
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration))
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
+                sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            IToastOptions options,
+            Action<IPlatformSpecificExtension> defaultConfiguration)
+        {
+            _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            Action<IPlatformSpecificExtension> defaultConfiguration)
+        {
+            _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
+            return @this.AddNotificationManager(new ToastOptions())
+                .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
+                sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            IToastOptions options,
+            Action<IIosLocalNotificationExtension> localNotificationConiguration)
+        {
+            _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+            return @this.AddNotificationManager(options)
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
+                sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+        }
+
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
+            Action<IIosLocalNotificationExtension> localNotificationConiguration)
+        {
+            _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+            return @this.AddNotificationManager(new ToastOptions())
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
+                sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+        }
     }
 }
