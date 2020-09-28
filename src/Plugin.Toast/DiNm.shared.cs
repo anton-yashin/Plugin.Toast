@@ -13,27 +13,27 @@ namespace Plugin.Toast
 
         public Task InitializeAsync() => ((IInitialization)serviceProvider.GetService(typeof(IInitialization))).InitializeAsync();
 
-        public IBuilder BuildNotification() => (IBuilder)serviceProvider.GetRequiredService(typeof(IBuilder));
+        public IBuilder GetBuilder() => (IBuilder)serviceProvider.GetRequiredService(typeof(IBuilder));
 
-        public IBuilder BuildNotificationUsing<T>()
+        public IBuilder GetBuilder<T>()
             where T : IBuilderExtension<T>
             => (IBuilder)serviceProvider.GetService(typeof(T)) 
-            ?? BuildNotification();
+            ?? GetBuilder();
 
-        public IBuilder BuildNotificationUsing<T1, T2>()
+        public IBuilder GetBuilder<T1, T2>()
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             => (IBuilder)(serviceProvider.GetService(typeof(T1))
             ?? serviceProvider.GetService(typeof(T2))) 
-            ?? BuildNotification();
+            ?? GetBuilder();
 
-        public IBuilder BuildNotificationUsing<T1, T2, T3>()
+        public IBuilder GetBuilder<T1, T2, T3>()
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             where T3 : IBuilderExtension<T3>
             => BuildNotificationUsing(typeof(T1), typeof(T2), typeof(T3));
 
-        public IBuilder BuildNotificationUsing<T1, T2, T3, T4>()
+        public IBuilder GetBuilder<T1, T2, T3, T4>()
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             where T3 : IBuilderExtension<T3>
@@ -45,6 +45,6 @@ namespace Plugin.Toast
                 let j = serviceProvider.GetService(i) as IBuilder
                 where j != null
                 select j).FirstOrDefault()
-            ?? BuildNotification();
+            ?? GetBuilder();
     }
 }

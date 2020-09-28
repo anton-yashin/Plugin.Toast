@@ -16,7 +16,7 @@ namespace DeviceTests
                 bool platformInvoked = false;
                 bool invalidPlatformInvoked = false;
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotification();
+                var builder = nm.GetBuilder();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => platformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => invalidPlatformInvoked = true)
@@ -35,7 +35,7 @@ namespace DeviceTests
                 bool platformInvoked = false;
                 bool invalidPlatformInvoked = false;
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -52,7 +52,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotification();
+                var builder = nm.GetBuilder();
                 builder.Build();
 
                 Assert.Throws<InvalidOperationException>(() => builder.Build());
@@ -63,7 +63,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>();
                 builder.Build();
 
                 Assert.Throws<InvalidOperationException>(() => builder.Build());

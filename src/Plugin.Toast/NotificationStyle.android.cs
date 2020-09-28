@@ -12,12 +12,12 @@ namespace Plugin.Toast
         Default = 0,
         /// <summary>
         /// Snackbar notifications.
-        /// <seealso cref="INotificationManager.BuildNotification()"/> will create a <seealso cref="ISnackbarExtension"/>
+        /// <seealso cref="INotificationManager.GetBuilder()"/> will create a <seealso cref="ISnackbarExtension"/>
         /// </summary>
         Snackbar = 1,
         /// <summary>
         /// Heads-up notifications. These will work on lower than Lollipop but it wont pop up at the top of the screen.
-        /// <seealso cref="INotificationManager.BuildNotification()"/> will create a <seealso cref="IDroidNotificationExtension"/>
+        /// <seealso cref="INotificationManager.GetBuilder()"/> will create a <seealso cref="IDroidNotificationExtension"/>
         /// </summary>
         Notifications = 2
     }

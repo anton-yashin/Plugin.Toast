@@ -16,7 +16,7 @@ namespace Plugin.Toast
         /// </summary>
         public string PackageName { get; set; } = Application.Context.PackageName ?? "";
         /// <summary>
-        /// Notification style selected by <seealso cref="INotificationManager.BuildNotification()"/>.
+        /// Notification style selected by <seealso cref="INotificationManager.GetBuilder()"/>.
         /// Default value is <seealso cref="NotificationStyle.Default"/>
         /// </summary>
         public NotificationStyle NotificationStyle { get; set; } = NotificationStyle.Default;

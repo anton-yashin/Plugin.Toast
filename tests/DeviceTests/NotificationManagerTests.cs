@@ -56,7 +56,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotification();
+                var builder = nm.GetBuilder();
 
                 Assert.NotNull(builder);
                 Assert.True(builder is IXPlatformSpecificExtension);
@@ -75,7 +75,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension>();
 
                 Assert.NotNull(builder);
 
@@ -99,7 +99,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>();
 
                 Assert.NotNull(builder);
 
@@ -123,7 +123,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>();
 
                 Assert.NotNull(builder);
 
@@ -147,7 +147,7 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 var nm = Platform.CreateNotificationManager();
-                var builder = nm.BuildNotificationUsing<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>();
+                var builder = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>();
 
                 Assert.NotNull(builder);
 

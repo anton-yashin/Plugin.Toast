@@ -11,7 +11,7 @@ namespace Plugin.Toast
         public static INotificationManager Instance => instance ?? throw new InvalidOperationException("please call init");
 
 
-        public IBuilder BuildNotification() => PlatformBuildNotification();
+        public IBuilder GetBuilder() => PlatformBuildNotification();
 
         public Task InitializeAsync() => PlatformInitializeAsync();
 
@@ -21,22 +21,22 @@ namespace Plugin.Toast
             => (from i in types let j = PlatformResolve(i) where j != null select j).FirstOrDefault()
             ?? PlatformBuildNotification();
 
-        public IBuilder BuildNotificationUsing<T1>()
+        public IBuilder GetBuilder<T1>()
             where T1 : IBuilderExtension<T1>
             => BuildNotificationUsing(typeof(T1));
 
-        public IBuilder BuildNotificationUsing<T1, T2>() 
+        public IBuilder GetBuilder<T1, T2>() 
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             => BuildNotificationUsing(typeof(T1), typeof(T2));
 
-        public IBuilder BuildNotificationUsing<T1, T2, T3>()
+        public IBuilder GetBuilder<T1, T2, T3>()
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             where T3 : IBuilderExtension<T3>
             => BuildNotificationUsing(typeof(T1), typeof(T2), typeof(T3));
 
-        public IBuilder BuildNotificationUsing<T1, T2, T3, T4>()
+        public IBuilder GetBuilder<T1, T2, T3, T4>()
             where T1 : IBuilderExtension<T1>
             where T2 : IBuilderExtension<T2>
             where T3 : IBuilderExtension<T3>
