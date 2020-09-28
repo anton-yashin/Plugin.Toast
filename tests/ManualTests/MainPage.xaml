@@ -17,9 +17,10 @@
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="tb:IAbstractTest">
                 <StackLayout>
+                    <Label Text="{x:Binding ShortDescription}"/>
                     <StackLayout Orientation="Horizontal">
                         <Button
-                            Text="{x:Binding ShortDescription}"
+                            Text="{x:Static resx:Localization.R_RUN}"
                             Command="{x:Binding RunTestCommand}"
                             CommandParameter="{x:Binding}"/>
                         <Label

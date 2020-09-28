@@ -162,6 +162,9 @@
   <data name="R_REQUIRED_ACTION_IGNORE_NOTIFICATION" xml:space="preserve">
     <value>ignore notification</value>
   </data>
+  <data name="R_RUN" xml:space="preserve">
+    <value>Run</value>
+  </data>
   <data name="R_RUNNING" xml:space="preserve">
     <value>running</value>
   </data>
