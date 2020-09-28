@@ -49,7 +49,7 @@ namespace Plugin.Toast.UWP
                 case ToastDismissalReason.UserCanceled:
                     return NotificationResult.UserCanceled;
             }
-            throw new NotImplementedException("dead code");
+            throw new InvalidOperationException("Unknown value of " + nameof(ToastDismissalReason) + ": " + reason);
         }
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)
