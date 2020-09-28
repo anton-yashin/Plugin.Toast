@@ -17,6 +17,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
+            await serviceProvider.GetRequiredService<IInitialization>().InitializeAsync();
             var scheduleTo = DateTimeOffset.Now + TimeSpan.FromSeconds(4);
             var builder = serviceProvider.GetService<IBuilder>();
             var token = builder.AddTitle(Localization.R_SOME_TITLE).AddDescription("Test failed if you see this")
