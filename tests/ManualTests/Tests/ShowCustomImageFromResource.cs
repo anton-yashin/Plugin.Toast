@@ -23,7 +23,7 @@ namespace ManualTests.Tests
             var result = await serviceProvider.GetService<IBuilder>()
                        .AddTitle(Localization.R_SOME_TITLE)
                        .AddDescription(Localization.R_LOREM_IPSUM)
-                       .AddImage(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage))
+                       .AddImage(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType())) 
                        .Build().ShowAsync();
             Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
         }

@@ -79,7 +79,7 @@ namespace DeviceTests.iOS
             var factory = sp.GetService<ToastImageSourceFactory>();
 
             // act
-            var result = await factory.FromResourceAsync(KResource);
+            var result = await factory.FromResourceAsync(KResource, this.GetType());
 
             // verify
             Assert.NotNull(result);
