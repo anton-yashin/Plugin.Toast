@@ -12,5 +12,10 @@ namespace Plugin.Toast.IOS
         /// When request isn't approved. See additional data for reason.
         /// </exception>
         Task RequestAuthorizationAsync();
+
+        /// <summary>
+        /// True if application is approved to show notifications.
+        /// </summary>
+        bool IsApproved { get; }
     }
 }

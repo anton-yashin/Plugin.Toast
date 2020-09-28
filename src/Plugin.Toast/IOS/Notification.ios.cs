@@ -18,7 +18,8 @@ namespace Plugin.Toast.IOS
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)
         {
-            permission.RequestAuthorizationAsync().GetAwaiter().GetResult();
+            if (permission.IsApproved == false)
+                throw new Exceptions.NotificationException("not authorized. Please call " + nameof(IInitialization) + "." + nameof(IInitialization.InitializeAsync));
             string id = Guid.NewGuid().ToString();
             var trigger = UNCalendarNotificationTrigger.CreateTrigger(deliveryTime.ToNSDateComponents(), false);
             var request = UNNotificationRequest.FromIdentifier(id, builder.Notification, trigger);

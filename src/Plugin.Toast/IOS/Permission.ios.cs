@@ -15,6 +15,7 @@ namespace Plugin.Toast.IOS
         public Permission(IToastOptions toastOptions) => this.toastOptions = toastOptions;
 
         public Task InitializeAsync() => RequestAuthorizationAsync();
+        public bool IsApproved => approved == true;
 
         public async Task RequestAuthorizationAsync()
         {
