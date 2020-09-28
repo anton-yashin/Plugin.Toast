@@ -11,7 +11,7 @@ namespace Plugin.Toast.IOS
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
         const double KMagicTimeout = 7;
-        UNUserNotificationCenter UNC => UNUserNotificationCenter.Current;
+        static UNUserNotificationCenter UNC => UNUserNotificationCenter.Current;
 
         public Notification(INotificationBuilder builder, INotificationReceiver notificationReceiver, IPermission permission)
             => (this.builder, this.notificationReceiver, this.permission) = (builder, notificationReceiver, permission);
@@ -62,7 +62,7 @@ namespace Plugin.Toast.IOS
 
             public ScheduledToastCancellation(string id) => this.id = id;
 
-            public void Dispose() => UNUserNotificationCenter.Current.RemoveDeliveredNotifications(new string[] { id });
+            public void Dispose() => UNC.RemovePendingNotificationRequests(new string[] { id });
         }
     }
 }
