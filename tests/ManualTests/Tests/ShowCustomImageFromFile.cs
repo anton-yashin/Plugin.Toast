@@ -16,7 +16,7 @@ namespace ManualTests.Tests
         private readonly IToastImageSourceFactory toastImageSourceFactory;
 
         public ShowCustomImageFromFile(IServiceProvider serviceProvider)
-            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Show notification with custom image from file")
+            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, Localization.R_DESCRIPTION_FROM_FILE)
         {
             this.toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSourceFactory>();
         }

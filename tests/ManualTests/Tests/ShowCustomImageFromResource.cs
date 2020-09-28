@@ -13,7 +13,7 @@ namespace ManualTests.Tests
         private readonly IToastImageSourceFactory toastImageSourceFactory;
 
         public ShowCustomImageFromResource(IServiceProvider serviceProvider)
-            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Show notification with custom image from embedded resource")
+            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, Localization.R_DESCIRPTION_FROM_RESOURCE)
         {
             this.toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSourceFactory>();
         }
