@@ -121,20 +121,19 @@
     <value>snack bar does not support scheduling</value>
   </data>
   <data name="R_DESCIRPTION_FROM_RESOURCE" xml:space="preserve">
-    <value>Show notification with
-custom image from embedded resource</value>
+    <value>Show notification with custom image from embedded resource</value>
+  </data>
+  <data name="R_DESCRIPTION_CANCEL_SCHEDULED" xml:space="preserve">
+    <value>Cancel scheduled notification. Failed if shown</value>
   </data>
   <data name="R_DESCRIPTION_FROM_FILE" xml:space="preserve">
-    <value>Show notification with
-custom image from file</value>
+    <value>Show notification with custom image from file</value>
   </data>
   <data name="R_DESCRIPTION_FROM_IMAGE" xml:space="preserve">
-    <value>Show notification with
-custom image from platform image</value>
+    <value>Show notification with custom image from platform image</value>
   </data>
   <data name="R_DESCRIPTION_FROM_URI" xml:space="preserve">
-    <value>Show notification with
-custom image from uri</value>
+    <value>Show notification with custom image from uri</value>
   </data>
   <data name="R_DONT_TAP" xml:space="preserve">
     <value>don't tap</value>

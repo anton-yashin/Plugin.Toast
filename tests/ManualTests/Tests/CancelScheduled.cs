@@ -12,7 +12,7 @@ namespace ManualTests.Tests
     sealed class CancelScheduled : AbstractTest<CancelScheduled>
     {
         public CancelScheduled(IServiceProvider serviceProvider)
-            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "cancel scheduled notification\nFailed if shown")
+            : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, Localization.R_DESCRIPTION_CANCEL_SCHEDULED)
         { }
 
         protected override async Task DoRunAsync()
