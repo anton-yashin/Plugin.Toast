@@ -15,6 +15,11 @@ namespace Plugin.Toast
         }
     }
 
+    /// <summary>
+    /// Provides a conversion from resource name to local file name.
+    /// You can override default behaviour by registering in 
+    /// IoC a custom implementation.
+    /// </summary>
     public interface IResourceToFileNameStrategy
     {
         string Convert(string resourcePath, Assembly assembly);
