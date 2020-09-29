@@ -9,6 +9,20 @@ namespace Plugin.Toast
 {
     public static class ServiceCollectionImagesExtensions
     {
+        /// <summary>
+        /// Add the notification manager image support to a service collection
+        /// </summary>
+        /// <remarks>
+        /// Following services will be included to collection:<br/>
+        /// <seealso cref="IExtensionPlugin{TExtension, T1, T2, T3}"/>,<br/>
+        /// <seealso cref="IImageCacher"/>,<br/>
+        /// <seealso cref="IToastImageSourceFactory"/>,<br/>
+        /// <seealso cref="IUriToFileNameStrategy"/>,<br/>
+        /// <seealso cref="IBundleToFileNameStrategy"/>,<br/>
+        /// <seealso cref="IResourceToFileNameStrategy"/>,<br/>
+        /// <seealso cref="IMimeDetector"/>,<br/>
+        /// <seealso cref="HttpClientFactoryServiceCollectionExtensions.AddHttpClient(IServiceCollection)"/>.
+        /// </remarks>
         public static IServiceCollection AddNotificationManagerImagesSupport(this IServiceCollection services)
         {
             services.AddSingleton<IOsImageRouter>();

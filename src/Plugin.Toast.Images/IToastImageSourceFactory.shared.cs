@@ -17,7 +17,8 @@ namespace Plugin.Toast
         /// <param name="cancellationToken"></param>
         /// <returns>Image source</returns>
         /// <remarks>
-        /// On Android and iOS this function uses a <seealso cref="System.Net.Http.IHttpClientFactory"/>
+        /// On Android and iOS this function uses a <seealso cref="System.Net.Http.IHttpClientFactory.CreateClient(string)"/>
+        /// with parameter "<see cref="IToastImageSourceFactory"/>"
         /// to create a <see cref="System.Net.Http.HttpClient"/> to download image.
         /// <br/>
         /// On Android this function uses a <seealso cref="Xamarin.Forms.ImageSource.FromStream(Func{System.IO.Stream})"/>
