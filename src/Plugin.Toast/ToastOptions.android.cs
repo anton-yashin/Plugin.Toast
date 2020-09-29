@@ -27,9 +27,14 @@ namespace Plugin.Toast
         /// </summary>
         public int DefaultIconId { get; set; } = global::Android.Resource.Drawable.IcDialogInfo;
         /// <summary>
-        /// Channel options. Default value <seealso cref="Droid.ChannelOptions"/>
+        /// Channel options. Default value <seealso cref="Droid.ChannelOptions"/>. You can also setup channel using 
+        /// <see cref="IDroidNotificationExtension.SetChannel(Action{IDroidNotifcationChannelBuilder})"/>
         /// </summary>
         public IChannelOptions ChannelOptions { get; set; } = new ChannelOptions();
+
+        /// <summary>
+        /// Activity that used to show a snackbar notification.
+        /// </summary>
         public Activity Activity { get; }
     }
 }
