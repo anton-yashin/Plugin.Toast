@@ -63,6 +63,17 @@ namespace Plugin.Toast
 
     public interface IMimeDetector
     {
+        /// <summary>
+        /// Detects mime by readable data stream.
+        /// </summary>
+        /// <param name="stream">Data stream</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Task that contains a detected mime type. Default value is application/octet-stream</returns>
+        /// <remarks>
+        /// Default implementation read first 12 bytes and checks data
+        /// to match a pattern one of following mime types: image/x-ms-bmp, image/gif, image/jpeg,
+        /// image/psd, image/iff, image/webp, image/vnd.microsoft.icon, image/tiff, image/png, image/jp2
+        /// </remarks>
         Task<string> DetectAsync(Stream stream, CancellationToken cancellationToken = default);
     }
 }
