@@ -15,6 +15,7 @@ namespace Plugin.Toast
         /// or <see cref="Plugin.Toast.IOS.IPlatformSpecificExtension.AddAttachment(UserNotifications.UNNotificationAttachment)"/>
         /// or <see cref="IUwpExtension.AddAppLogoOverride(Uri, ToastGenericAppLogoCrop?, string?, bool?)"/>. If there a
         /// <see cref="ISnackbarExtension"/> or <see cref="IIosLocalNotificationExtension"/> then no action will performed.
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </remarks>
         public static IBuilder AddImage(this IBuilder builder, ToastImageSource imageSource)
             => builder.Add(imageSource, Router.Route.Default);
@@ -27,6 +28,7 @@ namespace Plugin.Toast
         /// or <see cref="Plugin.Toast.IOS.IPlatformSpecificExtension.AddAttachment(UserNotifications.UNNotificationAttachment)"/>
         /// or <see cref="IUwpExtension.AddAppLogoOverride(Uri, ToastGenericAppLogoCrop?, string?, bool?)"/>. If there a
         /// <see cref="ISnackbarExtension"/> or <see cref="IIosLocalNotificationExtension"/> then no action will performed.
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </remarks>
         public static T AddImage<T>(this T builder, ToastImageSource imageSource)
             where T : IBuilderExtension<T>
@@ -36,6 +38,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add a image to builder using <see cref="Plugin.Toast.Droid.IPlatformSpecificExtension.SetLargeIcon(Android.Graphics.Bitmap)"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         public static T AddLargeIcon<T>(this T extension, ToastImageSource imageSource)
             where T : IBuilderExtension<T>, IDroidNotificationExtension
@@ -51,6 +54,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add images to builder using <see cref="Plugin.Toast.IOS.IPlatformSpecificExtension.AddAttachments(IEnumerable{UserNotifications.UNNotificationAttachment})"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         public static T AddAttachments<T>(this T extension, IEnumerable<ToastImageSource> imageSources)
             where T : IBuilderExtension<T>, IIosNotificationExtension
@@ -66,6 +70,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add image to builder using <see cref="Plugin.Toast.IOS.IPlatformSpecificExtension.AddAttachment(UserNotifications.UNNotificationAttachment)"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         public static T AddAttachment<T>(this T extension, ToastImageSource imageSource)
             where T : IBuilderExtension<T>, IIosNotificationExtension
@@ -82,6 +87,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Override the app logo with custom image of choice that will be displayed on the toast.
         /// <seealso cref="IUwpExtension.AddAppLogoOverride(Uri, ToastGenericAppLogoCrop?, string?, bool?)"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         /// <param name="hintCrop">Specify how the image should be cropped.</param>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
@@ -91,6 +97,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add a hero image to the toast. <seealso cref="IUwpExtension.AddHeroImage(Uri, string?, bool?)"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         /// <param name="extension"></param>
         /// <param name="imageSource"></param>
@@ -102,6 +109,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add an image inline with other toast content. <seealso cref="IUwpExtension.AddInlineImage(Uri, string?, bool?, AdaptiveImageCrop?, bool?)"/>
+        /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
