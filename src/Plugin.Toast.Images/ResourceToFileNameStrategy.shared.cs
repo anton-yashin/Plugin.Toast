@@ -15,7 +15,7 @@ namespace Plugin.Toast
         }
     }
 
-    internal interface IResourceToFileNameStrategy
+    public interface IResourceToFileNameStrategy
     {
         string Convert(string resourcePath, Assembly assembly);
     }
