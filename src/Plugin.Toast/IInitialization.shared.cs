@@ -10,7 +10,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Initialize current platform if need.
         /// </summary>
-        /// <exception cref="Exceptions.NotificationException"/>
+        /// <exception cref="Exceptions.NotificationException">On iOS if permission is deniend</exception>
         /// <remarks>
         /// Actual implementation available only on iOS. It request a
         /// permission to show notification. Other platforms do have a dummy

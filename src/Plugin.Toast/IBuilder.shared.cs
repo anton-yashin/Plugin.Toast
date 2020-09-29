@@ -235,6 +235,14 @@ namespace Plugin.Toast
         /// </exception>
         INotification Build();
 
+        /// <summary>
+        /// Select a <see cref="ISpecificExtensionConfiguration{TExtension, TToken}"/> from your IoC to 
+        /// configure this builder. If no configuration found or there no configuration with suitable token,
+        /// then this function do nothing.
+        /// </summary>
+        /// <typeparam name="T">token type</typeparam>
+        /// <param name="token">Value to match with <see cref="ISpecificExtensionConfiguration{TExtension, TToken}.Token"/>.</param>
+        /// <returns></returns>
         IBuilder UseConfiguration<T>(T token);
     }
 
