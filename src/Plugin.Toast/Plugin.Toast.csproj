@@ -10,6 +10,7 @@
     <RootNamespace>Plugin.Toast</RootNamespace>
     <PackageId>Xamarin.Plugin.Toast</PackageId>
     <Summary>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Summary>
+    <Description>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Description>
     <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast</PackageTags>
     <Title>Plugin.Toast</Title>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
