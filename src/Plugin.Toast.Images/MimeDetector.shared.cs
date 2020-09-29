@@ -19,11 +19,17 @@ namespace Plugin.Toast
         internal const string KTiffMime = "image/tiff";
         internal const string KPngMime = "image/png";
         internal const string KJp2Mime = "image/jp2";
+        internal const string KOctetStreamMime = "application/octet-stream";
 
-        const int KMaxRead = 12;
+        internal const int KMaxRead = 12;
 
         public async Task<string> DetectAsync(Stream stream, CancellationToken cancellationToken = default)
         {
+            _ = stream ?? throw new ArgumentNullException(nameof(stream));
+            if (stream.CanRead == false)
+                throw new ArgumentException("Stream can't be read", nameof(stream));
+            if (stream.CanSeek)
+                stream.Seek(0, SeekOrigin.Begin);
             byte[] data = new byte[KMaxRead];
             var read = await stream.ReadAsync(data, 0, data.Length);
             if (read > 0)
@@ -57,7 +63,7 @@ namespace Plugin.Toast
                     return KJp2Mime;
                 }
             }
-            return "application/octet-stream";
+            return KOctetStreamMime;
         }
     }
 

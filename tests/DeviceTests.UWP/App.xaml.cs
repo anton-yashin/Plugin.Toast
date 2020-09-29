@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using UnitTests;
 using UnitTests.HeadlessRunner;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Foundation;
 using UIKit;
+using UnitTests;
 using UnitTests.HeadlessRunner;
 
 namespace DeviceTests.iOS

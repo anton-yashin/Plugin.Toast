@@ -9,6 +9,7 @@ using UnitTests.HeadlessRunner;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Content.PM;
+using UnitTests;
 
 namespace DeviceTests.Android
 {

@@ -6,10 +6,47 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DeviceTests
+namespace UnitTests
 {
     public class MimeDetector_Tests
     {
+        [Fact]
+        public async Task ArgumentNullException()
+        {
+            // prepare
+            var md = new MimeDetector();
+
+            // act && verify
+            await Assert.ThrowsAsync<ArgumentNullException>(() => md.DetectAsync(null!));
+        }
+
+        [Fact]
+        public async Task ArgumentException()
+        {
+            // prepare
+            var invalid = new InvalidStream();
+            var md = new MimeDetector();
+
+            // act && verify
+            await Assert.ThrowsAsync<ArgumentException>(() => md.DetectAsync(invalid));
+        }
+
+        [Fact]
+        public async Task SeekToStart()
+        {
+            // prepare
+            var ms = new MemoryStream(new byte[1024]);
+            var md = new MimeDetector();
+            ms.Seek(512, SeekOrigin.Begin);
+
+            // act
+            var result = await md.DetectAsync(ms);
+
+            // verify
+            Assert.Equal(MimeDetector.KOctetStreamMime, result);
+            Assert.Equal(MimeDetector.KMaxRead, ms.Position);
+        }
+
         [Theory, MemberData(nameof(GetTestData))]
         public async Task Test(byte[] data, string expected)
         {
@@ -39,6 +76,20 @@ namespace DeviceTests
 //            yield return new object[] { new byte[] { (byte)'M', (byte)'M', 0x00, 0x2A }, MimeDetector.};
             yield return new object[] { new byte[] { 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a }, MimeDetector.KPngMime};
             yield return new object[] { new byte[] { 0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a }, MimeDetector.KJp2Mime};
+        }
+
+        sealed class InvalidStream : Stream
+        {
+            public override bool CanRead => false;
+            public override bool CanSeek => false;
+            public override bool CanWrite => false;
+            public override long Length => 0;
+            public override long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public override void Flush() => throw new NotImplementedException();
+            public override int Read(byte[] buffer, int offset, int count) => throw new NotImplementedException();
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotImplementedException();
+            public override void SetLength(long value) => throw new NotImplementedException();
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotImplementedException();
         }
     }
 }
