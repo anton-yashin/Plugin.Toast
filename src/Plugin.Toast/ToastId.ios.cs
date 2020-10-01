@@ -12,7 +12,7 @@ namespace Plugin.Toast
         [DataMember]
         public string Id { get; }
 
-        public bool Equals(ToastId? other) => other != null && Id != other.Id;
+        public bool Equals(ToastId? other) => other != null && Id == other.Id;
 
         public override bool Equals(object obj) => Equals(obj as ToastId);
 

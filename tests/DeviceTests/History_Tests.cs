@@ -7,6 +7,8 @@ namespace DeviceTests
 {
     public class History_Tests
     {
+        const string KRunningTest = "running test please ignore";
+
         [Fact]
         public Task IsDeliveredAndRemove()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
@@ -15,10 +17,8 @@ namespace DeviceTests
                 var nm = Platform.CreateNotificationManager();
                 var history = Platform.CreateHistory();
 
-                var task = nm.GetBuilder().AddTitle("some title").Build()
+                var task = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemove)).AddDescription(KRunningTest).Build()
                     .ShowAsync(out var toastId);
-
-                await Task.Delay(100);
 
                 var delivered = await history.IsDeliveredAsync(toastId);
                 Assert.True(delivered);
@@ -29,7 +29,6 @@ namespace DeviceTests
 
                 //verify
                 Assert.False(delivered);
-                await task;
             });
 
         [Fact]
@@ -41,11 +40,10 @@ namespace DeviceTests
                 var history = Platform.CreateHistory();
                 var group = Guid.NewGuid().ToString();
 
-                var task = nm.GetBuilder().AddTitle("some title")
+                var result = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemoveWithUwpGroup))
+                    .AddDescription(KRunningTest)
                     .WhenUsing<IUwpExtension>(u => u.SetGroup(group)).Build()
                     .ShowAsync(out var toastId);
-
-                await Task.Delay(100);
 
                 var delivered = await history.IsDeliveredAsync(toastId);
                 Assert.True(delivered);
@@ -56,7 +54,6 @@ namespace DeviceTests
 
                 //verify
                 Assert.False(delivered);
-                await task;
             });
 
         [Fact]
@@ -67,10 +64,9 @@ namespace DeviceTests
                 var nm = Platform.CreateNotificationManager();
                 var history = Platform.CreateHistory();
 
-                var task = nm.GetBuilder().AddTitle("some title").Build()
+                var result = await nm.GetBuilder().AddTitle(nameof(RemoveAll))
+                    .AddDescription(KRunningTest).Build()
                     .ShowAsync(out var toastId);
-
-                await Task.Delay(100);
 
                 var delivered = await history.IsDeliveredAsync(toastId);
                 Assert.True(delivered);
@@ -81,7 +77,6 @@ namespace DeviceTests
 
                 //verify
                 Assert.False(delivered);
-                await task;
             });
 
     }

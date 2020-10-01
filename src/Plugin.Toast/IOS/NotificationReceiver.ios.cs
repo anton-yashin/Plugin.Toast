@@ -59,12 +59,12 @@ namespace Plugin.Toast.IOS
         sealed class RegistrationToken : IDisposable
         {
             private readonly NotificationReceiver receiver;
-            private readonly ToastId id;
+            private readonly ToastId toastId;
 
             public RegistrationToken(NotificationReceiver receiver, ToastId toastId)
-                => (this.receiver, this.id) = (receiver, id);
+                => (this.receiver, this.toastId) = (receiver, toastId);
 
-            public void Dispose() => receiver.RemoveRequest(id);
+            public void Dispose() => receiver.RemoveRequest(toastId);
         }
     }
 }
