@@ -14,7 +14,7 @@ namespace Plugin.Toast
 
         public bool Equals(ToastId? other) => other != null && Id == other.Id;
 
-        public override bool Equals(object obj) => Equals(obj as ToastId);
+        public override bool Equals(object? obj) => Equals(obj as ToastId);
 
         public override int GetHashCode() => Id.GetHashCode();
     }

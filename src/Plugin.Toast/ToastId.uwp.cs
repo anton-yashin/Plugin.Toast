@@ -3,7 +3,7 @@ using Windows.UI.Notifications;
 
 namespace Plugin.Toast
 {
-    public sealed partial class ToastId
+    public sealed partial class ToastId : IEquatable<ToastId>
     {
         public string Tag { get; }
         public string? Group { get; }
@@ -29,6 +29,15 @@ namespace Plugin.Toast
                 group: toastNotification.Group,
                 notificationType: ToastIdNotificationType.ScheduledToastNotification
                 );
+
+        (string tag, string? group, ToastIdNotificationType notificationType) AsTuple()
+            => (Tag, Group, NotificationType);
+
+        public bool Equals(ToastId? other) => other != null && AsTuple() == other.AsTuple();
+
+        public override bool Equals(object? obj) => Equals(obj as ToastId);
+
+        public override int GetHashCode() => AsTuple().GetHashCode();
     }
 
     public enum ToastIdNotificationType

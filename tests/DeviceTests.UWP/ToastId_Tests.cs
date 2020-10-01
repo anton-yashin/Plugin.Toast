@@ -1,5 +1,7 @@
-﻿using Plugin.Toast;
+﻿#nullable enable
+using Plugin.Toast;
 using System;
+using System.Collections.Generic;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 using Xunit;
@@ -8,6 +10,34 @@ namespace DeviceTests.UWP
 {
     public class ToastId_Tests
     {
+        [Theory, MemberData(nameof(GetEqualsData))]
+        public void Equals_(string tag, string group, ToastIdNotificationType notificationType)
+        {
+            // prepare
+            var left = new ToastId(tag, group, notificationType);
+            var right = new ToastId(tag, group, notificationType);
+
+            // act & verify
+            Assert.Equal(left, right);
+            Assert.Equal(left.GetHashCode(), right.GetHashCode());
+        }
+
+        static IEnumerable<object?[]> GetEqualsData()
+        {
+            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.Unknown };
+            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ToastNotification };
+            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.Unknown };
+            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.ToastNotification };
+            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.Unknown };
+            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.ToastNotification };
+            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { null, null, ToastIdNotificationType.Unknown };
+            yield return new object?[] { null, null, ToastIdNotificationType.ToastNotification };
+            yield return new object?[] { null, null, ToastIdNotificationType.ScheduledToastNotification };
+        }
+
         [Fact]
         public void FromToastNotification()
         {

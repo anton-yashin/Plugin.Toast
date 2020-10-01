@@ -18,9 +18,11 @@ namespace Plugin.Toast
             Tag = tag;
         }
 
-        public bool Equals(ToastId? other) => other != null && (Id, Tag) == (other.Id, other.Tag);
+        (int id, string tag) AsTuple() => (Id, Tag);
 
-        public override bool Equals(object obj) => Equals(obj as ToastId);
+        public bool Equals(ToastId? other) => other != null && AsTuple() == other.AsTuple();
+
+        public override bool Equals(object? obj) => Equals(obj as ToastId);
 
         public override int GetHashCode() => (Id, Tag).GetHashCode();
 
