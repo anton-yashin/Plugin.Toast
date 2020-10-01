@@ -12,6 +12,7 @@ namespace Plugin.Toast
         private readonly IToastOptions options;
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
+        private static IHistory? historyInstance;
 
         internal NotificationManager() : this(new ToastOptions()) { }
         internal NotificationManager(IToastOptions options)
@@ -27,8 +28,17 @@ namespace Plugin.Toast
             this.permission = permission;
         }
 
-        public static void Init() => instance = new NotificationManager();
-        public static void Init(IToastOptions options) => instance = new NotificationManager(options);
+        public static void Init()
+        {
+            historyInstance = new History();
+            instance = new NotificationManager();
+        }
+
+        public static void Init(IToastOptions options)
+        {
+            historyInstance = new History();
+            instance = new NotificationManager(options);
+        }
 
         IBuilder PlatformBuildNotification()
         {
@@ -47,5 +57,6 @@ namespace Plugin.Toast
         }
 
         Task PlatformInitializeAsync() => permission.RequestAuthorizationAsync();
+        static IHistory PlatformGetHistory() => historyInstance ?? throw new InvalidOperationException("please call init");
     }
 }

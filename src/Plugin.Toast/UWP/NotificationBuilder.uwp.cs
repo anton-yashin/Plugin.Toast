@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Plugin.Toast.UWP
 {
-    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, IBuilder
+    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, IBuilder, INotificationBuilder
     {
         readonly ToastContentBuilder tbc;
         private readonly IServiceProvider? serviceProvider;
@@ -37,7 +37,7 @@ namespace Plugin.Toast.UWP
             if (buildCompleted == true)
                 throw Exceptions.ExceptionUtils.BuildTwice;
             buildCompleted = true;
-            return new Notification(tbc.Content);
+            return new Notification(tbc.Content, this);
         }
 
         IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
@@ -197,6 +197,37 @@ namespace Plugin.Toast.UWP
         public IUwpExtension Use(IExtensionConfiguration<IUwpExtension> visitor)
         {
             visitor.Configure(this);
+            return this;
+        }
+
+        public IUwpExtension SetTag(string tag)
+        {
+            Tag = tag;
+            return this;
+        }
+
+        public IUwpExtension SetGroup(string group)
+        {
+            Group = group;
+            return this;
+        }
+
+        public IUwpExtension SetRemoteId(string remoteId)
+        {
+            RemoteId = remoteId;
+            return this;
+        }
+
+        public IUwpExtension SetupSnooze(TimeSpan snoozeInterval, uint maximumSnoozeCount)
+        {
+            SnoozeInterval = snoozeInterval;
+            MaximumSnoozeCount = maximumSnoozeCount;
+            return this;
+        }
+
+        public IUwpExtension SetSuppressPopup(bool suppressPopup)
+        {
+            SuppressPopup = suppressPopup;
             return this;
         }
 
@@ -361,5 +392,15 @@ namespace Plugin.Toast.UWP
 
         #endregion
 
+        #region INotificationBuilder implementation
+
+        public string? Tag { get; private set; }
+        public string? Group { get; private set; }
+        public string? RemoteId { get; private set; }
+        public TimeSpan? SnoozeInterval { get; private set; }
+        public uint MaximumSnoozeCount { get; private set; }
+        public bool SuppressPopup { get; private set; }
+
+        #endregion
     }
 }

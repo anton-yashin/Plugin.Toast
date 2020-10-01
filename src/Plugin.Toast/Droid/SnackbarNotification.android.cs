@@ -16,7 +16,7 @@ namespace Plugin.Toast.Droid
             this.snackbarBuilder = snackbarBuilder;
         }
 
-        public Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
+        public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<NotificationResult>();
             var view = options.Activity.FindViewById(global::Android.Resource.Id.Content);
@@ -27,6 +27,7 @@ namespace Plugin.Toast.Droid
                 snackbar.SetActionTextColor(snackbarBuilder.ActionTextColor.Value);
             snackbar.AddCallback(new Callback(tcs));
             snackbar.Show();
+            toastId = ToastId.New();
             if (cancellationToken.CanBeCanceled)
                 return tcs.WatchCancellationAsync(cancellationToken, () => snackbar.Dismiss());
             return tcs.Task;
@@ -74,6 +75,8 @@ namespace Plugin.Toast.Droid
             private readonly Snackbar snackbar;
 
             public ScheduledCancellation(Snackbar snackbar) => this.snackbar = snackbar;
+
+            public ToastId ToastId { get; } = ToastId.New();
 
             public void Dispose() => snackbar.Dismiss();
         }

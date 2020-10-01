@@ -145,12 +145,37 @@ namespace DeviceTests.UWP.Mocks
             throw new NotImplementedException();
         }
 
+        public IUwpExtension SetGroup(string group)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUwpExtension SetRemoteId(string remoteId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUwpExtension SetSuppressPopup(bool suppressPopup)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUwpExtension SetTag(string tag)
+        {
+            throw new NotImplementedException();
+        }
+
         public IUwpExtension SetToastDuration(ToastDuration duration)
         {
             throw new NotImplementedException();
         }
 
         public IUwpExtension SetToastScenario(ToastScenario scenario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUwpExtension SetupSnooze(TimeSpan snoozeInterval, uint maximumSnoozeCount)
         {
             throw new NotImplementedException();
         }

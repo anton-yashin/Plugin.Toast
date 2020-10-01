@@ -15,6 +15,7 @@ namespace Plugin.Toast
             _ = @this ?? throw new ArgumentNullException(nameof(@this));
             _ = options ?? throw new ArgumentNullException(nameof(options));
             @this.TryAddTransient<IBuilder, NotificationBuilder>();
+            @this.TryAddSingleton<IHistory, History>();
             return @this.AddBase();
         }
 

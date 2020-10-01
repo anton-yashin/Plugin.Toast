@@ -191,5 +191,46 @@ namespace Plugin.Toast
         /// <param name="scenario">Scenario to be used for the toast's behavior</param>
         /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
         IUwpExtension SetToastScenario(ToastScenario scenario);
+
+        /// <summary>
+        /// Sets a string that uniquely identifies a toast notification inside a group.
+        /// </summary>
+        /// <param name="tag">Tag</param>
+        /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
+        IUwpExtension SetTag(string tag);
+        /// <summary>
+        /// Sets the group identifier for the notification.
+        /// </summary>
+        /// <param name="group">Group identifier</param>
+        /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
+        IUwpExtension SetGroup(string group);
+        /// <summary>
+        /// Sets a remote id for the notification that enables the system to correlate
+        /// this notification with another one generated on another device.
+        /// </summary>
+        /// <param name="remoteId">Remote id</param>
+        /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
+        IUwpExtension SetRemoteId(string remoteId);
+        /// <summary>
+        /// Setup a snoze interval and maximum snooze count. Works with <see cref="INotification.ScheduleTo(DateTimeOffset)"/>
+        /// </summary>
+        /// <param name="snoozeInterval">
+        /// The amount of time between occurrences of the notification.<br/>
+        /// The time between occurrences of the notification. This value will be between
+        /// 60 seconds and 60 minutes, inclusive.
+        /// </param>
+        /// <param name="maximumSnoozeCount">
+        /// The maximum number of times to display this notification.<br/>
+        /// This will be a value between 1 and 5, inclusive.
+        /// </param>
+        /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
+        IUwpExtension SetupSnooze(TimeSpan snoozeInterval, uint maximumSnoozeCount);
+        /// <summary>
+        /// Sets whether a toast's pop-up UI is displayed on the user's screen.
+        /// Works with <see cref="INotification.ScheduleTo(DateTimeOffset)"/>
+        /// </summary>
+        /// <param name="suppressPopup">True if notification must be placed silently in notification center</param>
+        /// <returns>The current instance of <see cref="IUwpExtension"/></returns>
+        IUwpExtension SetSuppressPopup(bool suppressPopup);
     }
 }

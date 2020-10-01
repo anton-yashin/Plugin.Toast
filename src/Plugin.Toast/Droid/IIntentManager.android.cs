@@ -19,7 +19,7 @@ namespace Plugin.Toast.Droid
         /// if can't get PendingIntent for activity or broadcast from Application.Context
         /// </exception>
         /// <returns>Task source for result of <see cref="INotification.ShowAsync(System.Threading.CancellationToken)"/></returns>
-        TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, out int notificationId);
+        TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, ToastId notificationId);
         /// <summary>
         /// Creates a content intent for notifications.
         /// </summary>
@@ -30,6 +30,6 @@ namespace Plugin.Toast.Droid
         /// if can't get PendingIntent for activity or broadcast from Application.Context
         /// </exception>
         /// <returns>pending intent to use in <seealso cref="global::Android.App.AlarmManager"/></returns>
-        PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, out int notificationId);
+        PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, ToastId notificationId);
     }
 }

@@ -24,7 +24,6 @@
         /// <summary>
         /// The toast notification had been shown for the maximum allowed time and was faded out.
         /// </summary>
-        TimedOut
-
+        TimedOut,
     }
 }

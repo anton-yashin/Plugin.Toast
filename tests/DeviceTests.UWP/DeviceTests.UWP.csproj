@@ -124,6 +124,7 @@
     <Compile Include="BuilderExtensions_Tests.cs" />
     <Compile Include="Mocks\MockUwpExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToastId_Tests.cs" />
     <Compile Include="ToastImageSourceFactory_Tests.cs" />
     <Compile Include="UwpImageRouter_Tests.cs" />
   </ItemGroup>

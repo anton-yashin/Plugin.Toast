@@ -11,41 +11,50 @@ namespace Plugin.Toast.Droid
     {
         private readonly INotificationBuilder notificationBuilder;
         private readonly IIntentManager intentManager;
+        private readonly IAndroidHistory history;
 
-        public Notification(INotificationBuilder notificationBuilder, IIntentManager intentManager)
+        public Notification(INotificationBuilder notificationBuilder, IIntentManager intentManager, IAndroidHistory history)
         {
             this.notificationBuilder = notificationBuilder ?? throw new ArgumentNullException(nameof(notificationBuilder));
             this.intentManager = intentManager;
+            this.history = history;
         }
 
-        public async Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
+        public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {
-            var tcs = intentManager.RegisterToShowImmediatly(notificationBuilder, out var notificationId);
+            toastId = ToastId.New();
+            return PrivateShowAsync(toastId, cancellationToken);
+        }
+
+        async Task<NotificationResult> PrivateShowAsync(ToastId toastId, CancellationToken cancellationToken)
+        {
+            var tcs = intentManager.RegisterToShowImmediatly(notificationBuilder, toastId);
             var notification = notificationBuilder.Build();
             var anm = ANotificationManager.FromContext(Application.Context)
                 ?? throw new InvalidOperationException(ErrorStrings.KNotificationManagerError);
             using var timer = notificationBuilder.Timeout == Timeout.InfiniteTimeSpan ? null : new Timer(_ =>
             {
                 if (notificationBuilder.CleanupOnTimeout)
-                    anm.Cancel(notificationId);
+                    history.Remove(toastId);
                 tcs.TrySetResult(NotificationResult.TimedOut);
             }, null, notificationBuilder.Timeout, Timeout.InfiniteTimeSpan);
-            anm.Notify(notificationId, notification);
+            history.Add(notification, toastId);
             if (cancellationToken.CanBeCanceled)
-                return await tcs.WatchCancellationAsync(cancellationToken, () => anm.Cancel(notificationId));
+                return await tcs.WatchCancellationAsync(cancellationToken, () => history.Remove(toastId));
             return await tcs.Task;
         }
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)
         {
+            var tid = ToastId.New();
             var @do = CalculateDeliveryOffset(deliveryTime);
-            var pi = intentManager.RegisterToShowWithDelay(notificationBuilder, out var notificationId);
+            var pi = intentManager.RegisterToShowWithDelay(notificationBuilder, tid);
 
             var am = AlarmManager.FromContext(Application.Context)
                 ?? throw new InvalidOperationException(ErrorStrings.KAlarmManagerError);
             am.Set(AlarmType.ElapsedRealtimeWakeup, @do, pi);
 
-            return new AlarmCancellation(pi);
+            return new AlarmCancellation(pi, tid);
         }
 
         long CalculateDeliveryOffset(DateTimeOffset deliveryTime)
@@ -68,10 +77,13 @@ namespace Plugin.Toast.Droid
         {
             private readonly PendingIntent pendingIntent;
 
-            public AlarmCancellation(PendingIntent pendingIntent)
+            public AlarmCancellation(PendingIntent pendingIntent, ToastId toastId)
             {
                 this.pendingIntent = pendingIntent;
+                ToastId = toastId;
             }
+
+            public ToastId ToastId { get; }
 
             public void Dispose()
             {

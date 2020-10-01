@@ -6,32 +6,32 @@ namespace Plugin.Toast.IOS
 {
     sealed class NotificationReceiver : UNUserNotificationCenterDelegate, INotificationReceiver
     {
-        private readonly Dictionary<string, Request> requests;
+        private readonly Dictionary<ToastId, Request> requests;
 
         public NotificationReceiver()
         {
-            requests = new Dictionary<string, Request>();
+            requests = new Dictionary<ToastId, Request>();
         }
 
-        public IDisposable RegisterRequest(string id, Action onShown, Action onTapped)
+        public IDisposable RegisterRequest(ToastId toastId, Action onShown, Action onTapped)
         {
             lock (requests)
-                requests[id] = new Request(onShown, onTapped);
+                requests[toastId] = new Request(onShown, onTapped);
             UNUserNotificationCenter.Current.Delegate = this;
-            return new RegistrationToken(this, id);
+            return new RegistrationToken(this, toastId);
         }
 
-        void RemoveRequest(string id)
+        void RemoveRequest(ToastId toastId)
         {
             lock (requests)
-                requests.Remove(id);
+                requests.Remove(toastId);
         }
 
-        Request? GetRequest(string id)
+        Request? GetRequest(ToastId toastId)
         {
             lock (requests)
             {
-                if (requests.TryGetValue(id, out var value))
+                if (requests.TryGetValue(toastId, out var value))
                     return value;
             }
             return null;
@@ -39,12 +39,12 @@ namespace Plugin.Toast.IOS
 
         public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            GetRequest(notification.Request.Identifier)?.OnShown();
+            GetRequest(new ToastId(notification.Request.Identifier))?.OnShown();
             completionHandler(UNNotificationPresentationOptions.Alert);
         }
 
         public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-            => GetRequest(response.Notification.Request.Identifier)?.OnTapped();
+            => GetRequest(new ToastId(response.Notification.Request.Identifier))?.OnTapped();
 
         sealed class Request
         {
@@ -59,9 +59,9 @@ namespace Plugin.Toast.IOS
         sealed class RegistrationToken : IDisposable
         {
             private readonly NotificationReceiver receiver;
-            private readonly string id;
+            private readonly ToastId id;
 
-            public RegistrationToken(NotificationReceiver receiver, string id)
+            public RegistrationToken(NotificationReceiver receiver, ToastId toastId)
                 => (this.receiver, this.id) = (receiver, id);
 
             public void Dispose() => receiver.RemoveRequest(id);

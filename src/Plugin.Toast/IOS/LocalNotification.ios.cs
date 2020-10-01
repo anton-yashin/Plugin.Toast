@@ -23,18 +23,22 @@ namespace Plugin.Toast.IOS
             return new ScheduledToastCancellation(notification);
         }
 
-        public Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
+        public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {
             var notification = builder.Notification;
             UIApplication.SharedApplication.PresentLocalNotificationNow(notification);
+            toastId = new ToastId(Guid.NewGuid().ToString());
             return Task.FromResult(NotificationResult.Unknown);
         }
 
         sealed class ScheduledToastCancellation : IScheduledToastCancellation
         {
+            private readonly string fakeId = Guid.NewGuid().ToString();
             private readonly UILocalNotification notification;
 
             public ScheduledToastCancellation(UILocalNotification notification) => this.notification = notification;
+
+            public ToastId ToastId => new ToastId(fakeId);
 
             public void Dispose() => UIApplication.SharedApplication.CancelLocalNotification(notification);
         }

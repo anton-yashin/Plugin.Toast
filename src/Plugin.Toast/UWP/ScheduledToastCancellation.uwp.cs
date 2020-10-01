@@ -14,9 +14,12 @@ namespace Plugin.Toast.UWP
         {
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
             this.toastNotification = toastNotification;
+            ToastId = ToastId.FromNotification(toastNotification);
 
             toastNotifier.AddToSchedule(toastNotification);
         }
+
+        public ToastId ToastId { get; }
 
         public void Dispose() => toastNotifier.RemoveFromSchedule(toastNotification);
     }

@@ -15,6 +15,7 @@ namespace Plugin.Toast.Droid
     {
         private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
+        private readonly IAndroidHistory history;
         private readonly IServiceProvider? serviceProvider;
         private readonly ILogger<NotificationBuilder>? logger;
         private readonly NotificationCompat.Builder builder;
@@ -26,10 +27,11 @@ namespace Plugin.Toast.Droid
         bool forceOpenAppOnNotificationTap;
         bool buildCompleted;
 
-        public NotificationBuilder(IToastOptions options, IIntentManager intentManager, IServiceProvider? serviceProvider)
+        public NotificationBuilder(IToastOptions options, IIntentManager intentManager, IAndroidHistory history, IServiceProvider? serviceProvider)
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.intentManager = intentManager ?? throw new ArgumentNullException(nameof(intentManager));
+            this.history = history;
             this.serviceProvider = serviceProvider;
             this.UseConfigurationFrom<IDroidNotificationExtension>(serviceProvider);
             this.UseConfigurationFrom<IPlatformSpecificExtension>(serviceProvider);
@@ -110,7 +112,7 @@ namespace Plugin.Toast.Droid
                 throw Exceptions.ExceptionUtils.BuildTwice;
             buildCompleted = true;
             BuilderSetDefaults();
-            return new Notification(this, intentManager);
+            return new Notification(this, intentManager, history);
         }
 
         IBuilder IBuilder.AddDescription(string description) => AddDescription(description);

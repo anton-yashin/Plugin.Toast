@@ -29,16 +29,21 @@ namespace Plugin.Toast.IOS
             return new ScheduledToastCancellation(id);
         }
 
-        public async Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
+        public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
+        {
+            toastId = new ToastId(Guid.NewGuid().ToString());
+            return PrivateShowAsync(toastId, cancellationToken);
+        }
+
+        async Task<NotificationResult> PrivateShowAsync(ToastId toastId, CancellationToken cancellationToken)
         {
             await permission.RequestAuthorizationAsync();
             var tcs = new TaskCompletionSource<NotificationResult>();
-            string id = Guid.NewGuid().ToString();
             var trigger = UNTimeIntervalNotificationTrigger.CreateTrigger(0.25, false);
-            var request = UNNotificationRequest.FromIdentifier(id, builder.Notification, trigger);
+            var request = UNNotificationRequest.FromIdentifier(toastId.Id, builder.Notification, trigger);
 
             using (var timer = new Timer(_ => tcs.TrySetResult(NotificationResult.TimedOut), null, Timeout.Infinite, Timeout.Infinite))
-            using (notificationReceiver.RegisterRequest(id,
+            using (notificationReceiver.RegisterRequest(toastId,
                 onShown: () => timer.Change(TimeSpan.FromSeconds(KMagicTimeout), Timeout.InfiniteTimeSpan),
                 onTapped: () => tcs.TrySetResult(NotificationResult.Activated)))
             {
@@ -51,7 +56,7 @@ namespace Plugin.Toast.IOS
 
                 if (cancellationToken.CanBeCanceled)
                     return await tcs.WatchCancellationAsync(cancellationToken,
-                        onCancellation: () => UNC.RemoveDeliveredNotifications(new string[] { id }));
+                        onCancellation: () => UNC.RemoveDeliveredNotifications(new string[] { toastId.Id }));
                 return await tcs.Task;
             }
         }
@@ -61,6 +66,8 @@ namespace Plugin.Toast.IOS
             private readonly string id;
 
             public ScheduledToastCancellation(string id) => this.id = id;
+
+            public ToastId ToastId => new ToastId(id);
 
             public void Dispose() => UNC.RemovePendingNotificationRequests(new string[] { id });
         }

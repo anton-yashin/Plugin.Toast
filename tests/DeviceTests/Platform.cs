@@ -28,6 +28,17 @@ namespace DeviceTests
 #endif
         }
 
+        public static IHistory CreateHistory()
+        {
+#if __ANDROID__
+            return new Plugin.Toast.Droid.HistoryM();
+#elif NETFX_CORE
+            return new Plugin.Toast.UWP.History();
+#elif __IOS__
+            return new Plugin.Toast.IOS.History();
+#endif
+        }
+
         public static Task iOS_InvokeOnMainThreadAsync(Action action)
         {
             _ = action ?? throw new ArgumentNullException(nameof(action));

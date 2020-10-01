@@ -9,7 +9,7 @@ namespace Plugin.Toast
         private static INotificationManager? instance = null;
 
         public static INotificationManager Instance => instance ?? throw new InvalidOperationException("please call init");
-
+        public static IHistory History => PlatformGetHistory();
 
         public IBuilder GetBuilder() => PlatformBuildNotification();
 

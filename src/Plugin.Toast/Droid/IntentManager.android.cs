@@ -13,9 +13,8 @@ namespace Plugin.Toast.Droid
     sealed class IntentManager : IIntentManager
     {
         const int KInvalidId = -1;
-        int idgen;
         readonly object mutex;
-        readonly Dictionary<int, TaskCompletionSource<NotificationResult>> tasksByNotificationId;
+        readonly Dictionary<ToastId, TaskCompletionSource<NotificationResult>> tasksByNotificationId;
         readonly IToastOptions options;
         private readonly ILogger<IntentManager>? logger;
         readonly NotificationReceiver receiver;
@@ -24,7 +23,7 @@ namespace Plugin.Toast.Droid
         public IntentManager(IToastOptions options, IServiceProvider? serviceProvider)
         {
             this.mutex = new object();
-            this.tasksByNotificationId = new Dictionary<int, TaskCompletionSource<NotificationResult>>();
+            this.tasksByNotificationId = new Dictionary<ToastId, TaskCompletionSource<NotificationResult>>();
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.logger = serviceProvider?.GetService<ILogger<IntentManager>>();
             this.intentFilter = new IntentFilter();
@@ -36,82 +35,80 @@ namespace Plugin.Toast.Droid
             Application.Context.RegisterReceiver(receiver, intentFilter);
         }
 
-        TaskCompletionSource<NotificationResult>? PopTask(int notificationId)
+        TaskCompletionSource<NotificationResult>? PopTask(ToastId toastId)
         {
             lock (mutex)
             {
-                if (tasksByNotificationId.Remove(notificationId, out var tcs))
+                if (tasksByNotificationId.Remove(toastId, out var tcs))
                     return tcs;
             }
             return null;
         }
 
-        public PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, out int notificationId)
+        public PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, ToastId toastId)
         {
             // https://stackoverflow.com/questions/36902667/how-to-schedule-notification-in-android
-
-            notificationId = Interlocked.Increment(ref idgen);
 
             if (builder.UsingCustomContentIntent == false)
             {
                 var intent = new Intent(IntentConstants.KTapped);
                 builder.AddCustomArgsTo(intent);
 
-                var activity = PendingIntent.GetActivity(Application.Context, GetRequestCode(notificationId), intent, PendingIntentFlags.CancelCurrent)
+                var activity = PendingIntent.GetActivity(Application.Context, toastId.ActivityRequestCode, intent, PendingIntentFlags.CancelCurrent)
                     ?? throw new InvalidOperationException(ErrorStrings.KActivityError);
                 builder.SetContentIntent(activity);
             }
 
             var notification = builder.Build();
             var notificationIntent = new Intent(IntentConstants.KScheduled);
-            notificationIntent.PutExtra(IntentConstants.KNotificationId, notificationId);
+            notificationIntent.PutExtra(IntentConstants.KNotificationId, toastId.Id);
+            notificationIntent.PutExtra(IntentConstants.KNotifcationTag, toastId.Tag);
             notificationIntent.PutExtra(IntentConstants.KNotification, notification);
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, GetRequestCode(notificationId), notificationIntent, PendingIntentFlags.CancelCurrent)
+            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, notificationIntent, PendingIntentFlags.CancelCurrent)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingIntent;
         }
 
-        public TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, out int notificationId)
+        public TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, ToastId toastId)
         {
             var (cdi, cci) = (builder.UsingCustomDeleteIntent, builder.UsingCustomContentIntent);
-            notificationId = Interlocked.Increment(ref idgen);
             TaskCompletionSource<NotificationResult> result = new TaskCompletionSource<NotificationResult>();
             if (cdi == false)
-                builder.SetDeleteIntent(CreateDeleteIntent(builder, notificationId));
+                builder.SetDeleteIntent(CreateDeleteIntent(builder, toastId));
             if (cci == false)
-                builder.SetContentIntent(CreateContentIntent(builder, notificationId));
+                builder.SetContentIntent(CreateContentIntent(builder, toastId));
 
             lock (mutex)
-                tasksByNotificationId.Add(notificationId, result);
+                tasksByNotificationId.Add(toastId, result);
             if (cci)
                 result.TrySetResult(NotificationResult.Unknown);
             return result;
         }
 
-        static PendingIntent CreateDeleteIntent(INotificationBuilder builder, int notificationId)
+        static PendingIntent CreateDeleteIntent(INotificationBuilder builder, ToastId toastId)
         {
             var dismissIntent = new Intent(IntentConstants.KDismissed);
-            dismissIntent.PutExtra(IntentConstants.KNotificationId, notificationId);
+            dismissIntent.PutExtra(IntentConstants.KNotificationId, toastId.Id);
+            dismissIntent.PutExtra(IntentConstants.KNotifcationTag, toastId.Tag);
 
-            var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, GetRequestCode(notificationId), dismissIntent, 0)
+            var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, dismissIntent, 0)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingDismissIntent;
         }
 
-        static PendingIntent CreateContentIntent(INotificationBuilder builder, int notificaionId)
+        static PendingIntent CreateContentIntent(INotificationBuilder builder, ToastId toastId)
         {
             var intent = new Intent(IntentConstants.KTapped);
-            intent.PutExtra(IntentConstants.KNotificationId, notificaionId);
+            intent.PutExtra(IntentConstants.KNotificationId, toastId.Id);
+            intent.PutExtra(IntentConstants.KNotifcationTag, toastId.Tag);
             intent.PutExtra(IntentConstants.KForceOpen, builder.GetForceOpenAppOnNotificationTap());
 
             builder.AddCustomArgsTo(intent);
 
-            var result = PendingIntent.GetBroadcast(Application.Context, GetRequestCode(notificaionId), intent, 0)
+            var result = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, intent, 0)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }
-
-        static int GetRequestCode(int notificationId) => 123 + notificationId;
 
         sealed class NotificationReceiver : BroadcastReceiver
         {
@@ -127,9 +124,10 @@ namespace Plugin.Toast.Droid
                 if (intent == null)
                     return;
                 int notificationId = intent.Extras?.GetInt(IntentConstants.KNotificationId, KInvalidId) ?? KInvalidId;
-                if (notificationId == KInvalidId)
+                string? notificationTag = intent.Extras?.GetString(IntentConstants.KNotifcationTag);
+                if (notificationId == KInvalidId || notificationTag == null)
                     return;
-                var tcs = hrIntentManager.Value.PopTask(notificationId);
+                var tcs = hrIntentManager.Value.PopTask(new ToastId(notificationId, notificationTag));
                 switch (intent.Action)
                 {
                     case IntentConstants.KTapped:

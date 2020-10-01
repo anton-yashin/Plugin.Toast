@@ -5,6 +5,6 @@ namespace Plugin.Toast.IOS
 {
     public interface INotificationReceiver
     {
-        IDisposable RegisterRequest(string id, Action onShown, Action onTapped);
+        IDisposable RegisterRequest(ToastId toastId, Action onShown, Action onTapped);
     }
 }

@@ -23,6 +23,7 @@ namespace Plugin.Toast
             @this.TryAddTransient<IIosLocalNotificationExtension, LocalNotificationBuilder>();
             @this.TryAddSingleton<IPermission, Permission>();
             @this.TryAddSingleton(typeof(IInitialization), _ => _.GetService(typeof(IPermission)));
+            @this.TryAddSingleton<IHistory, History>();
             return @this.AddBase();
         }
 

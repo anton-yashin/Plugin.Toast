@@ -11,34 +11,39 @@ namespace Plugin.Toast.UWP
     sealed class Notification : INotification
     {
         private readonly XmlDocument xmlDocument;
+        private readonly INotificationBuilder notificationBuilder;
 
-        public Notification(string xmlContent)
+        public Notification(XmlDocument xmlDocument, INotificationBuilder notificationBuilder)
         {
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(xmlContent ?? throw new ArgumentNullException(nameof(xmlContent)));
             this.xmlDocument = xmlDocument;
+            this.notificationBuilder = notificationBuilder;
         }
 
-        public Notification(XmlDocument xmlDocument) => this.xmlDocument = xmlDocument;
+        public Notification(ToastContent toastContent, INotificationBuilder notificationBuilder)
+            : this(toastContent.GetXml(), notificationBuilder)
+        { }
 
-        public Notification(ToastContent toastContent) : this(toastContent.GetXml()) { }
-
-        public Task<NotificationResult> ShowAsync(CancellationToken cancellationToken)
+        public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<NotificationResult>();
             var tn = new ToastNotification(xmlDocument);
-            tn.Tag = Guid.NewGuid().ToString();
+            tn.Tag = string.IsNullOrEmpty(notificationBuilder.Tag) ? Guid.NewGuid().ToString() : notificationBuilder.Tag;
+            if (string.IsNullOrEmpty(notificationBuilder.Group) == false)
+                tn.Group = notificationBuilder.Group;
+            if (string.IsNullOrEmpty(notificationBuilder.RemoteId) == false)
+                tn.RemoteId = notificationBuilder.RemoteId;
             tn.Activated += (o, e) => tcs.TrySetResult(NotificationResult.Activated);
             tn.Dismissed += (o, e) => tcs.TrySetResult(ToNotificationResult(e.Reason));
             tn.Failed += (o, e) => tcs.TrySetException(new NotificationException(e.ErrorCode.Message, e.ErrorCode));
             ToastNotificationManager.CreateToastNotifier().Show(tn);
+            toastId = ToastId.FromNotification(tn);
 
             if (cancellationToken.CanBeCanceled)
                 return tcs.WatchCancellationAsync(cancellationToken, () => ToastNotificationManager.History.Remove(tn.Tag));
             return tcs.Task;
         }
 
-        static NotificationResult ToNotificationResult(ToastDismissalReason reason)
+        internal static NotificationResult ToNotificationResult(ToastDismissalReason reason)
         {
             switch (reason)
             {
@@ -54,7 +59,16 @@ namespace Plugin.Toast.UWP
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)
         {
-            return new ScheduledToastCancellation(new ScheduledToastNotification(xmlDocument, deliveryTime));
+            var tn = notificationBuilder.SnoozeInterval != null ?
+                new ScheduledToastNotification(xmlDocument, deliveryTime, notificationBuilder.SnoozeInterval.Value, notificationBuilder.MaximumSnoozeCount) :
+                new ScheduledToastNotification(xmlDocument, deliveryTime);
+            tn.Tag = string.IsNullOrEmpty(notificationBuilder.Tag) ? Guid.NewGuid().ToString() : notificationBuilder.Tag;
+            tn.SuppressPopup = notificationBuilder.SuppressPopup;
+            if (string.IsNullOrEmpty(notificationBuilder.Group) == false)
+                tn.Group = notificationBuilder.Group;
+            if (string.IsNullOrEmpty(notificationBuilder.RemoteId) == false)
+                tn.RemoteId = notificationBuilder.RemoteId;
+            return new ScheduledToastCancellation(tn);
         }
     }
 }

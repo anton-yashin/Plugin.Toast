@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BuilderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DependencyInjectionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)History_Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockExtensionPlugin.generated.cs">
       <DependentUpon>MockExtensionPlugin.tt</DependentUpon>
       <DesignTime>True</DesignTime>
