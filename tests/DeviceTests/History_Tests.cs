@@ -100,7 +100,7 @@ namespace DeviceTests
                         Assert.True(await history.IsScheduledAsync(toastId), "scheduled not found");
                         Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     }
-                    Assert.False(await history.IsScheduledAsync(toastId), "remove scheduled found");
+                    Assert.False(await history.IsScheduledAsync(toastId), "removed scheduled found");
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                 }
             });
