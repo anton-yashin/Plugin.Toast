@@ -14,7 +14,7 @@ namespace Plugin.Toast
     {
         /// <summary>
         /// Delete notification from notification center on timeout <seealso cref="SetTimeout(TimeSpan)"/>.
-        /// By default cleanup is enabled.
+        /// By default cleanup is disabled.
         /// </summary>
         /// <param name="cleanup">true if cleanup is required</param>
         /// <returns>builder</returns>

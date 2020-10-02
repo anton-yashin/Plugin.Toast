@@ -40,7 +40,6 @@ namespace Plugin.Toast.Droid
                 this.logger = serviceProvider.GetService<ILogger<NotificationBuilder>>();
             }
 
-            this.CleanupOnTimeout = true;
             this.Timeout = TimeSpan.FromSeconds(7);
             builder = new NotificationCompat.Builder(Application.Context, options.ChannelOptions.Id);
             customArgs = new Dictionary<string, string>();
