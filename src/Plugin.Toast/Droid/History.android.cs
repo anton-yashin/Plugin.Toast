@@ -15,6 +15,11 @@ namespace Plugin.Toast.Droid
 
         public virtual Task<bool> IsDeliveredAsync(ToastId toastId) => Task.FromResult(false);
 
+        public Task<bool> IsPendingAsync(ToastId toastId)
+        {
+            throw new NotImplementedException("FIXME");
+        }
+
         public virtual void Remove(ToastId toastId) 
             => NotificationManager.Cancel(toastId.Id);
         public void RemoveAll() 

@@ -15,6 +15,11 @@ namespace Plugin.Toast.IOS
             return list.Where(n => n.Request.Identifier == toastId.Id).Any();
         }
 
+        public Task<bool> IsPendingAsync(ToastId toastId)
+        {
+            throw new NotImplementedException("FIXME");
+        }
+
         public void Remove(ToastId toastId)
             => UNUserNotificationCenter.Current.RemoveDeliveredNotifications(new string[] { toastId.Id });
 

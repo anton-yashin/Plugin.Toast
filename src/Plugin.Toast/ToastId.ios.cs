@@ -17,5 +17,7 @@ namespace Plugin.Toast
         public override bool Equals(object? obj) => Equals(obj as ToastId);
 
         public override int GetHashCode() => Id.GetHashCode();
+
+        int GetPlatformPersistentHashCode() => CombineHashCode(KMagicSeed, Id);
     }
 }

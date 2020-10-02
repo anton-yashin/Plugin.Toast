@@ -13,6 +13,11 @@ namespace Plugin.Toast.UWP
             => Task.FromResult(ToastNotificationManager.History.GetHistory()
                 .Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).Any());
 
+        public Task<bool> IsPendingAsync(ToastId toastId)
+        {
+            throw new NotImplementedException("FIXME");
+        }
+
         public void Remove(ToastId toastId)
         {
             if (string.IsNullOrEmpty(toastId.Group) == false)

@@ -54,7 +54,7 @@ namespace Plugin.Toast.Droid
                 var intent = new Intent(IntentConstants.KTapped);
                 builder.AddCustomArgsTo(intent);
 
-                var activity = PendingIntent.GetActivity(Application.Context, toastId.ActivityRequestCode, intent, PendingIntentFlags.CancelCurrent)
+                var activity = PendingIntent.GetActivity(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.CancelCurrent)
                     ?? throw new InvalidOperationException(ErrorStrings.KActivityError);
                 builder.SetContentIntent(activity);
             }
@@ -64,7 +64,7 @@ namespace Plugin.Toast.Droid
             notificationIntent.PutExtra(IntentConstants.KNotificationId, toastId.Id);
             notificationIntent.PutExtra(IntentConstants.KNotifcationTag, toastId.Tag);
             notificationIntent.PutExtra(IntentConstants.KNotification, notification);
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, notificationIntent, PendingIntentFlags.CancelCurrent)
+            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), notificationIntent, PendingIntentFlags.CancelCurrent)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingIntent;
         }
@@ -91,7 +91,7 @@ namespace Plugin.Toast.Droid
             dismissIntent.PutExtra(IntentConstants.KNotificationId, toastId.Id);
             dismissIntent.PutExtra(IntentConstants.KNotifcationTag, toastId.Tag);
 
-            var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, dismissIntent, 0)
+            var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), dismissIntent, 0)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingDismissIntent;
         }
@@ -105,7 +105,7 @@ namespace Plugin.Toast.Droid
 
             builder.AddCustomArgsTo(intent);
 
-            var result = PendingIntent.GetBroadcast(Application.Context, toastId.ActivityRequestCode, intent, 0)
+            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, 0)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }

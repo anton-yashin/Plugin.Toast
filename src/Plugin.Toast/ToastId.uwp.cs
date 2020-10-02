@@ -38,6 +38,9 @@ namespace Plugin.Toast
         public override bool Equals(object? obj) => Equals(obj as ToastId);
 
         public override int GetHashCode() => AsTuple().GetHashCode();
+
+        int GetPlatformPersistentHashCode()
+            => CombineHashCode(CombineHashCode(CombineHashCode(KMagicSeed, Tag), Group), (int)NotificationType);
     }
 
     public enum ToastIdNotificationType

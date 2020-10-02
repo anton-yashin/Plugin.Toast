@@ -26,11 +26,13 @@ namespace Plugin.Toast
 
         public override int GetHashCode() => (Id, Tag).GetHashCode();
 
-        public int ActivityRequestCode => GetHashCode();
 
         static int idGenerator;
 
         public static ToastId New()
             => new ToastId(Interlocked.Increment(ref idGenerator), Guid.NewGuid().ToString());
+
+        private int GetPlatformPersistentHashCode()
+            => CombineHashCode(CombineHashCode(KMagicSeed, Id), Tag);
     }
 }

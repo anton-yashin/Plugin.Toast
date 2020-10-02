@@ -69,5 +69,24 @@ namespace DeviceTests.UWP
             Assert.Equal(tn.Group, toastId.Group);
             Assert.Equal(ToastIdNotificationType.ScheduledToastNotification, toastId.NotificationType);
         }
+
+        [Theory, MemberData(nameof(GetTestData_GetPersistentHashCode))]
+        public void GetPersistentHashCode(int expected, string tag, string group, object notificationType)
+        {
+            // preapre
+            var tid = new ToastId(tag, group, (ToastIdNotificationType)notificationType);
+
+            // act & verify
+            Assert.Equal(expected, tid.GetPersistentHashCode());
+        }
+
+        static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
+        {
+            yield return new object?[] { -103496021, null, null, ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { 441556569, "ab", "cde", ToastIdNotificationType.ToastNotification };
+            yield return new object?[] { 814718951, "ab", null, ToastIdNotificationType.Unknown };
+            yield return new object?[] { 687712723, null, "cde", ToastIdNotificationType.ScheduledToastNotification };
+        }
+
     }
 }
