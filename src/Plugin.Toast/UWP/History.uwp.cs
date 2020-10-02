@@ -7,7 +7,12 @@ namespace Plugin.Toast.UWP
 {
     sealed class History : IHistory
     {
-        public History() { }
+        private readonly ToastNotifier notifier;
+
+        public History() 
+        {
+            this.notifier = ToastNotificationManager.CreateToastNotifier();
+        }
 
         public Task<bool> IsDeliveredAsync(ToastId toastId)
             => Task.FromResult(ToastNotificationManager.History.GetHistory()
@@ -15,7 +20,9 @@ namespace Plugin.Toast.UWP
 
         public Task<bool> IsScheduledAsync(ToastId toastId)
         {
-            throw new NotImplementedException("FIXME");
+            if (toastId.NotificationType != ToastIdNotificationType.ScheduledToastNotification)
+                throw new ArgumentException("Required id of scheduled toast notification", nameof(toastId));
+            return Task.FromResult(notifier.GetScheduledToastNotifications().Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).Any());
         }
 
         public void Remove(ToastId toastId)
