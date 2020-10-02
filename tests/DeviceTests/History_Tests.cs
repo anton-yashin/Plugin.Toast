@@ -1,4 +1,5 @@
-﻿using Plugin.Toast;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Plugin.Toast;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -14,8 +15,9 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 // prepare
-                var nm = Platform.CreateNotificationManager();
-                var history = Platform.CreateHistory();
+                using var sc = CreateServices();
+                var nm = sc.GetService<INotificationManager>();
+                var history = sc.GetService<IHistory>();
 
                 var task = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemove)).AddDescription(KRunningTest).Build()
                     .ShowAsync(out var toastId);
@@ -36,8 +38,9 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 // prepare
-                var nm = Platform.CreateNotificationManager();
-                var history = Platform.CreateHistory();
+                using var sc = CreateServices();
+                var nm = sc.GetService<INotificationManager>();
+                var history = sc.GetService<IHistory>();
                 var group = Guid.NewGuid().ToString();
 
                 var result = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemoveWithUwpGroup))
@@ -61,8 +64,9 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 // prepare
-                var nm = Platform.CreateNotificationManager();
-                var history = Platform.CreateHistory();
+                using var sc = CreateServices();
+                var nm = sc.GetService<INotificationManager>();
+                var history = sc.GetService<IHistory>();
 
                 var result = await nm.GetBuilder().AddTitle(nameof(RemoveAll))
                     .AddDescription(KRunningTest).Build()
@@ -79,5 +83,50 @@ namespace DeviceTests
                 Assert.False(delivered);
             });
 
+
+        [Fact]
+        public Task IsScheduledAsync()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+            {
+                using (var sp = CreateServices())
+                {
+                    ToastId toastId;
+                    var history = sp.GetService<IHistory>();
+                    var randomId = GetRandomScheduledToastId();
+                    Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                    using (var cancellation = sp.GetService<IBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
+                    {
+                        toastId = cancellation.ToastId;
+                        Assert.True(await history.IsScheduledAsync(toastId), "scheduled not found");
+                        Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                    }
+                    Assert.False(await history.IsScheduledAsync(toastId), "remove scheduled found");
+                    Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                }
+            });
+
+        static ServiceProvider CreateServices()
+        {
+            var sc = new ServiceCollection();
+#if __ANDROID__
+            sc.AddNotificationManager(Platform.Activity);
+#else
+            sc.AddNotificationManager();
+#endif
+            return sc.BuildServiceProvider();
+        }
+
+        static ToastId GetRandomScheduledToastId()
+        {
+#if __ANDROID__
+            return new ToastId((1, 2).GetHashCode(), Guid.NewGuid().ToString());
+#elif __IOS__
+            return new ToastId(Guid.NewGuid().ToString());
+#elif NETFX_CORE
+            return new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification);
+#else
+#error platform not supported
+#endif
+        }
     }
 }

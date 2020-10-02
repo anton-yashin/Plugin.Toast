@@ -15,7 +15,7 @@ namespace Plugin.Toast.IOS
             return list.Where(n => n.Request.Identifier == toastId.Id).Any();
         }
 
-        public Task<bool> IsPendingAsync(ToastId toastId)
+        public Task<bool> IsScheduledAsync(ToastId toastId)
         {
             throw new NotImplementedException("FIXME");
         }

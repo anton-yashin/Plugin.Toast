@@ -10,6 +10,8 @@ namespace Plugin.Toast.Droid
     /// </summary>
     public interface IIntentManager
     {
+        bool IsPendingIntentExists(ToastId toastId);
+
         /// <summary>
         /// Creates a content intent & delete intent for notifications.
         /// </summary>

@@ -14,9 +14,8 @@ namespace Plugin.Toast
         private readonly IAndroidHistory history;
         private static IAndroidHistory? historyInstance;
 
-        internal NotificationManager(IToastOptions options)
-            : this(new IntentManager(options, null), options)
-        { }
+        internal NotificationManager(IToastOptions options) 
+            : this(new IntentManager(options, null), options) { }
 
         internal NotificationManager(IIntentManager intentManager, IToastOptions options)
         {
@@ -24,40 +23,31 @@ namespace Plugin.Toast
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.snackbarExtension = typeof(ISnackbarExtension);
             this.notificationExtension = typeof(IDroidNotificationExtension);
-            this.history = historyInstance ?? InitHistory();
-        }
-
-        static IAndroidHistory InitHistory()
-        {
-            if (Platform.IsM)
-                return new HistoryM();
-            if (Platform.IsEclair)
-                return new HistoryEclair();
-            return new History();
+            this.history = historyInstance ?? InitHistory(intentManager);
         }
 
         public static void Init(Activity activity)
-        {
-            historyInstance = InitHistory();
-            instance = new NotificationManager(new ToastOptions(activity));
-        }
+            => Init(new ToastOptions(activity));
 
         public static void Init(IIntentManager intentManager, Activity activity)
-        {
-            historyInstance = InitHistory();
-            instance = new NotificationManager(intentManager, new ToastOptions(activity));
-        }
+            => Init(intentManager, new ToastOptions(activity));
 
-        public static void Init(IToastOptions options)
-        {
-            historyInstance = InitHistory();
-            instance = new NotificationManager(options);
-        }
+        public static void Init(IToastOptions options) 
+            => Init(new IntentManager(options, null), options);
 
         public static void Init(IIntentManager intentManager, IToastOptions options)
         {
-            historyInstance = InitHistory();
+            historyInstance = InitHistory(intentManager);
             instance = new NotificationManager(intentManager, options);
+        }
+
+        static IAndroidHistory InitHistory(IIntentManager intentManager)
+        {
+            if (Platform.IsM)
+                return new HistoryM(intentManager);
+            if (Platform.IsEclair)
+                return new HistoryEclair(intentManager);
+            return new History(intentManager);
         }
 
         IBuilder? PlatformResolve(Type extensionType)

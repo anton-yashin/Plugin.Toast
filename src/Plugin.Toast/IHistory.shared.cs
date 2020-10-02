@@ -32,6 +32,6 @@ namespace Plugin.Toast
         /// </summary>
         /// <param name="toastId">Identifier of notification</param>
         /// <returns>True if found</returns>
-        Task<bool> IsPendingAsync(ToastId toastId);
+        Task<bool> IsScheduledAsync(ToastId toastId);
     }
 }

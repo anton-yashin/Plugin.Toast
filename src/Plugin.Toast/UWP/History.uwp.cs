@@ -13,7 +13,7 @@ namespace Plugin.Toast.UWP
             => Task.FromResult(ToastNotificationManager.History.GetHistory()
                 .Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).Any());
 
-        public Task<bool> IsPendingAsync(ToastId toastId)
+        public Task<bool> IsScheduledAsync(ToastId toastId)
         {
             throw new NotImplementedException("FIXME");
         }
