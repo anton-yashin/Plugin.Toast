@@ -89,6 +89,7 @@ namespace Plugin.Toast.Droid
             {
                 var am = AlarmManager.FromContext(Application.Context);
                 am?.Cancel(pendingIntent);
+                pendingIntent.Cancel();
             }
         }
     }
