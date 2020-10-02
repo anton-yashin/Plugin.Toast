@@ -54,19 +54,18 @@ namespace DeviceTests
 #endif
         }
 
-        public static Task iOS_InvokeOnMainThreadAsync(Func<Task> action)
+        public static Task iOS_InvokeOnMainThreadAsync(Func<Task> func)
         {
-            _ = action ?? throw new ArgumentNullException(nameof(action));
+            _ = func ?? throw new ArgumentNullException(nameof(func));
 #if __ANDROID__ || NETFX_CORE
-            action();
-            return Task.CompletedTask;
+            return func();
 #elif __IOS__
             var tcs = new TaskCompletionSource<object?>();
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
             {
                 try
                 {
-                    await action();
+                    await func();
                     tcs.TrySetResult(null);
                 }
                 catch (Exception ex)
