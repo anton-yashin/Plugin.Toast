@@ -10,13 +10,15 @@ namespace DeviceTests
 {
     public class ShowNotificationTests
     {
+        const string KRunningTest = "running test please ignore";
+
         [Fact]
         public Task CancellationTokenShowDefault()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 var nm = Platform.CreateNotificationManager();
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-                var task = nm.GetBuilder().AddTitle("title").AddDescription("please ignore")
+                var task = nm.GetBuilder().AddTitle(nameof(CancellationTokenShowDefault)).AddDescription(KRunningTest)
                     .Build().ShowAsync(cts.Token);
                 await Assert.ThrowsAsync<TaskCanceledException>(() => task);
             });
@@ -31,7 +33,7 @@ namespace DeviceTests
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var result = await nm.GetBuilder<IIosLocalNotificationExtension>()
-                    .AddTitle("title").AddDescription("please ignore")
+                    .AddTitle(nameof(LocalNotificationHaveUnknownResult)).AddDescription(KRunningTest)
                     .Build().ShowAsync(cts.Token);
                 Assert.Equal(expected: NotificationResult.Unknown, result);
             });
@@ -46,7 +48,7 @@ namespace DeviceTests
             await Task.Delay(TimeSpan.FromSeconds(5));
             await Assert.ThrowsAsync<TaskCanceledException>(() => 
             nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
-                .AddTitle("title").AddDescription("please ignore")
+                .AddTitle(nameof(CancellationTokenShowAlternative)).AddDescription(KRunningTest)
                 .Build().ShowAsync(cts.Token));
         }
 
@@ -59,7 +61,7 @@ namespace DeviceTests
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
-                using var token = nm.GetBuilder().AddTitle("scheduled").AddDescription("please ignore")
+                using var token = nm.GetBuilder().AddTitle(nameof(ShowWithDelay)).AddDescription(KRunningTest)
                     .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
                 await Task.Delay(TimeSpan.FromSeconds(3));
             });
@@ -73,7 +75,7 @@ namespace DeviceTests
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 using var token = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
-                    .AddTitle("scheduled alt").AddDescription("please ignore")
+                    .AddTitle(nameof(ShowWithDelayAlternative)).AddDescription(KRunningTest)
                     .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
                 await Task.Delay(TimeSpan.FromSeconds(3));
             });
