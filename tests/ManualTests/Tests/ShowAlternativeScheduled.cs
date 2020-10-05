@@ -18,6 +18,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
+            await serviceProvider.GetRequiredService<IInitialization>().InitializeAsync();
             var scheduleTo = DateTimeOffset.Now + TimeSpan.FromSeconds(3);
             var builder = serviceProvider.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
             using var token = builder.AddTitle(Localization.R_SCHEDULED_TITLE)
