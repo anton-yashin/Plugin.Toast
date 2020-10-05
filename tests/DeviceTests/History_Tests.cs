@@ -94,6 +94,7 @@ namespace DeviceTests
                     var history = sp.GetService<IHistory>();
                     var randomId = GetRandomScheduledToastId();
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                    await sp.GetRequiredService<IInitialization>().InitializeAsync();
                     using (var cancellation = sp.GetService<IBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
                     {
                         toastId = cancellation.ToastId;
