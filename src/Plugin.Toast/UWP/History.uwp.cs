@@ -33,6 +33,15 @@ namespace Plugin.Toast.UWP
                 ToastNotificationManager.History.Remove(toastId.Tag);
         }
 
+        public void RemoveScheduled(ToastId toastId)
+        {
+            if (toastId.NotificationType != ToastIdNotificationType.ScheduledToastNotification)
+                throw new ArgumentException("Required id of scheduled toast notification", nameof(toastId));
+            var notification = notifier.GetScheduledToastNotifications().Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).FirstOrDefault();
+            if (notification != null)
+                notifier.RemoveFromSchedule(notification);
+        }
+
         public void RemoveAll() => ToastNotificationManager.History.Clear();
     }
 }

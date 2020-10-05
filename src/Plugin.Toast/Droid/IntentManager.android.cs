@@ -69,12 +69,11 @@ namespace Plugin.Toast.Droid
             return pendingIntent;
         }
 
-        public bool IsPendingIntentExists(ToastId toastId)
-        {
-            var notificationIntent = new Intent(IntentConstants.KScheduled);
-            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), notificationIntent, PendingIntentFlags.NoCreate);
-            return result != null;
-        }
+
+        public PendingIntent? GetPendingIntentById(ToastId toastId)
+            => PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), new Intent(IntentConstants.KScheduled), PendingIntentFlags.NoCreate);
+
+        public bool IsPendingIntentExists(ToastId toastId) => GetPendingIntentById(toastId) != null;
 
         public TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, ToastId toastId)
         {

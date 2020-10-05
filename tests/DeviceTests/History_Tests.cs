@@ -106,6 +106,25 @@ namespace DeviceTests
                 }
             });
 
+        [Fact]
+        public Task RemoveScheduled()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+            {
+                using (var sp = CreateServices())
+                {
+                    var history = sp.GetService<IHistory>();
+                    var randomId = GetRandomScheduledToastId();
+                    Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                    await sp.GetRequiredService<IInitialization>().InitializeAsync();
+                    var cancellation = sp.GetService<IBuilder>().AddTitle(nameof(RemoveScheduled)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1));
+                    Assert.True(await history.IsScheduledAsync(cancellation.ToastId), "scheduled not found");
+                    Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                    history.RemoveScheduled(cancellation.ToastId);
+                    Assert.False(await history.IsScheduledAsync(cancellation.ToastId), "removed scheduled found");
+                    Assert.False(await history.IsScheduledAsync(randomId), "random id found");
+                }
+            });
+
         static ServiceProvider CreateServices()
         {
             var sc = new ServiceCollection();

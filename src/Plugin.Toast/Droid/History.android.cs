@@ -15,6 +15,10 @@ namespace Plugin.Toast.Droid
         }
         protected static Android.App.NotificationManager NotificationManager => Android.App.NotificationManager.FromContext(Application.Context)
                 ?? throw new InvalidOperationException(ErrorStrings.KNotificationManagerError);
+
+        protected static Android.App.AlarmManager AlarmManager => Android.App.AlarmManager.FromContext(Application.Context)
+            ?? throw new InvalidOperationException(ErrorStrings.KAlarmManagerError);
+
         public virtual void Add(Android.App.Notification notification, ToastId toastId) 
             => NotificationManager.Notify(toastId.Id, notification);
 
@@ -22,6 +26,16 @@ namespace Plugin.Toast.Droid
 
         public Task<bool> IsScheduledAsync(ToastId toastId)
             => Task.FromResult(intentManager.IsPendingIntentExists(toastId));
+
+        public void RemoveScheduled(ToastId toastId)
+        {
+            var pi = intentManager.GetPendingIntentById(toastId);
+            if (pi != null)
+            {
+                AlarmManager.Cancel(pi);
+                pi.Cancel();
+            }
+        }
 
         public virtual void Remove(ToastId toastId) 
             => NotificationManager.Cancel(toastId.Id);

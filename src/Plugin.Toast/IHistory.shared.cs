@@ -18,6 +18,12 @@ namespace Plugin.Toast
         void Remove(ToastId toastId);
 
         /// <summary>
+        /// Remove a scheduled notification, that not yet shown in the notification center
+        /// </summary>
+        /// <param name="toastId">Identifier of notification</param>
+        void RemoveScheduled(ToastId toastId);
+
+        /// <summary>
         /// Checks if there is a notification with the specified identifier in the delivered notifications
         /// </summary>
         /// <param name="toastId">Identifier of notification</param>

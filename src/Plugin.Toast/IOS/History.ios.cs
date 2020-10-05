@@ -24,6 +24,9 @@ namespace Plugin.Toast.IOS
         public void Remove(ToastId toastId)
             => UNUserNotificationCenter.Current.RemoveDeliveredNotifications(new string[] { toastId.Id });
 
+        public void RemoveScheduled(ToastId toastId)
+            => UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new string[] { toastId.Id });
+
         public void RemoveAll() => UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
     }
 }
