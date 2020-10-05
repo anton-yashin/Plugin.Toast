@@ -37,9 +37,9 @@ namespace Plugin.Toast.Droid
             }
         }
 
-        public virtual void Remove(ToastId toastId) 
+        public virtual void RemoveDelivered(ToastId toastId) 
             => NotificationManager.Cancel(toastId.Id);
-        public void RemoveAll() 
+        public void RemoveAllDelivered() 
             => NotificationManager.CancelAll();
     }
 
@@ -48,7 +48,7 @@ namespace Plugin.Toast.Droid
         public HistoryEclair(IIntentManager intentManager) : base(intentManager) { }
         public override void Add(Android.App.Notification notification, ToastId toastId)
             => NotificationManager.Notify(toastId.Tag, toastId.Id, notification);
-        public override void Remove(ToastId toastId)
+        public override void RemoveDelivered(ToastId toastId)
             => NotificationManager.Cancel(toastId.Tag, toastId.Id);
     }
 

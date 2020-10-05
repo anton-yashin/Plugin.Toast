@@ -8,14 +8,14 @@ namespace Plugin.Toast
     public interface IHistory
     {
         /// <summary>
-        /// Remove all notifications from the notification center
+        /// Remove all delivered notifications from the notification center
         /// </summary>
-        void RemoveAll();
+        void RemoveAllDelivered();
         /// <summary>
-        /// Remove a notification from the notification center
+        /// Remove a delivered notification from the notification center
         /// </summary>
         /// <param name="toastId">Identifier of notification</param>
-        void Remove(ToastId toastId);
+        void RemoveDelivered(ToastId toastId);
 
         /// <summary>
         /// Remove a scheduled notification, that not yet shown in the notification center
@@ -29,7 +29,7 @@ namespace Plugin.Toast
         /// <param name="toastId">Identifier of notification</param>
         /// <returns>True if found</returns>
         /// <remarks>
-        /// On android api level < 23 this function will always return false
+        /// On android api level < 23 (Marshmallow) this function will always return false
         /// </remarks>
         Task<bool> IsDeliveredAsync(ToastId toastId);
 

@@ -21,12 +21,12 @@ namespace Plugin.Toast.IOS
             return pendingRequests.Where(n => n.Identifier == toastId.Id).Any();
         }
 
-        public void Remove(ToastId toastId)
+        public void RemoveDelivered(ToastId toastId)
             => UNUserNotificationCenter.Current.RemoveDeliveredNotifications(new string[] { toastId.Id });
 
         public void RemoveScheduled(ToastId toastId)
             => UNUserNotificationCenter.Current.RemovePendingNotificationRequests(new string[] { toastId.Id });
 
-        public void RemoveAll() => UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+        public void RemoveAllDelivered() => UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
     }
 }

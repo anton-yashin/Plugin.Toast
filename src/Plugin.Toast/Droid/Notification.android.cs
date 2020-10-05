@@ -35,12 +35,12 @@ namespace Plugin.Toast.Droid
             using var timer = notificationBuilder.Timeout == Timeout.InfiniteTimeSpan ? null : new Timer(_ =>
             {
                 if (notificationBuilder.CleanupOnTimeout)
-                    history.Remove(toastId);
+                    history.RemoveDelivered(toastId);
                 tcs.TrySetResult(NotificationResult.TimedOut);
             }, null, notificationBuilder.Timeout, Timeout.InfiniteTimeSpan);
             history.Add(notification, toastId);
             if (cancellationToken.CanBeCanceled)
-                return await tcs.WatchCancellationAsync(cancellationToken, () => history.Remove(toastId));
+                return await tcs.WatchCancellationAsync(cancellationToken, () => history.RemoveDelivered(toastId));
             return await tcs.Task;
         }
 

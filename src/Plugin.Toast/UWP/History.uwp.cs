@@ -25,7 +25,7 @@ namespace Plugin.Toast.UWP
             return Task.FromResult(notifier.GetScheduledToastNotifications().Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).Any());
         }
 
-        public void Remove(ToastId toastId)
+        public void RemoveDelivered(ToastId toastId)
         {
             if (string.IsNullOrEmpty(toastId.Group) == false)
                 ToastNotificationManager.History.Remove(toastId.Tag, toastId.Group);
@@ -42,6 +42,6 @@ namespace Plugin.Toast.UWP
                 notifier.RemoveFromSchedule(notification);
         }
 
-        public void RemoveAll() => ToastNotificationManager.History.Clear();
+        public void RemoveAllDelivered() => ToastNotificationManager.History.Clear();
     }
 }

@@ -26,7 +26,7 @@ namespace DeviceTests
                 Assert.True(delivered);
 
                 // act
-                history.Remove(toastId);
+                history.RemoveDelivered(toastId);
                 delivered = await history.IsDeliveredAsync(toastId);
 
                 //verify
@@ -52,7 +52,7 @@ namespace DeviceTests
                 Assert.True(delivered);
 
                 // act
-                history.Remove(toastId);
+                history.RemoveDelivered(toastId);
                 delivered = await history.IsDeliveredAsync(toastId);
 
                 //verify
@@ -76,7 +76,7 @@ namespace DeviceTests
                 Assert.True(delivered);
 
                 // act
-                history.RemoveAll();
+                history.RemoveAllDelivered();
                 delivered = await history.IsDeliveredAsync(toastId);
 
                 //verify
