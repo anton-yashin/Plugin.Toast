@@ -62,9 +62,11 @@ namespace DeviceTests
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
-                using var token = nm.GetBuilder().AddTitle(nameof(ShowWithDelay)).AddDescription(KRunningTest)
-                    .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                using (var token = nm.GetBuilder().AddTitle(nameof(ShowWithDelay)).AddDescription(KRunningTest)
+                    .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2)))
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(3));
+                }
             });
         }
 
@@ -76,10 +78,12 @@ namespace DeviceTests
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
-                using var token = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
+                using (var token = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
                     .AddTitle(nameof(ShowWithDelayAlternative)).AddDescription(KRunningTest)
-                    .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2));
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                    .Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromSeconds(2)))
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(3));
+                }
             });
         }
     }
