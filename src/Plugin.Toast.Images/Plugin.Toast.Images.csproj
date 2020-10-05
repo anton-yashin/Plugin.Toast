@@ -14,9 +14,9 @@
     <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast, image</PackageTags>
     <Title>Plugin.Toast.Images</Title>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>0.10.0.0</AssemblyVersion>
-    <AssemblyFileVersion>0.10.0.0</AssemblyFileVersion>
-    <Version>0.10.1</Version>
+    <AssemblyVersion>0.11.0.0</AssemblyVersion>
+    <AssemblyFileVersion>0.11.0.0</AssemblyFileVersion>
+    <Version>0.11.0</Version>
     <VersionSuffix>-beta</VersionSuffix>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion><Authors>Anton Yashin</Authors>
     <NeutralLanguage>en</NeutralLanguage>
