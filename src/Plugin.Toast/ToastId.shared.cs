@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Plugin.Toast
@@ -11,7 +12,7 @@ namespace Plugin.Toast
     /// <seealso cref="IScheduledToastCancellation.ToastId"/><br/>
     /// </summary>
     [DataContract]
-    public sealed partial class ToastId
+    public sealed partial class ToastId : IEquatable<ToastId>
     {
         private ToastId() => throw Exceptions.ExceptionUtils.NotSupportedOrImplementedException;
 
@@ -47,5 +48,15 @@ namespace Plugin.Toast
             return h1;
         }
 
+        public bool Equals(ToastId? other) => PlatformEquals(other);
+
+        public override bool Equals(object? obj) => PlatformEquals(obj);
+
+        public override int GetHashCode() => PlatformGetHashCode();
+
+        public override string ToString() => PlatformToString();
+
+        public static bool operator ==(ToastId? left, ToastId? right) => EqualityComparer<ToastId>.Default.Equals(left!, right!);
+        public static bool operator !=(ToastId? left, ToastId? right) => (left == right) == false;
     }
 }

@@ -19,25 +19,24 @@ namespace Plugin.Toast
         public static ToastId FromNotification(ToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
-                group: toastNotification.Group,
+                group: string.IsNullOrEmpty(toastNotification.Group) ? null : toastNotification.Group,
                 notificationType: ToastIdNotificationType.ToastNotification
                 );
 
         public static ToastId FromNotification(ScheduledToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
-                group: toastNotification.Group,
+                group: string.IsNullOrEmpty(toastNotification.Group) ? null : toastNotification.Group,
                 notificationType: ToastIdNotificationType.ScheduledToastNotification
                 );
 
         (string tag, string? group, ToastIdNotificationType notificationType) AsTuple()
             => (Tag, Group, NotificationType);
 
-        public bool Equals(ToastId? other) => other != null && AsTuple() == other.AsTuple();
-
-        public override bool Equals(object? obj) => Equals(obj as ToastId);
-
-        public override int GetHashCode() => AsTuple().GetHashCode();
+        bool PlatformEquals(ToastId? other) => other != null && AsTuple() == other.AsTuple();
+        bool PlatformEquals(object? obj) => PlatformEquals(obj as ToastId);
+        private int PlatformGetHashCode() => AsTuple().GetHashCode();
+        private string PlatformToString() => string.Format("Tag: {0}, Group: {1}, NotificationType: {2}", Tag, Group, NotificationType);
 
         int GetPlatformPersistentHashCode()
             => CombineHashCode(CombineHashCode(CombineHashCode(KMagicSeed, Tag), Group), (int)NotificationType);

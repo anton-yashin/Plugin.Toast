@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace Plugin.Toast.UWP
 {
@@ -9,6 +10,8 @@ namespace Plugin.Toast.UWP
         readonly ToastContentBuilder tbc;
         private readonly IServiceProvider? serviceProvider;
         bool buildCompleted;
+        string? launchArgs;
+        ToastActivationType activationType;
 
         public NotificationBuilder(IServiceProvider? serviceProvider)
         {
@@ -37,7 +40,36 @@ namespace Plugin.Toast.UWP
             if (buildCompleted == true)
                 throw Exceptions.ExceptionUtils.BuildTwice;
             buildCompleted = true;
+            if (string.IsNullOrEmpty(Tag))
+                Tag = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(launchArgs) == false)
+            {
+                switch (activationType)
+                {
+                    case ToastActivationType.Foreground:
+                        launchArgs += "&" + TagAndGroupActivationArgs();
+                        break;
+                    case ToastActivationType.Background:
+                    case ToastActivationType.Protocol:
+                        break;
+                    default:
+                        throw new InvalidOperationException("unknown activation type");
+                }
+            }
+            else
+            {
+                launchArgs = TagAndGroupActivationArgs();
+            }
+            tbc.AddToastActivationInfo(launchArgs, activationType);
             return new Notification(tbc.Content, this);
+        }
+
+        string TagAndGroupActivationArgs()
+        {
+            var result = HttpUtility.UrlEncode(UwpConstants.KTag) + "=" + HttpUtility.UrlEncode(Tag);
+            if (string.IsNullOrEmpty(Group) == false)
+                result += "&" + HttpUtility.UrlEncode(UwpConstants.KGroup) + "=" + HttpUtility.UrlEncode(Group);
+            return result;
         }
 
         IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
@@ -166,7 +198,8 @@ namespace Plugin.Toast.UWP
 
         public IUwpExtension AddToastActivationInfo(string launchArgs, ToastActivationType activationType)
         {
-            tbc.AddToastActivationInfo(launchArgs, activationType);
+            this.launchArgs = launchArgs;
+            this.activationType = activationType;
             return this;
         }
 

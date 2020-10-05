@@ -12,11 +12,11 @@ namespace Plugin.Toast
         [DataMember]
         public string Id { get; }
 
-        public bool Equals(ToastId? other) => other != null && Id == other.Id;
+        bool PlatformEquals(ToastId? other) => other != null && Id == other.Id;
+        bool PlatformEquals(object? obj) => PlatformEquals(obj as ToastId);
+        private int PlatformGetHashCode() => Id.GetHashCode();
+        private string PlatformToString() => "Id: " + Id;
 
-        public override bool Equals(object? obj) => Equals(obj as ToastId);
-
-        public override int GetHashCode() => Id.GetHashCode();
 
         int GetPlatformPersistentHashCode() => CombineHashCode(KMagicSeed, Id);
     }
