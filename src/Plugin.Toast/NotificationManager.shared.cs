@@ -6,7 +6,7 @@ namespace Plugin.Toast
 {
     public sealed partial class NotificationManager : INotificationManager
     {
-        private static INotificationManager? instance = null;
+        private static NotificationManager? instance = null;
 
         public static INotificationManager Instance => instance ?? throw new InvalidOperationException("please call init");
         public static IHistory History => PlatformGetHistory();

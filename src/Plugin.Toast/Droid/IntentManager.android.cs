@@ -16,16 +16,22 @@ namespace Plugin.Toast.Droid
         readonly Dictionary<ToastId, TaskCompletionSource<NotificationResult>> tasksByNotificationId;
         readonly IToastOptions options;
         private readonly IAndroidNotificationManager androidNotificationManager;
+        private readonly ISystemEventSource systemEventSource;
         private readonly ILogger<IntentManager>? logger;
         readonly NotificationReceiver receiver;
         readonly IntentFilter intentFilter;
 
-        public IntentManager(IToastOptions options, IAndroidNotificationManager androidNotificationManager, IServiceProvider? serviceProvider)
+        public IntentManager(
+            IToastOptions options,
+            IAndroidNotificationManager androidNotificationManager,
+            ISystemEventSource systemEventSource,
+            IServiceProvider? serviceProvider)
         {
             this.mutex = new object();
             this.tasksByNotificationId = new Dictionary<ToastId, TaskCompletionSource<NotificationResult>>();
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.androidNotificationManager = androidNotificationManager;
+            this.systemEventSource = systemEventSource;
             this.logger = serviceProvider?.GetService<ILogger<IntentManager>>();
             this.intentFilter = new IntentFilter();
             this.receiver = new NotificationReceiver(this);
@@ -169,6 +175,7 @@ namespace Plugin.Toast.Droid
                     }
                 }
                 tcs?.TrySetResult(NotificationResult.Activated);
+                hrIntentManager.Value.systemEventSource.SendEvent(new NotificationEvent(toastId));
             }
 
             private void OnScheduled(ToastId toastId, Intent intent)

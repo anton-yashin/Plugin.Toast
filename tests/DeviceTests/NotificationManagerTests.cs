@@ -41,16 +41,6 @@ namespace DeviceTests
             Assert.NotNull(nm);
         }
 
-#if __ANDROID__
-        [Fact]
-        public void CreateNotificationManagerWithIntentManager()
-        {
-            var mim = new Moq.Mock<Plugin.Toast.Droid.IIntentManager>();
-            var nm = new NotificationManager(mim.Object, new ToastOptions(Platform.Activity));
-            Assert.NotNull(nm);
-        }
-#endif
-
         [Fact]
         public Task CreateDefaultBuidler()
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
