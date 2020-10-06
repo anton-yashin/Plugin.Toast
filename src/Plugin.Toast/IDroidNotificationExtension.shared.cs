@@ -32,7 +32,7 @@ namespace Plugin.Toast
         /// </summary>
         IDroidNotificationExtension AddPerson(string uri);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.ForceOpenAppOnNotificationTap(bool)"/>
+        /// Will launch main activity of app after notification is tapped
         /// </summary>
         IDroidNotificationExtension ForceOpenAppOnNotificationTap(bool forceOpenAppOnNotificationTap);
         /// <summary>
