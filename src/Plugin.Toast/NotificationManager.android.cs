@@ -11,11 +11,12 @@ namespace Plugin.Toast
         private readonly IToastOptions options;
         private readonly Type snackbarExtension;
         private readonly Type notificationExtension;
-        private readonly IAndroidHistory history;
-        private static IAndroidHistory? historyInstance;
+        private readonly IAndroidNotificationManager androidNotificationManager;
+        private static IHistory? historyInstance;
+        private static IAndroidNotificationManager? androidNotificationManagerInstance;
 
         internal NotificationManager(IToastOptions options) 
-            : this(new IntentManager(options, null), options) { }
+            : this(new IntentManager(options, androidNotificationManagerInstance ?? GetAndroidNotificationManager(), null), options) { }
 
         internal NotificationManager(IIntentManager intentManager, IToastOptions options)
         {
@@ -23,7 +24,7 @@ namespace Plugin.Toast
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.snackbarExtension = typeof(ISnackbarExtension);
             this.notificationExtension = typeof(IDroidNotificationExtension);
-            this.history = historyInstance ?? InitHistory(intentManager);
+            this.androidNotificationManager = androidNotificationManagerInstance ?? GetAndroidNotificationManager();
         }
 
         public static void Init(Activity activity)
@@ -33,22 +34,26 @@ namespace Plugin.Toast
             => Init(intentManager, new ToastOptions(activity));
 
         public static void Init(IToastOptions options) 
-            => Init(new IntentManager(options, null), options);
+            => Init(new IntentManager(options, GetAndroidNotificationManager(), null), options);
 
         public static void Init(IIntentManager intentManager, IToastOptions options)
         {
-            historyInstance = InitHistory(intentManager);
+            androidNotificationManagerInstance = GetAndroidNotificationManager();
+            historyInstance = GetHistory(intentManager, androidNotificationManagerInstance);
             instance = new NotificationManager(intentManager, options);
         }
 
-        static IAndroidHistory InitHistory(IIntentManager intentManager)
+        static IAndroidNotificationManager GetAndroidNotificationManager()
         {
             if (AndroidPlatform.IsM)
-                return new HistoryM(intentManager);
+                return new AndroidNotificationManager();
             if (AndroidPlatform.IsEclair)
-                return new HistoryEclair(intentManager);
-            return new History(intentManager);
+                return new AndroidNotificationManagerEclair();
+            return new AndroidNotificationManagerM();
         }
+
+        static IHistory GetHistory(IIntentManager intentManager, IAndroidNotificationManager androidNotificationManager)
+            => new History(intentManager, androidNotificationManager);
 
         IBuilder? PlatformResolve(Type extensionType)
         {
@@ -61,7 +66,7 @@ namespace Plugin.Toast
 
         IBuilder CreateSnackBarBuilder() => new SnackbarBuilder(options, null);
         IBuilder CreateDroidNotificationBuilder()
-            => new NotificationBuilder(options, intentManager, history, null);
+            => new NotificationBuilder(options, intentManager, androidNotificationManager, null);
 
         IBuilder PlatformBuildNotification() => options.NotificationStyle
             .Resolve<Func<IBuilder>>(CreateSnackBarBuilder, CreateDroidNotificationBuilder)();

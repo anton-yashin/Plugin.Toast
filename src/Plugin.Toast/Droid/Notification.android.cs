@@ -11,13 +11,16 @@ namespace Plugin.Toast.Droid
     {
         private readonly INotificationBuilder notificationBuilder;
         private readonly IIntentManager intentManager;
-        private readonly IAndroidHistory history;
+        private readonly IAndroidNotificationManager androidNotificationManager;
 
-        public Notification(INotificationBuilder notificationBuilder, IIntentManager intentManager, IAndroidHistory history)
+        public Notification(
+            INotificationBuilder notificationBuilder,
+            IIntentManager intentManager,
+            IAndroidNotificationManager androidNotificationManager)
         {
             this.notificationBuilder = notificationBuilder ?? throw new ArgumentNullException(nameof(notificationBuilder));
             this.intentManager = intentManager;
-            this.history = history;
+            this.androidNotificationManager = androidNotificationManager;
         }
 
         public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
@@ -35,12 +38,12 @@ namespace Plugin.Toast.Droid
             using var timer = notificationBuilder.Timeout == Timeout.InfiniteTimeSpan ? null : new Timer(_ =>
             {
                 if (notificationBuilder.CleanupOnTimeout)
-                    history.RemoveDelivered(toastId);
+                    androidNotificationManager.Cancel(toastId);
                 tcs.TrySetResult(NotificationResult.TimedOut);
             }, null, notificationBuilder.Timeout, Timeout.InfiniteTimeSpan);
-            history.Add(notification, toastId);
+            androidNotificationManager.Notify(notification, toastId);
             if (cancellationToken.CanBeCanceled)
-                return await tcs.WatchCancellationAsync(cancellationToken, () => history.RemoveDelivered(toastId));
+                return await tcs.WatchCancellationAsync(cancellationToken, () => androidNotificationManager.Cancel(toastId));
             return await tcs.Task;
         }
 

@@ -41,12 +41,12 @@ namespace Plugin.Toast
             @this.TryAddTransient<ISnackbarExtension, SnackbarBuilder>();
             @this.TryAddTransient<IDroidNotificationExtension, NotificationBuilder>();
             if (AndroidPlatform.IsM)
-                @this.TryAddSingleton<IAndroidHistory, HistoryM>();
+                @this.TryAddSingleton<IAndroidNotificationManager, AndroidNotificationManagerM>();
             else if (AndroidPlatform.IsEclair)
-                @this.TryAddSingleton<IAndroidHistory, HistoryEclair>();
+                @this.TryAddSingleton<IAndroidNotificationManager, AndroidNotificationManagerEclair>();
             else
-                @this.TryAddSingleton<IAndroidHistory, History>();
-            @this.TryAddSingleton<IHistory>(sp => sp.GetRequiredService<IAndroidHistory>());
+                @this.TryAddSingleton<IAndroidNotificationManager, AndroidNotificationManager>();
+            @this.TryAddSingleton<IHistory, History>();
             return @this.AddBase();
         }
 
