@@ -1,11 +1,10 @@
 ﻿using Android.App;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Plugin.Toast.Droid
 {
-    class History : IHistory
+    sealed class History : IHistory
     {
         private readonly IIntentManager intentManager;
         private readonly IAndroidNotificationManager androidNotificationManager;
@@ -16,10 +15,10 @@ namespace Plugin.Toast.Droid
             this.androidNotificationManager = androidNotificationManager;
         }
 
-        protected static Android.App.AlarmManager AlarmManager => Android.App.AlarmManager.FromContext(Application.Context)
+        static AlarmManager AlarmManager => Android.App.AlarmManager.FromContext(Application.Context)
             ?? throw new InvalidOperationException(ErrorStrings.KAlarmManagerError);
 
-        public virtual Task<bool> IsDeliveredAsync(ToastId toastId)
+        public Task<bool> IsDeliveredAsync(ToastId toastId)
             => Task.FromResult(androidNotificationManager.IsDelivered(toastId));
 
         public Task<bool> IsScheduledAsync(ToastId toastId)
@@ -35,8 +34,9 @@ namespace Plugin.Toast.Droid
             }
         }
 
-        public virtual void RemoveDelivered(ToastId toastId)
+        public void RemoveDelivered(ToastId toastId)
             => androidNotificationManager.Cancel(toastId);
+
         public void RemoveAllDelivered()
             => androidNotificationManager.CancelAll();
     }
