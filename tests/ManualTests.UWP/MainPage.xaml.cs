@@ -27,5 +27,10 @@ namespace ManualTests.UWP
 
             LoadApplication(new ManualTests.App(_ => _.AddNotificationManager().AddNotificationManagerImagesSupport()));
         }
+
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
     }
 }

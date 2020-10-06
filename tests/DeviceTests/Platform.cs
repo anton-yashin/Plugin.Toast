@@ -7,6 +7,7 @@ using Plugin.Toast;
 namespace DeviceTests
 {
     public static class Platform
+
     {
 #if __ANDROID__
         public static global::Android.App.Activity Activity { get; set; } = null!;

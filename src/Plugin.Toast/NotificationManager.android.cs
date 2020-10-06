@@ -43,9 +43,9 @@ namespace Plugin.Toast
 
         static IAndroidHistory InitHistory(IIntentManager intentManager)
         {
-            if (Platform.IsM)
+            if (AndroidPlatform.IsM)
                 return new HistoryM(intentManager);
-            if (Platform.IsEclair)
+            if (AndroidPlatform.IsEclair)
                 return new HistoryEclair(intentManager);
             return new History(intentManager);
         }

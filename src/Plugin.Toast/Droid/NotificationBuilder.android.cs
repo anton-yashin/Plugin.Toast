@@ -65,7 +65,7 @@ namespace Plugin.Toast.Droid
                 builder.SetPriority((int)NotificationPriority.High);
             if (defaultsSet == false)
                 builder.SetDefaults((int)NotificationDefaults.All);
-            if (channelIdSet == false && Platform.IsOreo)
+            if (channelIdSet == false && AndroidPlatform.IsOreo)
             {
                 try { SetChannel(DefaultChannelBuild); }
                 catch (MissingMethodException ex)

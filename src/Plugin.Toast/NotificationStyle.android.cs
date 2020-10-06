@@ -29,7 +29,7 @@ namespace Plugin.Toast
             {
                 NotificationStyle.Notifications => notification,
                 NotificationStyle.Snackbar => snackbar,
-                NotificationStyle.Default => Platform.IsLollipop ? notification : snackbar,
+                NotificationStyle.Default => AndroidPlatform.IsLollipop ? notification : snackbar,
                 _ => throw new ArgumentException(nameof(@this), string.Format("unknown notification style {0}", @this))
             };
     }
