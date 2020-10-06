@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Windows.UI.Notifications;
 
 namespace Plugin.Toast
 {
     public sealed partial class ToastId : IEquatable<ToastId>
     {
+        [DataMember]
         public string Tag { get; }
+        [DataMember]
         public string Group { get; }
 
         public ToastId(string tag, string group)
