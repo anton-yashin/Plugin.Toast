@@ -54,5 +54,29 @@ namespace DeviceTests.Android
             yield return new object?[] { 873444289, 456, "ab" };
             yield return new object?[] { -1241109628, 456, "abc" };
         }
+
+        [Theory, MemberData(nameof(GetTestData_OperatorEquals))]
+        public void OperatorEquals(bool expected, ToastId left, ToastId right)
+        {
+            var actual = (left == right);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, MemberData(nameof(GetTestData_OperatorEquals))]
+        public void OperatorNotEquals(bool expected, ToastId left, ToastId right)
+        {
+            var actual = (left != right);
+            Assert.NotEqual(expected, actual);
+        }
+
+        static IEnumerable<object?[]> GetTestData_OperatorEquals()
+        {
+            yield return new object?[] { true, new ToastId(123, "def"), new ToastId(123, "def") };
+            yield return new object?[] { true, new ToastId(123, null!), new ToastId(123, null!) };
+            yield return new object?[] { true, null, null };
+            yield return new object?[] { false, new ToastId(123, "def"), null };
+            yield return new object?[] { false, null, new ToastId(123, "def") };
+            yield return new object?[] { false, new ToastId(123, "def"), new ToastId(456, "abc") };
+        }
     }
 }

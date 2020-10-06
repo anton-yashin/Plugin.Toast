@@ -78,5 +78,30 @@ namespace DeviceTests.UWP
             yield return new object?[] { 801742924, null, "cde" };
         }
 
+        [Theory, MemberData(nameof(GetTestData_OperatorEquals))]
+        public void OperatorEquals(bool expected, ToastId left, ToastId right)
+        {
+            var actual = (left == right);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, MemberData(nameof(GetTestData_OperatorEquals))]
+        public void OperatorNotEquals(bool expected, ToastId left, ToastId right)
+        {
+            var actual = (left != right);
+            Assert.NotEqual(expected, actual);
+        }
+
+        static IEnumerable<object?[]> GetTestData_OperatorEquals()
+        {
+            yield return new object?[] { true, new ToastId("abc", "def"), new ToastId("abc", "def") };
+            yield return new object?[] { true, new ToastId("abc", null!), new ToastId("abc", null!) };
+            yield return new object?[] { true, new ToastId(null!, "abc"), new ToastId(null!, "abc") };
+            yield return new object?[] { true, new ToastId(null!, null!), new ToastId(null!, null!) };
+            yield return new object?[] { true, null, null };
+            yield return new object?[] { false, new ToastId("abc", "def"), null };
+            yield return new object?[] { false, null, new ToastId("abc", "def") };
+            yield return new object?[] { false, new ToastId("abc", "def"), new ToastId("def", "abc") };
+        }
     }
 }
