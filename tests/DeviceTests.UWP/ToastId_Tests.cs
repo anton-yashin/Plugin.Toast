@@ -11,11 +11,11 @@ namespace DeviceTests.UWP
     public class ToastId_Tests
     {
         [Theory, MemberData(nameof(GetEqualsData))]
-        public void Equals_(string tag, string group, ToastIdNotificationType notificationType)
+        public void Equals_(string tag, string group)
         {
             // prepare
-            var left = new ToastId(tag, group, notificationType);
-            var right = new ToastId(tag, group, notificationType);
+            var left = new ToastId(tag, group);
+            var right = new ToastId(tag, group);
 
             // act & verify
             Assert.Equal(left, right);
@@ -24,18 +24,10 @@ namespace DeviceTests.UWP
 
         static IEnumerable<object?[]> GetEqualsData()
         {
-            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.Unknown };
-            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ToastNotification };
-            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification };
-            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.Unknown };
-            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.ToastNotification };
-            yield return new object?[] { null, Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification };
-            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.Unknown };
-            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.ToastNotification };
-            yield return new object?[] { Guid.NewGuid().ToString(), null, ToastIdNotificationType.ScheduledToastNotification };
-            yield return new object?[] { null, null, ToastIdNotificationType.Unknown };
-            yield return new object?[] { null, null, ToastIdNotificationType.ToastNotification };
-            yield return new object?[] { null, null, ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString()};
+            yield return new object?[] { null, Guid.NewGuid().ToString() };
+            yield return new object?[] { Guid.NewGuid().ToString(), null };
+            yield return new object?[] { null, null };
         }
 
         [Fact]
@@ -51,7 +43,6 @@ namespace DeviceTests.UWP
 
             Assert.Equal(tn.Tag, toastId.Tag);
             Assert.Equal(tn.Group, toastId.Group);
-            Assert.Equal(ToastIdNotificationType.ToastNotification, toastId.NotificationType);
         }
 
         [Fact]
@@ -67,14 +58,13 @@ namespace DeviceTests.UWP
 
             Assert.Equal(tn.Tag, toastId.Tag);
             Assert.Equal(tn.Group, toastId.Group);
-            Assert.Equal(ToastIdNotificationType.ScheduledToastNotification, toastId.NotificationType);
         }
 
         [Theory, MemberData(nameof(GetTestData_GetPersistentHashCode))]
-        public void GetPersistentHashCode(int expected, string tag, string group, object notificationType)
+        public void GetPersistentHashCode(int expected, string tag, string group)
         {
             // preapre
-            var tid = new ToastId(tag, group, (ToastIdNotificationType)notificationType);
+            var tid = new ToastId(tag, group);
 
             // act & verify
             Assert.Equal(expected, tid.GetPersistentHashCode());
@@ -82,10 +72,10 @@ namespace DeviceTests.UWP
 
         static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
         {
-            yield return new object?[] { -103496021, null, null, ToastIdNotificationType.ScheduledToastNotification };
-            yield return new object?[] { 441556569, "ab", "cde", ToastIdNotificationType.ToastNotification };
-            yield return new object?[] { 814718951, "ab", null, ToastIdNotificationType.Unknown };
-            yield return new object?[] { 687712723, null, "cde", ToastIdNotificationType.ScheduledToastNotification };
+            yield return new object?[] { 1558670046, null, null };
+            yield return new object?[] { 1314885743, "ab", "cde" };
+            yield return new object?[] { -105462072, "ab", null };
+            yield return new object?[] { 801742924, null, "cde" };
         }
 
     }

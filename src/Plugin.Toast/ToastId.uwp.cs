@@ -6,46 +6,34 @@ namespace Plugin.Toast
     public sealed partial class ToastId : IEquatable<ToastId>
     {
         public string Tag { get; }
-        public string? Group { get; }
-        public ToastIdNotificationType NotificationType { get; }
+        public string Group { get; }
 
-        public ToastId(string tag, string? group, ToastIdNotificationType notificationType)
+        public ToastId(string tag, string group)
         {
-            Tag = tag;
-            Group = group;
-            NotificationType = notificationType;
+            Tag = tag ?? "";
+            Group = group ?? "";
         }
 
         public static ToastId FromNotification(ToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
-                group: string.IsNullOrEmpty(toastNotification.Group) ? null : toastNotification.Group,
-                notificationType: ToastIdNotificationType.ToastNotification
+                group: toastNotification.Group
                 );
 
         public static ToastId FromNotification(ScheduledToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
-                group: string.IsNullOrEmpty(toastNotification.Group) ? null : toastNotification.Group,
-                notificationType: ToastIdNotificationType.ScheduledToastNotification
+                group: toastNotification.Group
                 );
 
-        (string tag, string? group, ToastIdNotificationType notificationType) AsTuple()
-            => (Tag, Group, NotificationType);
+        (string tag, string? group) AsTuple() => (Tag, Group);
 
         bool PlatformEquals(ToastId? other) => other != null && AsTuple() == other.AsTuple();
         bool PlatformEquals(object? obj) => PlatformEquals(obj as ToastId);
         private int PlatformGetHashCode() => AsTuple().GetHashCode();
-        private string PlatformToString() => string.Format("Tag: {0}, Group: {1}, NotificationType: {2}", Tag, Group, NotificationType);
+        private string PlatformToString() => string.Format("Tag: {0}, Group: {1}", Tag, Group);
 
         int GetPlatformPersistentHashCode()
-            => CombineHashCode(CombineHashCode(CombineHashCode(KMagicSeed, Tag), Group), (int)NotificationType);
-    }
-
-    public enum ToastIdNotificationType
-    {
-        Unknown,
-        ToastNotification,
-        ScheduledToastNotification,
+            => CombineHashCode(CombineHashCode(KMagicSeed, Tag), Group);
     }
 }

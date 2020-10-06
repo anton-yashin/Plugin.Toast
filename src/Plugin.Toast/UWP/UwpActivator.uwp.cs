@@ -19,7 +19,7 @@ namespace Plugin.Toast.UWP
                 var group = collection[UwpConstants.KGroup];
                 if (tag == null)
                     throw new InvalidOperationException("Tag value isn't found");
-                var tid = new ToastId(tag, group, ToastIdNotificationType.ToastNotification);
+                var tid = new ToastId(tag, group);
                 NotificationEvent?.Invoke(this, new NotificationEvent(tid));
             }
         }

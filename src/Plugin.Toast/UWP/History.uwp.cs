@@ -20,8 +20,6 @@ namespace Plugin.Toast.UWP
 
         public Task<bool> IsScheduledAsync(ToastId toastId)
         {
-            if (toastId.NotificationType != ToastIdNotificationType.ScheduledToastNotification)
-                throw new ArgumentException("Required id of scheduled toast notification", nameof(toastId));
             return Task.FromResult(notifier.GetScheduledToastNotifications().Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).Any());
         }
 
@@ -35,8 +33,6 @@ namespace Plugin.Toast.UWP
 
         public void RemoveScheduled(ToastId toastId)
         {
-            if (toastId.NotificationType != ToastIdNotificationType.ScheduledToastNotification)
-                throw new ArgumentException("Required id of scheduled toast notification", nameof(toastId));
             var notification = notifier.GetScheduledToastNotifications().Where(n => n.Tag == toastId.Tag && n.Group == toastId.Group).FirstOrDefault();
             if (notification != null)
                 notifier.RemoveFromSchedule(notification);

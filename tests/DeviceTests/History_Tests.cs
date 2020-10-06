@@ -143,7 +143,7 @@ namespace DeviceTests
 #elif __IOS__
             return new ToastId(Guid.NewGuid().ToString());
 #elif NETFX_CORE
-            return new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), ToastIdNotificationType.ScheduledToastNotification);
+            return new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 #else
 #error platform not supported
 #endif
