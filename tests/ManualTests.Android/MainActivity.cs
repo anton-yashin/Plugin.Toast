@@ -8,6 +8,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Plugin.Toast;
+using Android.Content;
+using Android.Util;
 
 namespace ManualTests.Droid
 {
@@ -23,7 +25,7 @@ namespace ManualTests.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            Plugin.Toast.NotificationManager.Init(this);
+            Plugin.Toast.Platform.OnActivated(this);
             LoadApplication(new App(_ => _.AddNotificationManager(this).AddNotificationManagerImagesSupport()));
         }
 

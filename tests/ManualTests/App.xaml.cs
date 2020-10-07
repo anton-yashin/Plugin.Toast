@@ -22,7 +22,6 @@ namespace ManualTests
             sc.AddLogging(_ => _.AddDebug());
             this.serviceProvider = sc.BuildServiceProvider();
             DependencyResolver.ResolveUsing(ServiceProvider.GetService);
-            System.Diagnostics.Debug.Assert(NotificationManager.Instance != null);
 
             InitializeComponent();
 
