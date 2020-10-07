@@ -7,6 +7,7 @@ namespace Plugin.Toast
     public sealed partial class NotificationManager
     {
         private readonly IToastOptions options;
+        private readonly ISystemEventSource systemEventSource;
         private static IHistory? historyInstance;
 
         internal NotificationManager() : this(new ToastOptions())
@@ -15,6 +16,7 @@ namespace Plugin.Toast
         internal NotificationManager(IToastOptions options)
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
+            this.systemEventSource = new SystemEventSource(null);
         }
 
         public static void Init()
