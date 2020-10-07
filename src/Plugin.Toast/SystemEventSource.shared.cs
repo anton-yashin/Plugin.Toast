@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +8,13 @@ namespace Plugin.Toast
 {
     sealed class SystemEventSource : ISystemEventSource
     {
-        List<WeakReference<INotificationEventObserver>> observers;
-        object @lock;
+        private readonly ILogger<SystemEventSource>? logger;
+        private readonly List<WeakReference<INotificationEventObserver>> observers;
+        private readonly object @lock;
 
-        public SystemEventSource()
+        public SystemEventSource(IServiceProvider? serviceProvider)
         {
+            this.logger = serviceProvider?.GetService<ILogger<SystemEventSource>>();
             observers = new List<WeakReference<INotificationEventObserver>>();
             @lock = new object();
             //
@@ -60,8 +64,18 @@ namespace Plugin.Toast
 
         void SendEvent(IEnumerable<INotificationEventObserver> observers, NotificationEvent @event)
         {
-            foreach (var i in observers)
-                i.OnNotificationReceived(@event);
+            try
+            {
+                foreach (var i in observers)
+                    i.OnNotificationReceived(@event);
+            }
+            catch (Exception ex)
+            {
+#if NETSTANDARD1_4 == false
+                logger?.LogError(ex, "observer error");
+#endif
+                throw;
+            }
         }
     }
 }

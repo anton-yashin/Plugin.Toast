@@ -21,7 +21,7 @@ namespace Plugin.Toast
             this.snackbarExtension = typeof(ISnackbarExtension);
             this.notificationExtension = typeof(IDroidNotificationExtension);
             this.androidNotificationManager = NewAndroidNotificationManager();
-            this.systemEventSource = new SystemEventSource();
+            this.systemEventSource = new SystemEventSource(null);
             this.intentManager = new IntentManager(options, androidNotificationManager, systemEventSource, null);
             this.history = new History(intentManager, androidNotificationManager);
         }
