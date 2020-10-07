@@ -39,6 +39,7 @@ namespace Plugin.Toast.Droid
             intentFilter.AddAction(IntentConstants.KTapped);
             intentFilter.AddAction(IntentConstants.KDismissed);
             intentFilter.AddAction(IntentConstants.KScheduled);
+
             Application.Context.RegisterReceiver(receiver, intentFilter);
         }
 
@@ -54,23 +55,14 @@ namespace Plugin.Toast.Droid
 
         public PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, ToastId toastId)
         {
-            // https://stackoverflow.com/questions/36902667/how-to-schedule-notification-in-android
-
             if (builder.UsingCustomContentIntent == false)
-            {
-                var intent = new Intent(IntentConstants.KTapped);
-                builder.AddCustomArgsTo(intent);
-
-                var activity = PendingIntent.GetActivity(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.CancelCurrent)
-                    ?? throw new InvalidOperationException(ErrorStrings.KActivityError);
-                builder.SetContentIntent(activity);
-            }
+                SetContentIntent(builder, toastId);
 
             var notification = builder.Build();
-            var notificationIntent = new Intent(IntentConstants.KScheduled);
-            toastId.ToIntent(notificationIntent);
-            notificationIntent.PutExtra(IntentConstants.KNotification, notification);
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), notificationIntent, PendingIntentFlags.CancelCurrent)
+            var intent = new Intent(IntentConstants.KScheduled);
+            toastId.ToIntent(intent);
+            intent.PutExtra(IntentConstants.KNotification, notification);
+            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.CancelCurrent)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingIntent;
         }
@@ -86,9 +78,9 @@ namespace Plugin.Toast.Droid
             var (cdi, cci) = (builder.UsingCustomDeleteIntent, builder.UsingCustomContentIntent);
             TaskCompletionSource<NotificationResult> result = new TaskCompletionSource<NotificationResult>();
             if (cdi == false)
-                builder.SetDeleteIntent(CreateDeleteIntent(builder, toastId));
+                builder.SetDeleteIntent(CreateContentOrDeleteIntent(IntentConstants.KDismissed, builder, toastId));
             if (cci == false)
-                builder.SetContentIntent(CreateContentIntent(builder, toastId));
+                SetContentIntent(builder, toastId);
 
             lock (mutex)
                 tasksByNotificationId.Add(toastId, result);
@@ -97,22 +89,18 @@ namespace Plugin.Toast.Droid
             return result;
         }
 
-        static PendingIntent CreateDeleteIntent(INotificationBuilder builder, ToastId toastId)
+        void SetContentIntent(INotificationBuilder builder, ToastId toastId)
         {
-            var dismissIntent = new Intent(IntentConstants.KDismissed);
-            toastId.ToIntent(dismissIntent);
-
-            var pendingDismissIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), dismissIntent, 0)
-                ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
-            return pendingDismissIntent;
+            builder.SetContentIntent(
+                builder.GetForceOpenAppOnNotificationTap()
+                ? CreateLaunchIntent(builder, toastId)
+                : CreateContentOrDeleteIntent(IntentConstants.KTapped, builder, toastId));
         }
 
-        static PendingIntent CreateContentIntent(INotificationBuilder builder, ToastId toastId)
+        static PendingIntent CreateContentOrDeleteIntent(string action, INotificationBuilder builder, ToastId toastId)
         {
-            var intent = new Intent(IntentConstants.KTapped);
+            var intent = new Intent(action);
             toastId.ToIntent(intent);
-            intent.PutExtra(IntentConstants.KForceOpen, builder.GetForceOpenAppOnNotificationTap());
-
             builder.AddCustomArgsTo(intent);
 
             var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, 0)
@@ -120,8 +108,23 @@ namespace Plugin.Toast.Droid
             return result;
         }
 
+        PendingIntent CreateLaunchIntent(INotificationBuilder builder, ToastId toastId)
+        {
+            var packageManager = Application.Context.PackageManager;
+            var intent = packageManager?.GetLaunchIntentForPackage(options.PackageName);
+            if (intent == null)
+                throw new InvalidOperationException("can't get launch intent");
+            intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop);
+            toastId.ToIntent(intent);
+            builder.AddCustomArgsTo(intent);
+            var result = PendingIntent.GetActivity(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.UpdateCurrent)
+                ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
+            return result;
+        }
+
         sealed class NotificationReceiver : BroadcastReceiver
         {
+            const string KTag = nameof(NotificationReceiver);
             private readonly HiddenReference<IntentManager> hrIntentManager;
 
             public NotificationReceiver(IntentManager intentManager)
@@ -140,7 +143,7 @@ namespace Plugin.Toast.Droid
                 switch (intent.Action)
                 {
                     case IntentConstants.KTapped:
-                        OnTapped(toastId, intent, tcs);
+                        OnTapped(toastId, tcs);
                         break;
                     case IntentConstants.KScheduled:
                         OnScheduled(toastId, intent);
@@ -153,25 +156,39 @@ namespace Plugin.Toast.Droid
 
             }
 
-            private void OnTapped(ToastId toastId, Intent intent, TaskCompletionSource<NotificationResult>? tcs)
+            private void OnTapped(ToastId toastId, TaskCompletionSource<NotificationResult>? tcs)
             {
-                var doForceOpen = intent.Extras?.GetBoolean(IntentConstants.KForceOpen, false) ?? false;
-                if (doForceOpen)
+                var activity = hrIntentManager.Value.options.Activity;
+                if (activity.IsDestroyed)
                 {
                     try
                     {
                         var packageManager = Application.Context.PackageManager;
-                        var launchIntent = packageManager?.GetLaunchIntentForPackage(hrIntentManager.Value.options.PackageName);
-                        if (launchIntent != null)
+                        var intent = packageManager?.GetLaunchIntentForPackage(hrIntentManager.Value.options.PackageName);
+                        if (intent != null)
                         {
-                            launchIntent.AddCategory(Intent.CategoryLauncher);
-                            toastId.ToIntent(launchIntent);
-                            Application.Context.StartActivity(launchIntent);
+                            intent.AddCategory(Intent.CategoryLauncher);
+                            toastId.ToIntent(intent);
+                            Application.Context.StartActivity(intent);
                         }
                     }
                     catch (Exception ex)
                     {
                         hrIntentManager.Value.logger?.LogError(ex, "can't start application activity");
+                    }
+                }
+                else if (activity.HasWindowFocus == false)
+                {
+                    try
+                    {
+                        var intent = new Intent(activity, activity.GetType());
+                        toastId.ToIntent(intent);
+                        intent.SetFlags(ActivityFlags.ReorderToFront);
+                        activity.StartActivityIfNeeded(intent, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        hrIntentManager.Value.logger?.LogError(ex, "can't reorder to front an application activity");
                     }
                 }
                 tcs?.TrySetResult(NotificationResult.Activated);
