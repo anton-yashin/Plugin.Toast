@@ -13,23 +13,20 @@ namespace ManualTests.Tests
         private readonly INotificationEventSource eventSender;
         private readonly JsonSerializer jsonSerializer;
         ToastId? tid;
+        bool received;
 
         public ActivateFromPendingNotification(IServiceProvider serviceProvider)
             :base (serviceProvider, "Click run button then close app and tap to notification", "Activation of inactive app from notification center")
         {
             this.eventSender = serviceProvider.GetRequiredService<INotificationEventSource>();
             this.jsonSerializer = JsonSerializer.CreateDefault();
+            Construct();
         }
 
-        private void OnNotificationEvent(object sender, NotificationEvent e)
+        async void Construct()
         {
-            Assert(e.ToastId == tid);
-            eventSender.NotificationReceived -= OnNotificationEvent;
-        }
-
-        protected override async Task DoRunAsync()
-        {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(ActivateFromPendingNotification) + ".testdata");
+            await Task.Yield();
+            var path = DataPath;
             if (File.Exists(path))
             {
                 using (var file = File.OpenRead(path))
@@ -39,11 +36,26 @@ namespace ManualTests.Tests
                 File.Delete(path);
                 eventSender.NotificationReceived += OnNotificationEvent;
                 eventSender.SendPendingEvents();
+                Assert(received);
             }
-            else
+        }
+
+        private void OnNotificationEvent(object sender, NotificationEvent e)
+        {
+            received = e.ToastId == tid;
+            eventSender.NotificationReceived -= OnNotificationEvent;
+        }
+
+        string DataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(ActivateFromPendingNotification) + ".testdata");
+
+        protected override async Task DoRunAsync()
+        {
+            var path = DataPath;
+            if (File.Exists(path) == false)
             {
                 var task = serviceProvider.GetService<IBuilder>()
                     .AddTitle("First close app").AddDescription("then tap me")
+                    .WhenUsing<IDroidNotificationExtension>(b => b.ForceOpenAppOnNotificationTap(true))
                     .Build().ShowAsync(out tid);
                 using (var file = File.Create(path))
                 using (var sw = new StreamWriter(file))
