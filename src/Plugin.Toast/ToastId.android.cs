@@ -29,12 +29,15 @@ namespace Plugin.Toast
 
         const int KInvalidId = -1;
 
-        public static ToastId? FromIntent(Intent intent)
+        public static ToastId? FromIntent(Intent? intent)
         {
-            int notificationId = intent.Extras?.GetInt(IntentConstants.KNotificationId, KInvalidId) ?? KInvalidId;
-            string? notificationTag = intent.Extras?.GetString(IntentConstants.KNotifcationTag);
-            if (notificationId != KInvalidId && notificationTag != null)
-                return new ToastId(notificationId, notificationTag);
+            if (intent != null)
+            {
+                int notificationId = intent.Extras?.GetInt(IntentConstants.KNotificationId, KInvalidId) ?? KInvalidId;
+                string? notificationTag = intent.Extras?.GetString(IntentConstants.KNotifcationTag);
+                if (notificationId != KInvalidId && notificationTag != null)
+                    return new ToastId(notificationId, notificationTag);
+            }
             return null;
         }
 
