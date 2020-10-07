@@ -35,10 +35,10 @@ namespace Plugin.Toast
         static IAndroidNotificationManager NewAndroidNotificationManager()
         {
             if (AndroidPlatform.IsM)
-                return new AndroidNotificationManager();
+                return new AndroidNotificationManagerM();
             if (AndroidPlatform.IsEclair)
                 return new AndroidNotificationManagerEclair();
-            return new AndroidNotificationManagerM();
+            return new AndroidNotificationManager();
         }
 
         IBuilder? PlatformResolve(Type extensionType)
