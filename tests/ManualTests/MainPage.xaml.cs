@@ -17,7 +17,7 @@ namespace ManualTests
     {
         IServiceProvider serviceProvider;
         ILogger<MainPage> logger;
-        List<IAbstractTest> tests;
+
         public MainPage()
         {
             serviceProvider = App.Current.ServiceProvider;
@@ -25,29 +25,11 @@ namespace ManualTests
 
             InitializeComponent();
 
-            var typeParams = new Type[] { typeof(IServiceProvider) };
-            var @params = new object[] { serviceProvider };
-            tests = new List<IAbstractTest>();
-            foreach (var i in (from i in this.GetType().Assembly.GetTypes() 
-                               from j in i.GetInterfaces()
-                               where j == typeof(IAbstractTest) && i.IsAbstract == false
-                               select i))
-            {
-                var constructor = i.GetConstructor(typeParams);
-                if (constructor == null)
-                {
-                    logger.LogInformation("constructor for type {i} not found", i);
-                }
-                else
-                {
-                    var t = (IAbstractTest)constructor.Invoke(@params);
-                    if (t.IsAvailable)
-                        tests.Add(t);
-                    else
-                        logger.LogInformation("test {i} is not available on current platform", i);
-                }
-            }
-            testCollectionView.ItemsSource = tests;
+            var tests = serviceProvider.GetServices<IAbstractTest>().ToArray();
+            foreach (var i in tests.Where(t => t.IsAvailable == false))
+                logger.LogInformation("test {i} is not available on current platform", i);
+
+            testCollectionView.ItemsSource = tests.Where(t => t.IsAvailable).ToArray();
         }
     }
 }

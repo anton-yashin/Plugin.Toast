@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using Plugin.Toast;
+using ManualTests.Tests.Base;
 
 namespace ManualTests
 {
@@ -19,7 +20,7 @@ namespace ManualTests
         {
             var sc = new ServiceCollection();
             configurePlatformServices?.Invoke(sc);
-            sc.AddLogging(_ => _.AddDebug());
+            sc.AddLogging(_ => _.AddDebug()).AddTests();
             this.serviceProvider = sc.BuildServiceProvider();
             DependencyResolver.ResolveUsing(ServiceProvider.GetService);
 
