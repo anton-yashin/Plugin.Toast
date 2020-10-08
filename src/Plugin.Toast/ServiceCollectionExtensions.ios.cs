@@ -8,9 +8,36 @@ namespace Plugin.Toast
 {
     public static partial class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this)
             => AddNotificationManager(@this, new ToastOptions());
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="options">Additional options</param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options)
         {
             _ = @this ?? throw new ArgumentNullException(nameof(@this));
@@ -27,6 +54,23 @@ namespace Plugin.Toast
             return @this.AddBase();
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="options">Additional options</param>
+        /// <param name="defaultConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
+        /// <param name="localNotificationConiguration">Default configuration for <see cref="IIosLocalNotificationExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             IToastOptions options, 
             Action<IPlatformSpecificExtension> defaultConfiguration,
@@ -41,6 +85,22 @@ namespace Plugin.Toast
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="defaultConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
+        /// <param name="localNotificationConiguration">Default configuration for <see cref="IIosLocalNotificationExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             Action<IPlatformSpecificExtension> defaultConfiguration,
             Action<IIosLocalNotificationExtension> localNotificationConiguration)
@@ -54,6 +114,22 @@ namespace Plugin.Toast
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="options">Additional options</param>
+        /// <param name="defaultConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             IToastOptions options,
             Action<IPlatformSpecificExtension> defaultConfiguration)
@@ -64,6 +140,21 @@ namespace Plugin.Toast
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration));
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="defaultConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             Action<IPlatformSpecificExtension> defaultConfiguration)
         {
@@ -73,6 +164,22 @@ namespace Plugin.Toast
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration));
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="options">Additional options</param>
+        /// <param name="localNotificationConiguration">Default configuration for <see cref="IIosLocalNotificationExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             IToastOptions options,
             Action<IIosLocalNotificationExtension> localNotificationConiguration)
@@ -83,6 +190,21 @@ namespace Plugin.Toast
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
         }
 
+        /// <summary>
+        /// Add the notification manager and other services to the service collection. 
+        /// Services to be added to the collection:
+        /// <seealso cref="IToastOptions"/>,<br/>
+        /// <seealso cref="INotificationManager"/>,<br/>
+        /// <seealso cref="IHistory"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationReceiver"/>,<br/>
+        /// <seealso cref="IPermission"/>,<br/>
+        /// <seealso cref="IExtensionConfiguration{T}"/><br/>
+        /// </summary>
+        /// <param name="this">Service collection</param>
+        /// <param name="localNotificationConiguration">Default configuration for <see cref="IIosLocalNotificationExtension"/></param>
+        /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this,
             Action<IIosLocalNotificationExtension> localNotificationConiguration)
         {

@@ -7,6 +7,11 @@ namespace Plugin.Toast
 {
     public static partial class Platform
     {
+        /// <summary>
+        /// You must call this function if you want to receive an event received at application startup.
+        /// Place call inside App.OnActivated function.
+        /// </summary>
+        /// <param name="args">Activation args</param>
         public static void OnActivated(ToastNotificationActivatedEventArgs? args)
         {
             if (args != null)

@@ -7,6 +7,10 @@ namespace Plugin.Toast
 {
     public static partial class Platform
     {
+        /// <summary>
+        /// You must call this function if you want to receive an event received with an activity intent.
+        /// </summary>
+        /// <param name="activity">Your main launcher activity</param>
         public static void OnActivated(Activity activity)
         {
             var toastId = ToastId.FromIntent(activity.Intent);

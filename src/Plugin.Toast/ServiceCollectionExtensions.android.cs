@@ -9,13 +9,15 @@ namespace Plugin.Toast
     public static partial class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/><br/>
         /// </summary>
         /// <param name="this">Service collection</param>
@@ -25,13 +27,15 @@ namespace Plugin.Toast
             => @this.AddNotificationManager(new ToastOptions(activity));
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/><br/>
         /// </summary>
         /// <param name="this">Service collection</param>
@@ -57,13 +61,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/><br/>
         /// </summary>
@@ -86,13 +92,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
@@ -109,13 +117,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
@@ -133,13 +143,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
@@ -154,13 +166,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
@@ -178,13 +192,15 @@ namespace Plugin.Toast
         }
 
         /// <summary>
-        /// Add the notification manager and several other services to service collection. 
+        /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
         /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
+        /// <seealso cref="ISystemEventSource"/>,<br/>
+        /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>

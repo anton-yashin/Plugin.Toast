@@ -4,10 +4,15 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// An object that will dispatch an event to you when user taps the notification.
+    /// </summary>
     public interface INotificationEventSource
     {
+        /// <summary>
+        /// Send events registered via <see cref="Platform"/> class
+        /// </summary>
         void SendPendingEvents();
-
         event EventHandler<NotificationEvent> NotificationReceived;
     }
 }

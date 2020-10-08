@@ -12,6 +12,10 @@ namespace Plugin.Toast
         static object @lock = new object();
 
         static List<NotificationEvent>? pendingEvents;
+
+        /// <summary>
+        /// List of pending event received at startup. May be empty.
+        /// </summary>
         public static IEnumerable<NotificationEvent> PendingEvents
         { 
             get
@@ -23,6 +27,10 @@ namespace Plugin.Toast
             }
         }
 
+        /// <summary>
+        /// An <see cref="ISystemEventSource"/> that will send you <see cref="PendingEvents"/>
+        /// after you call <see cref="ISystemEventSource.SendPendingEvents"/>.
+        /// </summary>
         public static ISystemEventSource? SystemEventSource
         {
             get => _systemEventRouter;
@@ -45,6 +53,9 @@ namespace Plugin.Toast
             }
         }
 
+        /// <summary>
+        /// Clears the <see cref="PendingEvents"/> list.
+        /// </summary>
         public static void ClearPendingEvents()
         {
             lock (@lock)
