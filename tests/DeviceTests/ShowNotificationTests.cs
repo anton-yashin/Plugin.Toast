@@ -55,9 +55,8 @@ namespace DeviceTests
 #endif
 
         [Fact]
-        public async Task ShowWithDelay()
-        {
-            await Platform.iOS_InvokeOnMainThreadAsync(async () =>
+        public Task ShowWithDelay()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
@@ -68,12 +67,10 @@ namespace DeviceTests
                     await Task.Delay(TimeSpan.FromSeconds(3));
                 }
             });
-        }
 
         [Fact]
-        public async Task ShowWithDelayAlternative()
-        {
-            await Platform.iOS_InvokeOnMainThreadAsync(async () =>
+        public  Task ShowWithDelayAlternative()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
@@ -85,6 +82,5 @@ namespace DeviceTests
                     await Task.Delay(TimeSpan.FromSeconds(3));
                 }
             });
-        }
     }
 }

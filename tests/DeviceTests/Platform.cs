@@ -61,7 +61,7 @@ namespace DeviceTests
 #if __ANDROID__ || NETFX_CORE
             return func();
 #elif __IOS__
-            var tcs = new TaskCompletionSource<object?>();
+            var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
             Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
             {
                 try
