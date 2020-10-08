@@ -150,6 +150,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>3.1.8</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
+    </PackageReference>
     <PackageReference Include="UnitTests.HeadlessRunner" Version="2.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.devices" Version="2.5.25" />
@@ -182,6 +188,11 @@
       <Project>{fe8bce51-daa4-409e-8d61-0e2fb7a63b46}</Project>
       <Name>UnitTests</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Text.Json">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\System.Text.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="..\DeviceTests\DeviceTests.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

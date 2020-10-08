@@ -1,6 +1,8 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Plugin.Toast;
 using Xunit;
 
@@ -59,6 +61,58 @@ namespace DeviceTests.iOS
             yield return new object?[] { false, new ToastId("abc"), null };
             yield return new object?[] { false, null, new ToastId("abc") };
             yield return new object?[] { false, new ToastId("def"), new ToastId("abc") };
+        }
+
+        [Fact]
+        public void NewtownSoftJsonSerialization()
+        {
+            // prepare
+            byte[] data;
+            ToastId? result;
+            var expected = new ToastId(Guid.NewGuid().ToString());
+            var jsonSerializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
+
+            // act
+            using (var ms = new MemoryStream())
+            using (var sw = new StreamWriter(ms))
+            {
+                jsonSerializer.Serialize(sw, expected);
+                sw.Flush();
+                data = ms.ToArray();
+            }
+
+            using (var ms = new MemoryStream(data))
+            using (var sr = new StreamReader(ms))
+            {
+                result = (ToastId?)jsonSerializer.Deserialize(sr, typeof(ToastId));
+            }
+
+            // verify
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task SystemTextJsonSerialization()
+        {
+            // prepare
+            byte[] data;
+            ToastId result;
+            var expected = new ToastId(Guid.NewGuid().ToString());
+
+            // act
+            using (var ms = new MemoryStream())
+            {
+                await System.Text.Json.JsonSerializer.SerializeAsync(ms, expected);
+                data = ms.ToArray();
+            }
+
+            using (var ms = new MemoryStream(data))
+            {
+                result = await System.Text.Json.JsonSerializer.DeserializeAsync<ToastId>(ms);
+            }
+
+            // verify
+            Assert.Equal(expected, result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Support.Annotation;
 using Plugin.Toast.Droid;
 using System;
 using System.Runtime.Serialization;
@@ -8,16 +9,30 @@ namespace Plugin.Toast
 {
     public sealed partial class ToastId : IEquatable<ToastId>
     {
-        [DataMember]
-        public int Id { get; }
+        int id;
+        string tag;
 
         [DataMember]
-        public string Tag { get; }
+        public int Id
+        {
+            get => id;
+            [Obsolete(KObsoleteMessage, true)]
+            set => id = value;
+        }
+
+
+        [DataMember]
+        public string Tag 
+        {
+            get => tag;
+            [Obsolete(KObsoleteMessage, true)]
+            set => tag = value;
+        }
 
         public ToastId(int id, string tag)
         {
-            Id = id;
-            Tag = tag;
+            this.id = id;
+            this.tag = tag;
         }
 
         (int id, string tag) AsTuple() => (Id, Tag);

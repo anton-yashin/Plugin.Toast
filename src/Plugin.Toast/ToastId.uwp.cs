@@ -6,15 +6,29 @@ namespace Plugin.Toast
 {
     public sealed partial class ToastId : IEquatable<ToastId>
     {
+        string tag;
+        string group;
+
         [DataMember]
-        public string Tag { get; }
+        public string Tag 
+        {
+            get => tag;
+            [Obsolete(KObsoleteMessage, true)]
+            set => tag = value;
+        }
+
         [DataMember]
-        public string Group { get; }
+        public string Group
+        {
+            get => group;
+            [Obsolete(KObsoleteMessage, true)]
+            set => group = value;
+        }
 
         public ToastId(string tag, string group)
         {
-            Tag = tag ?? "";
-            Group = group ?? "";
+            this.tag = tag ?? "";
+            this.group = group ?? "";
         }
 
         public static ToastId FromNotification(ToastNotification toastNotification)

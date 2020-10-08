@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -77,6 +78,58 @@ namespace DeviceTests.Android
             yield return new object?[] { false, new ToastId(123, "def"), null };
             yield return new object?[] { false, null, new ToastId(123, "def") };
             yield return new object?[] { false, new ToastId(123, "def"), new ToastId(456, "abc") };
+        }
+
+        [Fact]
+        public void NewtownSoftJsonSerialization()
+        {
+            // prepare
+            byte[] data;
+            ToastId? result;
+            var expected = ToastId.New();
+            var jsonSerializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
+
+            // act
+            using (var ms = new MemoryStream())
+            using (var sw = new StreamWriter(ms))
+            {
+                jsonSerializer.Serialize(sw, expected);
+                sw.Flush();
+                data = ms.ToArray();
+            }
+
+            using (var ms = new MemoryStream(data))
+            using (var sr = new StreamReader(ms))
+            {
+                result = (ToastId?)jsonSerializer.Deserialize(sr, typeof(ToastId));
+            }
+
+            // verify
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task SystemTextJsonSerialization()
+        {
+            // prepare
+            byte[] data;
+            ToastId result;
+            var expected = ToastId.New();
+
+            // act
+            using (var ms = new MemoryStream())
+            {
+                await System.Text.Json.JsonSerializer.SerializeAsync(ms, expected);
+                data = ms.ToArray();
+            }
+
+            using (var ms = new MemoryStream(data))
+            {
+                result = await System.Text.Json.JsonSerializer.DeserializeAsync<ToastId>(ms);
+            }
+
+            // verify
+            Assert.Equal(expected, result);
         }
     }
 }

@@ -7,10 +7,16 @@ namespace Plugin.Toast
 {
     public partial class ToastId : IEquatable<ToastId>
     {
-        public ToastId(string id) => Id = id;
+        string id;
+        public ToastId(string id) => this.id = id;
 
         [DataMember]
-        public string Id { get; }
+        public string Id 
+        {
+            get => id;
+            [Obsolete(KObsoleteMessage, true)]
+            set => id = value;
+        }
 
         bool PlatformEquals(ToastId? other) => other != null && Id == other.Id;
         bool PlatformEquals(object? obj) => PlatformEquals(obj as ToastId);

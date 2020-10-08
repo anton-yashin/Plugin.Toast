@@ -14,7 +14,15 @@ namespace Plugin.Toast
     [DataContract]
     public sealed partial class ToastId : IEquatable<ToastId>
     {
-        private ToastId() => throw Exceptions.ExceptionUtils.NotSupportedOrImplementedException;
+        const string KObsoleteMessage = "For data providers only";
+
+        /// <summary>
+        /// This ctor available for deserialization purposes.
+        /// </summary>
+#nullable disable
+        [Obsolete(KObsoleteMessage, true)]
+        public ToastId() { }
+#nullable restore
 
         /// <summary>
         /// Calculates a hash code that persistent between runs
