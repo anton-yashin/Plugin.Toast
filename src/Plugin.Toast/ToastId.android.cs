@@ -24,11 +24,20 @@ namespace Plugin.Toast
 
         static int idGenerator;
 
+        /// <summary>
+        /// Creates a new <see cref="ToastId"/> with unique pair of values
+        /// </summary>
+        /// <returns>new <see cref="ToastId"/></returns>
         public static ToastId New()
             => new ToastId(Interlocked.Increment(ref idGenerator), Guid.NewGuid().ToString());
 
         const int KInvalidId = -1;
 
+        /// <summary>
+        /// Construct <see cref="ToastId"/> from <see cref="Intent"/>.
+        /// </summary>
+        /// <param name="intent">Intent to check</param>
+        /// <returns><see cref="ToastId"/> if the required data was found in the <see cref="Intent"/>, otherwise null</returns>
         public static ToastId? FromIntent(Intent? intent)
         {
             if (intent != null)
@@ -41,6 +50,10 @@ namespace Plugin.Toast
             return null;
         }
 
+        /// <summary>
+        /// Write <see cref="ToastId"/> to <see cref="Intent"/>
+        /// </summary>
+        /// <param name="intent">Intent to store data</param>
         public void ToIntent(Intent intent)
         {
             intent.PutExtra(IntentConstants.KNotifcationTag, Tag);
