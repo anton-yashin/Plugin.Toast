@@ -10,6 +10,8 @@ namespace Plugin.Toast
 
         public static INotificationManager Instance => instance ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
         public static IHistory History => PlatformGetHistory();
+        public static INotificationEventSource GetNotificationEventSource()
+            => new NotificationEventProxy(PlatformGetSystemEventSource());
 
         public IBuilder GetBuilder() => PlatformBuildNotification();
 

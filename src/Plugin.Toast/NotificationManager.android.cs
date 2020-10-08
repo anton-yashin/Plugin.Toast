@@ -59,5 +59,6 @@ namespace Plugin.Toast
 
         Task PlatformInitializeAsync() => Task.CompletedTask;
         static IHistory PlatformGetHistory() => instance?.history ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
+        static ISystemEventSource PlatformGetSystemEventSource() => instance?.systemEventSource ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }

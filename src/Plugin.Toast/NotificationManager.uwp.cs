@@ -35,5 +35,6 @@ namespace Plugin.Toast
         IBuilder? PlatformResolve(Type _) => new NotificationBuilder(null);
         Task PlatformInitializeAsync() => Task.CompletedTask;
         static IHistory PlatformGetHistory() => historyInstance ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
+        static ISystemEventSource PlatformGetSystemEventSource() => instance?.systemEventSource ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }

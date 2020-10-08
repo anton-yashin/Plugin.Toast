@@ -60,5 +60,6 @@ namespace Plugin.Toast
 
         Task PlatformInitializeAsync() => permission.RequestAuthorizationAsync();
         static IHistory PlatformGetHistory() => historyInstance ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
+        static ISystemEventSource PlatformGetSystemEventSource() => instance?.systemEventSource ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }
