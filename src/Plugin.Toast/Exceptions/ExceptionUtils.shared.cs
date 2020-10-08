@@ -14,6 +14,8 @@ namespace Plugin.Toast.Exceptions
             new NotSupportedException("This API is not supported on " + Platform);
 #endif
 
+        internal static InvalidOperationException PleaseCallInit => new InvalidOperationException("please call init");
+
         static string Platform =>
 #if __ANDROID__
             "Android";

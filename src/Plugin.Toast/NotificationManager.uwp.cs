@@ -34,6 +34,6 @@ namespace Plugin.Toast
         IBuilder PlatformBuildNotification() => new NotificationBuilder(null);
         IBuilder? PlatformResolve(Type _) => new NotificationBuilder(null);
         Task PlatformInitializeAsync() => Task.CompletedTask;
-        static IHistory PlatformGetHistory() => historyInstance ?? throw new InvalidOperationException("please call init");
+        static IHistory PlatformGetHistory() => historyInstance ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }

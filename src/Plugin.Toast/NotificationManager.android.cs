@@ -58,6 +58,6 @@ namespace Plugin.Toast
             .Resolve<Func<IBuilder>>(CreateSnackBarBuilder, CreateDroidNotificationBuilder)();
 
         Task PlatformInitializeAsync() => Task.CompletedTask;
-        static IHistory PlatformGetHistory() => instance?.history ?? throw new InvalidOperationException("please call init");
+        static IHistory PlatformGetHistory() => instance?.history ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }

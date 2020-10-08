@@ -59,6 +59,6 @@ namespace Plugin.Toast
         }
 
         Task PlatformInitializeAsync() => permission.RequestAuthorizationAsync();
-        static IHistory PlatformGetHistory() => historyInstance ?? throw new InvalidOperationException("please call init");
+        static IHistory PlatformGetHistory() => historyInstance ?? throw Exceptions.ExceptionUtils.PleaseCallInit;
     }
 }
