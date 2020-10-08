@@ -12,6 +12,7 @@ namespace Plugin.Toast
         private readonly IToastOptions options;
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
+        private readonly ISystemEventSource systemEventSource;
         private static IHistory? historyInstance;
 
         internal NotificationManager() : this(new ToastOptions()) { }
@@ -24,7 +25,8 @@ namespace Plugin.Toast
             this.notificationExtension = typeof(IIosNotificationExtension);
             this.localNotificationExtension = typeof(IIosLocalNotificationExtension);
             this.options = options;
-            this.notificationReceiver = new NotificationReceiver();
+            this.systemEventSource = new SystemEventSource(null);
+            this.notificationReceiver = new NotificationReceiver(systemEventSource);
             this.permission = permission;
         }
 

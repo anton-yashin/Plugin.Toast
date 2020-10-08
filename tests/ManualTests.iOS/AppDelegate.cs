@@ -6,6 +6,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Plugin.Toast;
+using UserNotifications;
 
 namespace ManualTests.iOS
 {
@@ -25,7 +26,7 @@ namespace ManualTests.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            Plugin.Toast.NotificationManager.Init();
+            Platform.OnActivated(app, options);
             LoadApplication(new App(_ => _.AddNotificationManager().AddNotificationManagerImagesSupport()));
 
             return base.FinishedLaunching(app, options);

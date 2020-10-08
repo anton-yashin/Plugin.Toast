@@ -7,10 +7,13 @@ namespace Plugin.Toast.IOS
     sealed class NotificationReceiver : UNUserNotificationCenterDelegate, INotificationReceiver
     {
         private readonly Dictionary<ToastId, Request> requests;
+        private readonly ISystemEventSource systemEventSource;
 
-        public NotificationReceiver()
+        public NotificationReceiver(ISystemEventSource systemEventSource)
         {
             requests = new Dictionary<ToastId, Request>();
+            UNUserNotificationCenter.Current.Delegate = this;
+            this.systemEventSource = systemEventSource;
         }
 
         public IDisposable RegisterRequest(ToastId toastId, Action onShown, Action onTapped)
@@ -44,7 +47,12 @@ namespace Plugin.Toast.IOS
         }
 
         public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-            => GetRequest(new ToastId(response.Notification.Request.Identifier))?.OnTapped();
+        {
+            var tid = new ToastId(response.Notification.Request.Identifier);
+            GetRequest(tid)?.OnTapped();
+            systemEventSource.SendEvent(new NotificationEvent(tid));
+            completionHandler();
+        }
 
         sealed class Request
         {
