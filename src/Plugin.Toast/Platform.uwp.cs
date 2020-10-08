@@ -18,7 +18,7 @@ namespace Plugin.Toast
                     throw new InvalidOperationException("Tag value isn't found");
                 var tid = new ToastId(tag, group);
                 var @event = new NotificationEvent(tid);
-                var activator = SystemEventRouter;
+                var activator = SystemEventSource;
                 if (activator == null)
                     AddPendingEvent(@event);
                 else

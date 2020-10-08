@@ -4,12 +4,15 @@ using System.Linq;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Store for notification events received at startup
+    /// </summary>
     public static partial class Platform
     {
         static object @lock = new object();
 
         static List<NotificationEvent>? pendingEvents;
-        public static IEnumerable<NotificationEvent> PendintEvents
+        public static IEnumerable<NotificationEvent> PendingEvents
         { 
             get
             {
@@ -20,9 +23,7 @@ namespace Plugin.Toast
             }
         }
 
-
-        static ISystemEventSource? _systemEventRouter;
-        public static ISystemEventSource? SystemEventRouter
+        public static ISystemEventSource? SystemEventSource
         {
             get => _systemEventRouter;
             set
@@ -30,6 +31,7 @@ namespace Plugin.Toast
                 lock (@lock) { _systemEventRouter = value; }
             }
         }
+        static ISystemEventSource? _systemEventRouter;
 
         static void AddPendingEvent(NotificationEvent @event)
         {

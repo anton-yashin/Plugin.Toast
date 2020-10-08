@@ -18,7 +18,7 @@ namespace Plugin.Toast
             observers = new List<WeakReference<INotificationEventObserver>>();
             @lock = new object();
             //
-            Platform.SystemEventRouter = this;
+            Platform.SystemEventSource = this;
         }
 
         public void SendEvent(NotificationEvent @event)
@@ -29,7 +29,7 @@ namespace Plugin.Toast
 
         public void SendPendingEvents()
         {
-            var events = Platform.PendintEvents;
+            var events = Platform.PendingEvents;
             Platform.ClearPendingEvents();
             var observers = GetObservers();
             foreach (var e in events)
