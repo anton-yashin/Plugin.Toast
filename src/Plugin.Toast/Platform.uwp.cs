@@ -19,15 +19,16 @@ namespace Plugin.Toast
                 var collection = HttpUtility.ParseQueryString(args.Argument);
                 var tag = collection[UwpConstants.KTag];
                 var group = collection[UwpConstants.KGroup];
-                if (tag == null)
-                    throw new InvalidOperationException("Tag value isn't found");
-                var tid = new ToastId(tag, group);
-                var @event = new NotificationEvent(tid);
-                var activator = SystemEventSource;
-                if (activator == null)
-                    AddPendingEvent(@event);
-                else
-                    activator.SendEvent(@event);
+                if (tag != null)
+                {
+                    var tid = new ToastId(tag, group);
+                    var @event = new NotificationEvent(tid);
+                    var activator = SystemEventSource;
+                    if (activator == null)
+                        AddPendingEvent(@event);
+                    else
+                        activator.SendEvent(@event);
+                }
             }
         }
 
