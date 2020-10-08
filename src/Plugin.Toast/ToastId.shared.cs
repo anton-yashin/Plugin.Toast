@@ -14,7 +14,7 @@ namespace Plugin.Toast
     [DataContract]
     public sealed partial class ToastId : IEquatable<ToastId>
     {
-        const string KObsoleteMessage = "For data providers only";
+        const string KObsoleteMessage = "For deserialization libraries";
 
         /// <summary>
         /// This ctor available for deserialization purposes.
