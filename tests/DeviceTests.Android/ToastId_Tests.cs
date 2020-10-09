@@ -131,5 +131,22 @@ namespace DeviceTests.Android
             // verify
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void FromToIntent()
+        {
+            // prepare
+            var intent = new Intent("someAction");
+            var expected = ToastId.New();
+
+            // act
+            var @null = ToastId.FromIntent(intent);
+            expected.ToIntent(intent);
+            var result = ToastId.FromIntent(intent);
+
+            // verify
+            Assert.Null(@null);
+            Assert.Equal(expected, result);
+        }
     }
 }
