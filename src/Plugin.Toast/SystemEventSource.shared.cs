@@ -44,6 +44,23 @@ namespace Plugin.Toast
             }
         }
 
+        public void Unsubscribe(INotificationEventObserver observer)
+        {
+            lock (@lock)
+            {
+                for (int i = 0; i < observers.Count; i++)
+                {
+                    if (observers[i].TryGetTarget(out var tgt) == false)
+                    {
+                        observers.RemoveAt(i--);
+                        continue;
+                    }
+                    if (ReferenceEquals(tgt, observer))
+                        observers.RemoveAt(i--);
+                }
+            }
+        }
+
         IReadOnlyCollection<INotificationEventObserver> GetObservers()
         {
             var result = new List<INotificationEventObserver>();

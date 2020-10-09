@@ -25,5 +25,10 @@ namespace Plugin.Toast
         /// </summary>
         /// <param name="observer">Observer</param>
         void Subscribe(INotificationEventObserver observer);
+        /// <summary>
+        /// Removes a weak reference to observer.
+        /// </summary>
+        /// <param name="observer">Observer</param>
+        void Unsubscribe(INotificationEventObserver observer);
     }
 }
