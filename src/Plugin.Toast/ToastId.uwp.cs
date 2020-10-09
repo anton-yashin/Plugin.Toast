@@ -31,12 +31,23 @@ namespace Plugin.Toast
             this.group = group ?? "";
         }
 
+
+        /// <summary>
+        /// Creates <see cref="ToastId"/> from specified notification.
+        /// </summary>
+        /// <param name="toastNotification">Toast notification</param>
+        /// <returns>ToastId</returns>
         public static ToastId FromNotification(ToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
                 group: toastNotification.Group
                 );
 
+        /// <summary>
+        /// Creates <see cref="ToastId"/> from specified notification.
+        /// </summary>
+        /// <param name="toastNotification">Toast notification</param>
+        /// <returns>ToastId</returns>
         public static ToastId FromNotification(ScheduledToastNotification toastNotification)
             => new ToastId(
                 tag: toastNotification.Tag,
