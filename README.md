@@ -137,6 +137,48 @@ cancellationToken.Dispose(); // remove from schedule
 ```
 See also: [Droid.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Droid/IPlatformSpecificExtension.android.cs), [IOS.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IOS/IPlatformSpecificExtension.ios.cs)
 
+### Work with notification history
+
+```csharp
+// get history instance
+IHistory history;
+history = NotificationManager.History;
+history = serviceProvider.GetService<IHistory>();
+
+// check if notification has been delivered
+var isDelivered = await history.IsDeliveredAsync(notificationId);
+// check if notification has been scheduled
+var isScheduled = await history.IsScheduledAsync(notificationId);
+// remove delivered notification from notification center
+history.RemoveDelivered(notificationId);
+// remove a notification from the schedule
+history.RemoveScheduled(notificationId);
+// remove all notification of the current application from notification center
+history.RemoveAllDelivered();
+```
+
+### Watch for notifications
+
+To capture notifications at application startup you must place call to Platform.OnActivated
+on you overrides: Activity.OnCreate @ android, UIApplicationDelegate.FinishedLaunching @ ios
+and Application.OnActivated override @ uwp. If the notification contains a valid identifier, you
+will receive it.
+
+```csharp
+// get event source instance
+INotificationEventSource eventSource;
+eventSource = NotificationManager.GetNotificationEventSource();
+eventSource = serviceProvider.GetService<INotificationEventSource>();
+
+// watch for events
+eventSource.NotificationReceived += OnNotificationReceived;
+// send events that captured on application startup
+eventSource.SendPendingEvents();
+
+```
+See also: [ISystemEventSource](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/ISystemEventSource.shared.cs),
+[INotificationEventObserver](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/INotificationEventObserver.shared.cs).
+
 ### Advanced usage
 You can encapsulate common configurations using [IExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IExtensionConfiguration.shared.cs) or [ISpecificExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/ISpecificExtensionConfiguration.shared.cs) and add
 to your service collection or use with specific extensions.
