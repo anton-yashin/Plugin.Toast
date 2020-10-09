@@ -118,6 +118,7 @@ namespace DeviceTests
             Assert.NotNull(sp.GetService<Plugin.Toast.Droid.IIntentManager>());
             Assert.NotNull(sp.GetService<ISnackbarExtension>());
             Assert.NotNull(sp.GetService<IDroidNotificationExtension>());
+            Assert.NotNull(sp.GetService<Plugin.Toast.Droid.IAndroidNotificationManager>());
 
             if (configurationExists)
                 Assert.NotNull(sp.GetService<IExtensionConfiguration<Plugin.Toast.Droid.IPlatformSpecificExtension>>());
@@ -327,6 +328,9 @@ namespace DeviceTests
         {
             Assert.NotNull(sp.GetService<IInitialization>());
             Assert.NotNull(sp.GetService<INotificationManager>());
+            Assert.NotNull(sp.GetService<ISystemEventSource>());
+            Assert.NotNull(sp.GetService<INotificationEventSource>());
+            Assert.NotNull(sp.GetService<IHistory>());
             Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension, IUwpExtension, IUwpExtension>>());
             Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension, IUwpExtension>>());
             Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension>>());

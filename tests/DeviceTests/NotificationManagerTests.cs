@@ -168,6 +168,8 @@ namespace DeviceTests
             NotificationManager.Init(to);
 
             Assert.NotNull(NotificationManager.Instance);
+            Assert.NotNull(NotificationManager.History);
+            Assert.NotNull(NotificationManager.GetNotificationEventSource());
         }
 
     }
