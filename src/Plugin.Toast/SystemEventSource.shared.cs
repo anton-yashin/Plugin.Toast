@@ -94,5 +94,11 @@ namespace Plugin.Toast
                 throw;
             }
         }
+
+        internal int GetObserversCount()
+        {
+            lock (@lock)
+                return observers.Count;
+        }
     }
 }

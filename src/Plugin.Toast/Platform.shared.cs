@@ -41,7 +41,7 @@ namespace Plugin.Toast
         }
         static ISystemEventSource? _systemEventRouter;
 
-        static void AddPendingEvent(NotificationEvent @event)
+        internal static void AddPendingEvent(NotificationEvent @event)
         {
             lock (@lock)
             {
