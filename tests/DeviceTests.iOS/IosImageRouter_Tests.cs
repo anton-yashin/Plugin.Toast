@@ -4,6 +4,7 @@ using System.Linq;
 using DeviceTests.iOS.Mocks;
 using DeviceTests.Utils;
 using Foundation;
+using LightMock;
 using Plugin.Toast;
 using UserNotifications;
 using Xunit;
@@ -91,7 +92,7 @@ namespace DeviceTests.iOS
             router.Configure(mock.SpecificObject, many, (Router.Route)route);
 
             // verify
-            mock.Platform.Assert(_ => _.AddAttachments(many.Select(i => i.Attachment)));
+            mock.Platform.Assert(_ => _.AddAttachments(The<IEnumerable<UNNotificationAttachment>>.Is(e => e.All(i => i == attachment))));
         }
     }
 }
