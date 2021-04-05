@@ -53,7 +53,7 @@ namespace ManualTests.Tests
             var path = DataPath;
             if (File.Exists(path) == false)
             {
-                var task = serviceProvider.GetService<IBuilder>()
+                var task = serviceProvider.GetRequiredService<IBuilder>()
                     .AddTitle("First close app").AddDescription("then tap me")
                     .WhenUsing<IDroidNotificationExtension>(b => b.ForceOpenAppOnNotificationTap(true))
                     .Build().ShowAsync(out tid);

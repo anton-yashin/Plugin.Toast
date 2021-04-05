@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
 using LightMock;
 using LightMock.Generator;
 using Plugin.Toast;
@@ -25,7 +27,7 @@ namespace DeviceTests.UWP
             // prepare
             var expectedUri = new Uri("https://expected.com", UriKind.Absolute);
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromUriAsync(expectedUri);
@@ -39,7 +41,7 @@ namespace DeviceTests.UWP
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
             Xamarin.Forms.Application.Current?.OnThisPlatform().SetImageDirectory(imageDir);
 
             // act
@@ -67,9 +69,9 @@ namespace DeviceTests.UWP
             const string KExepcted = "file:///c:/fullpath/image.png";
             var expectedAssembly = Assembly.GetExecutingAssembly();
             using var sp = CreateServices();
-            var mic = sp.GetService<Mock<IImageCacher>>();
-            var strategy = sp.GetService<Mock<IResourceToFileNameStrategy>>();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var mic = sp.GetRequiredService<Mock<IImageCacher>>();
+            var strategy = sp.GetRequiredService<Mock<IResourceToFileNameStrategy>>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             strategy.Arrange(f => f.Convert(The<string>.IsAnyValue, The<Assembly>.IsAnyValue))
                 .Returns(() => KLocalPath);

@@ -21,7 +21,7 @@ namespace ManualTests
         public MainPage()
         {
             serviceProvider = App.Current.ServiceProvider;
-            logger = serviceProvider.GetService<ILogger<MainPage>>();
+            logger = serviceProvider.GetRequiredService<ILogger<MainPage>>();
 
             InitializeComponent();
 

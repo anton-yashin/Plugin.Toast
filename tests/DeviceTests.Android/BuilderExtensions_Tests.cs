@@ -25,7 +25,7 @@ namespace DeviceTests.Android
         public void AddImage()
         {
             // prepare
-            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8)
+            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
             var mock = new Mock<IBuilder>();
             ToastImageSource ims = new SealedToastImageSource(bitmap);
@@ -41,7 +41,7 @@ namespace DeviceTests.Android
         public void AddLargeIcon()
         {
             // prepare
-            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8)
+            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
             var mock = new Mock<IDroidNotificationExtension>();
             var extension = (IDroidNotificationExtension)mock.Object;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -27,16 +29,16 @@ namespace DeviceTests.iOS
             const string KMime = "image/png";
             var expectedUri = new Uri("https://example.com", UriKind.Absolute);
             using var sp = CreateServices();
-            var mockCacher = sp.GetService<Mock<IImageCacher>>();
+            var mockCacher = sp.GetRequiredService<Mock<IImageCacher>>();
             mockCacher.Arrange(f => f.CacheAsync(The<string>.IsAnyValue, The<CancellationToken>.IsAnyValue, The<Func<Stream, CancellationToken, Task>>.IsAnyValue))
                 .ReturnsAsync(() => FullFileName);
-            var mockStrategy = sp.GetService<Mock<IUriToFileNameStrategy>>();
+            var mockStrategy = sp.GetRequiredService<Mock<IUriToFileNameStrategy>>();
             mockStrategy.Arrange(f => f.Convert(The<Uri>.IsAnyValue))
                 .Returns(() => KStrategyResult);
-            var mockMimeDetector = sp.GetService<Mock<IMimeDetector>>();
+            var mockMimeDetector = sp.GetRequiredService<Mock<IMimeDetector>>();
             mockMimeDetector.Arrange(f => f.DetectAsync(The<Stream>.IsAnyValue, The<CancellationToken>.IsAnyValue))
                 .ReturnsAsync(() => KMime);
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromUriAsync(expectedUri);
@@ -57,13 +59,13 @@ namespace DeviceTests.iOS
             const string KStrategyResult = "resources/image.png";
             var expectedAssembly = Assembly.GetExecutingAssembly();
             using var sp = CreateServices();
-            var mockCacher = sp.GetService<Mock<IImageCacher>>();
+            var mockCacher = sp.GetRequiredService<Mock<IImageCacher>>();
             mockCacher.Arrange(f => f.CacheAsync(The<string>.IsAnyValue, The<CancellationToken>.IsAnyValue, The<Func<Stream, CancellationToken, Task>>.IsAnyValue))
                 .ReturnsAsync(() => FullFileName);
-            var mockStrategy = sp.GetService<Mock<IResourceToFileNameStrategy>>();
+            var mockStrategy = sp.GetRequiredService<Mock<IResourceToFileNameStrategy>>();
             mockStrategy.Arrange(f => f.Convert(The<string>.IsAnyValue, The<Assembly>.IsAnyValue))
                 .Returns(() => KStrategyResult);
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromResourceAsync(KResource, this.GetType());
@@ -82,7 +84,7 @@ namespace DeviceTests.iOS
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromFileAsync(FullFileName);

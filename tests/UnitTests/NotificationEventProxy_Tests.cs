@@ -40,7 +40,7 @@ namespace UnitTests
 
             // verify
             Assert.True(notificationReceivedIsCalled);
-            void Verify(object sender, NotificationEvent e)
+            void Verify(object? sender, NotificationEvent e)
             {
                 notificationReceivedIsCalled = true;
                 Assert.Same(expected: mock.Object, sender);

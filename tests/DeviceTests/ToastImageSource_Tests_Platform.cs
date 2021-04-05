@@ -9,13 +9,13 @@ using Xunit;
 
 namespace DeviceTests
 {
-    public class ToastImageSource_Tests
+    public class ToastImageSource_Tests_Platform
     {
         [Fact]
         public void Construct()
         {
 #if __ANDROID__
-            var expected = global::Android.Graphics.Bitmap.CreateBitmap(100, 100, global::Android.Graphics.Bitmap.Config.Alpha8)
+            var expected = global::Android.Graphics.Bitmap.CreateBitmap(100, 100, global::Android.Graphics.Bitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException();
             var tis = new SealedToastImageSource(expected);
             Assert.Equal(expected, tis.Bitmap);

@@ -23,7 +23,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<IBuilder>()
                         .AddTitle(Localization.R_SOME_TITLE)
                         .AddDescription(Localization.R_LOREM_IPSUM)
                         .AddImage(await toastImageSourceFactory.FromFileAsync("platform_image.jpg"))

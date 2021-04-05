@@ -19,8 +19,8 @@ namespace DeviceTests
             {
                 // prepare
                 using var sc = CreateServices();
-                var nm = sc.GetService<INotificationManager>();
-                var history = sc.GetService<IHistory>();
+                var nm = sc.GetRequiredService<INotificationManager>();
+                var history = sc.GetRequiredService<IHistory>();
 
                 var task = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemove)).AddDescription(KRunningTest).Build()
                     .ShowAsync(out var toastId);
@@ -42,8 +42,8 @@ namespace DeviceTests
             {
                 // prepare
                 using var sc = CreateServices();
-                var nm = sc.GetService<INotificationManager>();
-                var history = sc.GetService<IHistory>();
+                var nm = sc.GetRequiredService<INotificationManager>();
+                var history = sc.GetRequiredService<IHistory>();
                 var group = Guid.NewGuid().ToString();
 
                 var result = await nm.GetBuilder().AddTitle(nameof(IsDeliveredAndRemoveWithUwpGroup))
@@ -68,8 +68,8 @@ namespace DeviceTests
             {
                 // prepare
                 using var sc = CreateServices();
-                var nm = sc.GetService<INotificationManager>();
-                var history = sc.GetService<IHistory>();
+                var nm = sc.GetRequiredService<INotificationManager>();
+                var history = sc.GetRequiredService<IHistory>();
 
                 var result = await nm.GetBuilder().AddTitle(nameof(RemoveAll))
                     .AddDescription(KRunningTest).Build()
@@ -94,11 +94,11 @@ namespace DeviceTests
                 using (var sp = CreateServices())
                 {
                     ToastId toastId;
-                    var history = sp.GetService<IHistory>();
+                    var history = sp.GetRequiredService<IHistory>();
                     var randomId = GetRandomScheduledToastId();
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     await sp.GetRequiredService<IInitialization>().InitializeAsync();
-                    using (var cancellation = sp.GetService<IBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
+                    using (var cancellation = sp.GetRequiredService<IBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
                     {
                         toastId = cancellation.ToastId;
                         Assert.True(await history.IsScheduledAsync(toastId), "scheduled not found");
@@ -115,11 +115,11 @@ namespace DeviceTests
             {
                 using (var sp = CreateServices())
                 {
-                    var history = sp.GetService<IHistory>();
+                    var history = sp.GetRequiredService<IHistory>();
                     var randomId = GetRandomScheduledToastId();
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     await sp.GetRequiredService<IInitialization>().InitializeAsync();
-                    var cancellation = sp.GetService<IBuilder>().AddTitle(nameof(RemoveScheduled)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1));
+                    var cancellation = sp.GetRequiredService<IBuilder>().AddTitle(nameof(RemoveScheduled)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1));
                     Assert.True(await history.IsScheduledAsync(cancellation.ToastId), "scheduled not found");
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     history.RemoveScheduled(cancellation.ToastId);

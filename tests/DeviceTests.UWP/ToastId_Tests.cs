@@ -139,7 +139,7 @@ namespace DeviceTests.UWP
         {
             // prepare
             byte[] data;
-            ToastId result;
+            ToastId? result;
             var expected = new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
             // act

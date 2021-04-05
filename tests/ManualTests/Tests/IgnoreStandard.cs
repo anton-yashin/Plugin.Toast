@@ -15,7 +15,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<IBuilder>()
                 .AddTitle(Localization.R_SOME_TITLE).AddDescription(Localization.R_PLEASE_IGNORE)
                 .Build().ShowAsync();
             Assert(result == NotificationResult.TimedOut);

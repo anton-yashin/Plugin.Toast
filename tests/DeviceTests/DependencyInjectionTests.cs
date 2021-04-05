@@ -21,7 +21,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => platformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => invalidPlatformInvoked = true)
@@ -41,7 +41,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -61,7 +61,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -81,7 +81,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -101,7 +101,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -133,7 +133,7 @@ namespace DeviceTests
                 .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration.Object));
 
                 // act
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
 
                 // verify
 #if __ANDROID__
@@ -176,7 +176,7 @@ namespace DeviceTests
                 .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration.Object));
 
                 // act
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
 
                 // verify
 #if __ANDROID__
@@ -240,7 +240,7 @@ namespace DeviceTests
                 .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1.Object)
                 .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2.Object));
 
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
                 // act
                 builder.UseConfiguration(2);
 
@@ -320,7 +320,7 @@ namespace DeviceTests
                 .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1.Object)
                 .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2.Object));
 
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
                 // act
                 builder.UseConfiguration(2);
 

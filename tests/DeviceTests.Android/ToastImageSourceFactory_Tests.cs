@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -22,7 +24,7 @@ namespace DeviceTests.Android
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromResourceAsync(KResource, this.GetType());
@@ -37,7 +39,7 @@ namespace DeviceTests.Android
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromFileAsync("platform_image.jpg");
@@ -52,7 +54,7 @@ namespace DeviceTests.Android
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
             var path = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "file.jpg");
             using (var file = File.Create(path))
             using (var rs = GetTestImageContent())
@@ -74,7 +76,7 @@ namespace DeviceTests.Android
         {
             // prepare
             using var sp = CreateServices();
-            var mockHcf = sp.GetService<Mock<IHttpClientFactory>>();
+            var mockHcf = sp.GetRequiredService<Mock<IHttpClientFactory>>();
             mockHcf.Arrange(f => f.CreateClient(The<string>.IsAnyValue))
                 .Returns((string name) => new MockHttpClient(new HttpResponseMessage()
                 {
@@ -82,7 +84,7 @@ namespace DeviceTests.Android
                     StatusCode = System.Net.HttpStatusCode.OK,
                 }));
 
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromUriAsync(new Uri("http://example.com", UriKind.Absolute));

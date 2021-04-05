@@ -13,11 +13,10 @@ using Android.Views;
 using Android.Widget;
 using DeviceTests.Utils;
 using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
 using Plugin.Toast.Droid;
 using Xunit;
-using LightMock;
-using LightMock.Generator;
 
 namespace DeviceTests.Android
 {
@@ -27,7 +26,7 @@ namespace DeviceTests.Android
         public void ThrowsExceptionOnUnknownRoute(object route)
         {
             // prepare
-            var bitmap = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Alpha8)
+            var bitmap = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
             var router = new DroidImageRouter();
             var mock = new Mock<IPlatformSpecificExtension>();
@@ -44,7 +43,7 @@ namespace DeviceTests.Android
         public void Configure(object route)
         {
             // prepare
-            var bitmap = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Alpha8)
+            var bitmap = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
             var router = new DroidImageRouter();
             var mock = new Mock<IPlatformSpecificExtension>();
