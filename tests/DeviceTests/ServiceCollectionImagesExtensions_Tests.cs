@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;
@@ -62,8 +65,8 @@ namespace DeviceTests
             Assert.NotNull(sp.GetService<IToastImageSourceFactory>());
             Assert.NotNull(sp.GetService<IResourceToFileNameStrategy>());
         }
-#else
-#error unknown platform
 #endif
     }
 }
+
+#endif

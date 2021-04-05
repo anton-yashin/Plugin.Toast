@@ -1,4 +1,7 @@
-﻿using Plugin.Toast;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,8 +34,10 @@ namespace DeviceTests
             var tis = new SealedToastImageSource(expected);
             Assert.Equal(expected, tis.ImageUri);
 #else
-#error unknown platform
+            throw new PlatformNotSupportedException();
 #endif
         }
     }
 }
+
+#endif

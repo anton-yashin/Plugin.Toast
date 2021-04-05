@@ -1,3 +1,6 @@
+#if NETCORE_APP == false
+#nullable enable
+
 using System;
 using Plugin.Toast;
 using Xunit;
@@ -50,14 +53,14 @@ namespace DeviceTests
 
                 Assert.NotNull(builder);
                 Assert.True(builder is IXPlatformSpecificExtension);
-    #if __ANDROID__
+#if __ANDROID__
                 Assert.True(builder is IDroidNotificationExtension);
                 Assert.True(builder is Plugin.Toast.Droid.INotificationBuilder);
-    #elif __IOS__
+#elif __IOS__
                 Assert.True(builder is IIosNotificationExtension);
-    #elif NETFX_CORE
+#elif NETFX_CORE
                 Assert.True(builder is IUwpExtension);
-    #endif
+#endif
             });
 
         [Fact]
@@ -174,3 +177,5 @@ namespace DeviceTests
 
     }
 }
+
+#endif

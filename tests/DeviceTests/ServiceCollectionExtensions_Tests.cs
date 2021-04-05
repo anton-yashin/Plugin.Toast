@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;
@@ -319,9 +322,6 @@ namespace DeviceTests
             else
                 Assert.Null(sp.GetService<IExtensionConfiguration<Plugin.Toast.UWP.IPlatformSpecificExtension>>());
         }
-
-#else
-#error unknown platform
 #endif
 
         static void CheckBase(IServiceProvider sp)
@@ -339,3 +339,5 @@ namespace DeviceTests
         }
     }
 }
+
+#endif

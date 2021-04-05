@@ -1,10 +1,10 @@
-﻿using DeviceTests.UWP.Mocks;
-using LightMock;
+﻿using LightMock;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Plugin.Toast;
 using System;
 using UnitTests.Mocks;
 using Xunit;
+using LightMock.Generator;
 
 namespace DeviceTests.UWP
 {
@@ -15,15 +15,14 @@ namespace DeviceTests.UWP
         {
             // prepare
             var uri = new Uri("https://www.example.com/image.png");
-            var mockContext = new MockContext<IBuilder>();
-            var extensionMock = new MockBulider(mockContext);
+            var mock = new Mock<IBuilder>();
             ToastImageSource ims = new SealedToastImageSource(uri);
 
             // act
-            extensionMock.AddImage(ims);
+            mock.Object.AddImage(ims);
 
             // verify
-            mockContext.Assert(_ => _.Add(ims, Router.Route.Default));
+            mock.Assert(_ => _.Add(ims, Router.Route.Default));
         }
 
         [Fact]
@@ -31,15 +30,14 @@ namespace DeviceTests.UWP
         {
             // prepare
             var uri = new Uri("https://www.example.com/image.png");
-            var mockContext = new MockContext<IUwpExtension>();
-            var extensionMock = new MockUwpExtension(mockContext);
+            var mock = new Mock<IUwpExtension>();
             var ims = new SealedToastImageSource(uri);
 
             // act
-            extensionMock.AddAppLogoOverride(ims, ToastGenericAppLogoCrop.Circle, "alternateText", true);
+            mock.Object.AddAppLogoOverride(ims, ToastGenericAppLogoCrop.Circle, "alternateText", true);
 
             // verify
-            mockContext.Assert(_ => _.AddAppLogoOverride(uri, new Nullable<ToastGenericAppLogoCrop>(ToastGenericAppLogoCrop.Circle), "alternateText", new Nullable<bool>(true)));
+            mock.Assert(_ => _.AddAppLogoOverride(uri, new Nullable<ToastGenericAppLogoCrop>(ToastGenericAppLogoCrop.Circle), "alternateText", new Nullable<bool>(true)));
         }
 
         [Fact]
@@ -47,15 +45,14 @@ namespace DeviceTests.UWP
         {
             // prepare
             var uri = new Uri("https://www.example.com/image.png");
-            var mockContext = new MockContext<IUwpExtension>();
-            var extensionMock = new MockUwpExtension(mockContext);
+            var mock = new Mock<IUwpExtension>();
             var ims = new SealedToastImageSource(uri);
 
             // act
-            extensionMock.AddHeroImage(ims, "alternate text", true);
+            mock.Object.AddHeroImage(ims, "alternate text", true);
 
             // verify
-            mockContext.Assert(_ => _.AddHeroImage(uri, "alternate text", new Nullable<bool>(true)));
+            mock.Assert(_ => _.AddHeroImage(uri, "alternate text", new Nullable<bool>(true)));
         }
 
         [Fact]
@@ -63,15 +60,14 @@ namespace DeviceTests.UWP
         {
             // prepare
             var uri = new Uri("https://www.example.com/image.png");
-            var mockContext = new MockContext<IUwpExtension>();
-            var extensionMock = new MockUwpExtension(mockContext);
+            var mock = new Mock<IUwpExtension>();
             var ims = new SealedToastImageSource(uri);
 
             // act
-            extensionMock.AddInlineImage(ims, "alternate text", true, AdaptiveImageCrop.Circle, false);
+            mock.Object.AddInlineImage(ims, "alternate text", true, AdaptiveImageCrop.Circle, false);
 
             // verify
-            mockContext.Assert(_ => _.AddInlineImage(uri, "alternate text", new Nullable<bool>(true), new Nullable<AdaptiveImageCrop>(AdaptiveImageCrop.Circle), new Nullable<bool>(false)));
+            mock.Assert(_ => _.AddInlineImage(uri, "alternate text", new Nullable<bool>(true), new Nullable<AdaptiveImageCrop>(AdaptiveImageCrop.Circle), new Nullable<bool>(false)));
         }
     }
 }

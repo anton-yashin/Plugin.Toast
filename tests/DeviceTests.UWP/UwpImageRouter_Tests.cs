@@ -1,11 +1,11 @@
 ﻿using DeviceTests.Utils;
-using DeviceTests.UWP.Mocks;
-using LightMock;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using LightMock.Generator;
+using Plugin.Toast.UWP;
 
 namespace DeviceTests.UWP
 {
@@ -16,12 +16,11 @@ namespace DeviceTests.UWP
         {
             // prepare
             var router = new UwpImageRouter();
-            var mockContext = new MockContext<IUwpExtension>();
-            var mockExtension = new MockUwpExtension(mockContext);
+            var mock = new Mock<IPlatformSpecificExtension>();
             var ims = new SealedToastImageSource(new Uri("https://www.example.com/some.png"));
 
             // act && verify
-            Assert.Throws<InvalidOperationException>(() => router.Configure(mockExtension, ims, (Router.Route)route));
+            Assert.Throws<InvalidOperationException>(() => router.Configure(mock.Object, ims, (Router.Route)route));
         }
 
         public static IEnumerable<object[]> GetInvalidRoutes()
@@ -33,15 +32,14 @@ namespace DeviceTests.UWP
             // prepare
             var uri = new Uri("https://www.example.com/some.png");
             var router = new UwpImageRouter();
-            var mockContext = new MockContext<IUwpExtension>();
-            var mockExtension = new MockUwpExtension(mockContext);
+            var mock = new Mock<IPlatformSpecificExtension>();
             var ims = new SealedToastImageSource(uri);
 
             // act
-            router.Configure(mockExtension, ims, Router.Route.Default);
+            router.Configure(mock.Object, ims, Router.Route.Default);
 
             // verify
-            mockContext.Assert(_ => _.AddAppLogoOverride(uri, null, null, null));
+            mock.Assert(_ => _.AddAppLogoOverride(uri, null, null, null));
         }
     }
 }

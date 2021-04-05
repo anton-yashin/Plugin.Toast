@@ -69,11 +69,48 @@
     <Compile Include="BuilderExtensions_Tests.cs" />
     <Compile Include="DroidImageRouter_Tests.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Mocks\MockDroidNotificationExtension.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToastId_Tests.cs" />
     <Compile Include="ToastImageSourceFactory_Tests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DeviceTests\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <!--<Content Include="..\DeviceTests\**\*.opml">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <!--<Content Include="..\DeviceTests\**\*.xml">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <!--<Content Include="..\DeviceTests\**\*.json">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <Compile Remove="..\DeviceTests\bin\**\*.cs" />
+    <Compile Remove="..\DeviceTests\obj\**\*.cs" />
+    <Compile Remove="..\DeviceTests\Properties\**\*.cs" />
+    <Content Remove="..\DeviceTests\bin\**\*" />
+    <Content Remove="..\DeviceTests\obj\**\*" />
+    <Content Remove="..\DeviceTests\Properties\**\*" />
+    <Compile Include="..\UnitTests\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <!--<Content Include="..\UnitTests\**\*.opml">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <!--<Content Include="..\UnitTests\**\*.xml">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <!--<Content Include="..\UnitTests\**\*.json">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>-->
+    <Compile Remove="..\UnitTests\bin\**\*.cs" />
+    <Compile Remove="..\UnitTests\obj\**\*.cs" />
+    <Compile Remove="..\UnitTests\Properties\**\*.cs" />
+    <Content Remove="..\UnitTests\bin\**\*" />
+    <Content Remove="..\UnitTests\obj\**\*" />
+    <Content Remove="..\UnitTests\Properties\**\*" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -110,14 +147,11 @@
     <EmbeddedResource Include="Images\embedded_image.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="LightMock">
-      <Version>2.0.1</Version>
+    <PackageReference Include="LightMock.Generator">
+      <Version>1.0.0-preview.3.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>5.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Moq">
-      <Version>4.16.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
@@ -125,13 +159,15 @@
     <PackageReference Include="System.Text.Json">
       <Version>5.0.1</Version>
     </PackageReference>
+    <PackageReference Include="UnitTests.HeadlessRunner">
+      <Version>2.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.devices" Version="2.5.25" />
-    <PackageReference Include="UnitTests.HeadlessRunner" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Plugin.Toast.Images\Plugin.Toast.Images.csproj">
@@ -142,10 +178,6 @@
       <Project>{71ce05a1-d8ca-4bcc-bcf0-ab6b6c3ac43f}</Project>
       <Name>Plugin.Toast</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UnitTests\UnitTests.csproj">
-      <Project>{fe8bce51-daa4-409e-8d61-0e2fb7a63b46}</Project>
-      <Name>UnitTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\platform_image.jpg">
@@ -153,7 +185,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <Import Project="..\DeviceTests\DeviceTests.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

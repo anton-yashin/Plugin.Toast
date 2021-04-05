@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -35,8 +36,17 @@ namespace UnitTests
             yield return new object[] { "subfolder/" };
         }
 
-        static Stream GetSomeData() => Assembly.GetExecutingAssembly().GetManifestResourceStream("UnitTests.SomeData.txt")
-                ?? throw new InvalidOperationException("test data not found");
+        static Stream GetSomeData()
+        {
+            var ms = new MemoryStream();
+            using (var sw = new StreamWriter(ms, Encoding.UTF8, 1024, leaveOpen: true))
+            {
+                sw.Write("Some data");
+                sw.Flush();
+            }
+            ms.Position = 0;
+            return ms;
+        }
 
         static async Task<byte[]> GetContentAsync(Stream stream)
         {

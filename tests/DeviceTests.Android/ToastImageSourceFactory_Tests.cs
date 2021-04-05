@@ -4,7 +4,10 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
+using UnitTests;
 using UnitTests.Mocks;
 using Xunit;
 
@@ -71,12 +74,13 @@ namespace DeviceTests.Android
         {
             // prepare
             using var sp = CreateServices();
-            var mockHcf = (MockHttpClientFactory)sp.GetService<IHttpClientFactory>();
-            mockHcf.OnCreateHttpClient = name => new MockHttpClient(new HttpResponseMessage()
-            {
-                Content = new StreamContent(GetTestImageContent()),
-                StatusCode = System.Net.HttpStatusCode.OK,
-            });
+            var mockHcf = sp.GetService<Mock<IHttpClientFactory>>();
+            mockHcf.Arrange(f => f.CreateClient(The<string>.IsAnyValue))
+                .Returns((string name) => new MockHttpClient(new HttpResponseMessage()
+                {
+                    Content = new StreamContent(GetTestImageContent()),
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                }));
 
             var factory = sp.GetService<ToastImageSourceFactory>();
 
@@ -91,7 +95,7 @@ namespace DeviceTests.Android
         public static ServiceProvider CreateServices()
         {
             var sc = new ServiceCollection();
-            sc.AddSingleton<IHttpClientFactory, MockHttpClientFactory>();
+            sc.AddMock<IHttpClientFactory>();
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }

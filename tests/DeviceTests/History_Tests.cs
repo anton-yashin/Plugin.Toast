@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 using System;
 using System.Threading.Tasks;
@@ -145,8 +148,10 @@ namespace DeviceTests
 #elif NETFX_CORE
             return new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 #else
-#error platform not supported
+            throw new PlatformNotSupportedException();
 #endif
         }
     }
 }
+
+#endif

@@ -10,9 +10,9 @@ namespace Plugin.Toast
     {
 #nullable disable
         /// <summary>
-        /// This constructor allow you to create mocks using Moq.
+        /// This constructor allow you to create mocks using mock frameworks.
         /// </summary>
-        [Obsolete("for Moq only", true)]
+        [Obsolete("for mocks only")]
         protected ToastImageSource() { }
 #nullable restore
     }

@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-#if NETCORE_APP
-using Moq;
-#endif
+using LightMock.Generator;
 
 namespace UnitTests
 {

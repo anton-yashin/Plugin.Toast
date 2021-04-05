@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -84,3 +87,5 @@ namespace DeviceTests
             });
     }
 }
+
+#endif
