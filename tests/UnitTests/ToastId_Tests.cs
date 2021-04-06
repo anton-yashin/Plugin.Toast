@@ -1,4 +1,5 @@
-﻿using Plugin.Toast;
+﻿#nullable enable
+using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.Text;
