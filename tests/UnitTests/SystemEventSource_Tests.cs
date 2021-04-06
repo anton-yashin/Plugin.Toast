@@ -1,4 +1,6 @@
-﻿using Plugin.Toast;
+﻿using LightMock;
+using LightMock.Generator;
+using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,18 +16,17 @@ namespace UnitTests
         {
             // prepare
             var expected = new NotificationEvent(null!);
-            var mock = new MockNotificationEventObserver();
-            mock.OnOnNotificationReceived += Verify;
+            var mock = new Mock<INotificationEventObserver>();
             var ses = new SystemEventSource(null);
 
             // act
-            ses.Subscribe(mock);
+            ses.Subscribe(mock.Object);
             ses.SendEvent(expected);
 
             // verify
-            Assert.Equal(1, mock.OnNotificationReceivedCallCount);
             Assert.Equal(1, ses.GetObserversCount());
-            void Verify(NotificationEvent result) => Assert.Same(expected, result);
+            mock.Assert(f => f.OnNotificationReceived(
+                The<NotificationEvent>.Is(ne => ReferenceEquals(expected, ne))));
         }
 
         [Fact]
@@ -33,16 +34,16 @@ namespace UnitTests
         {
             // prepare
             var expected = new NotificationEvent(null!);
-            var mock = new MockNotificationEventObserver();
+            var mock = new Mock<INotificationEventObserver>();
             var ses = new SystemEventSource(null);
 
             // act
-            ses.Subscribe(mock);
-            ses.Unsubscribe(mock);
+            ses.Subscribe(mock.Object);
+            ses.Unsubscribe(mock.Object);
             ses.SendEvent(expected);
 
             // verify
-            Assert.Equal(0, mock.OnNotificationReceivedCallCount);
+            mock.AssertNoOtherCalls();
             Assert.Equal(0, ses.GetObserversCount());
         }
 
@@ -85,8 +86,8 @@ namespace UnitTests
 
         static WeakReference RegisterSomeWeak(SystemEventSource ses)
         {
-            var mock = new MockNotificationEventObserver();
-            ses.Subscribe(mock);
+            var mock = new Mock<INotificationEventObserver>();
+            ses.Subscribe(mock.Object);
             return new WeakReference(mock, true);
         }
 
@@ -97,16 +98,15 @@ namespace UnitTests
             var expected = new NotificationEvent(null!);
             Platform.AddPendingEvent(expected);
             var ses = new SystemEventSource(null);
-            var mock = new MockNotificationEventObserver();
-            mock.OnOnNotificationReceived += Verify;
-            ses.Subscribe(mock);
+            var mock = new Mock<INotificationEventObserver>();
+            ses.Subscribe(mock.Object);
 
             // act
             ses.SendPendingEvents();
 
             Assert.Same(expected: ses, Platform.SystemEventSource);
-            Assert.Equal(1, mock.OnNotificationReceivedCallCount);
-            void Verify(NotificationEvent result) => Assert.Same(expected, result);
+            mock.Assert(f => f.OnNotificationReceived(
+                The<NotificationEvent>.Is(result => ReferenceEquals(expected, result))), Invoked.Once);
         }
 
         [Fact]

@@ -1,4 +1,6 @@
-﻿using Plugin.Toast;
+﻿using LightMock;
+using LightMock.Generator;
+using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,15 +15,14 @@ namespace UnitTests
         public void Subscribe()
         {
             // prepare
-            INotificationEventObserver result = null!;
-            var mock = new MockSystemEventSource();
-            mock.OnSubscribe += o => result = o;
+            var mock = new Mock<ISystemEventSource>();
+            mock.Arrange(f => f.Subscribe(The<INotificationEventObserver>.IsAnyValue));
 
             // act
-            var expected = new NotificationEventProxy(mock);
+            var expected = new NotificationEventProxy(mock.Object);
 
             // verify
-            Assert.Same(expected, result);
+            mock.Assert(f => f.Subscribe(The<INotificationEventObserver>.Is(neo => ReferenceEquals(neo, expected))));
         }
 
         [Fact]
@@ -30,8 +31,8 @@ namespace UnitTests
             // prepare
             bool notificationReceivedIsCalled = false;
             var expected = new NotificationEvent(null!);
-            var mock = new MockSystemEventSource();
-            var proxy = new NotificationEventProxy(mock);
+            var mock = new Mock<ISystemEventSource>();
+            var proxy = new NotificationEventProxy(mock.Object);
             proxy.NotificationReceived += Verify;
 
             // act
@@ -42,7 +43,7 @@ namespace UnitTests
             void Verify(object? sender, NotificationEvent e)
             {
                 notificationReceivedIsCalled = true;
-                Assert.Same(expected: mock, sender);
+                Assert.Same(expected: mock.Object, sender);
                 Assert.Same(expected, e);
             }
         }
@@ -51,15 +52,14 @@ namespace UnitTests
         public void SendPendingEvents()
         {
             // prepare
-            var mock = new MockSystemEventSource();
-            var proxy = new NotificationEventProxy(mock);
-            Assert.Equal(0, mock.SendPendingEventsCallCount);
+            var mock = new Mock<ISystemEventSource>();
+            var proxy = new NotificationEventProxy(mock.Object);
 
             // act
             proxy.SendPendingEvents();
 
             // verify
-            Assert.Equal(1, mock.SendPendingEventsCallCount);
+            mock.Assert(f => f.SendPendingEvents(), Invoked.Once);
         }
     }
 }

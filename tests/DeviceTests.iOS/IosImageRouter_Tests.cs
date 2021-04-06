@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DeviceTests.iOS.Mocks;
 using DeviceTests.Utils;
 using Foundation;
 using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
+using Plugin.Toast.IOS;
 using UserNotifications;
 using Xunit;
 
@@ -23,11 +24,11 @@ namespace DeviceTests.iOS
                 new UNNotificationAttachmentOptions(),
                 out var error);
             var router = new IOsImageRouter();
-            var mock = new MockIosNotificationExtension();
+            var mock = new Mock<IPlatformSpecificExtension>();
             var ims = new SealedToastImageSource(attachment);
 
             // act && verify
-            Assert.Throws<InvalidOperationException>(() => router.Configure(mock.SpecificObject, ims, (Router.Route)route));
+            Assert.Throws<InvalidOperationException>(() => router.Configure(mock.Object, ims, (Router.Route)route));
         }
 
         public static IEnumerable<object[]> GetInvalidRoutesForSingle()
@@ -43,12 +44,12 @@ namespace DeviceTests.iOS
                 new UNNotificationAttachmentOptions(),
                 out var error);
             var router = new IOsImageRouter();
-            var mock = new MockIosNotificationExtension();
+            var mock = new Mock<IPlatformSpecificExtension>();
             var ims = new SealedToastImageSource(attachment);
             var many = Enumerable.Repeat(ims, 10);
 
             // act && verify
-            Assert.Throws<InvalidOperationException>(() => router.Configure(mock.SpecificObject, many, (Router.Route)route));
+            Assert.Throws<InvalidOperationException>(() => router.Configure(mock.Object, many, (Router.Route)route));
         }
 
         public static IEnumerable<object[]> GetInvalidRoutesForMultiple()
@@ -64,14 +65,14 @@ namespace DeviceTests.iOS
                 new UNNotificationAttachmentOptions(),
                 out var error);
             var router = new IOsImageRouter();
-            var mock = new MockIosNotificationExtension();
+            var mock = new Mock<IPlatformSpecificExtension>();
             ToastImageSource ims = new SealedToastImageSource(attachment);
 
             // act
-            router.Configure(mock.SpecificObject, ims, (Router.Route)route);
+            router.Configure(mock.Object, ims, (Router.Route)route);
 
             // verify
-            mock.Platform.Assert(_ => _.AddAttachment(attachment));
+            mock.Assert(_ => _.AddAttachment(attachment));
         }
 
         [Theory, InlineData(Router.Route.IosMultipleAttachments)]
@@ -84,15 +85,15 @@ namespace DeviceTests.iOS
                 new UNNotificationAttachmentOptions(),
                 out var error);
             var router = new IOsImageRouter();
-            var mock = new MockIosNotificationExtension();
+            var mock = new Mock<IPlatformSpecificExtension>();
             ToastImageSource ims = new SealedToastImageSource(attachment);
             var many = Enumerable.Repeat(ims, 10);
 
             // act
-            router.Configure(mock.SpecificObject, many, (Router.Route)route);
+            router.Configure(mock.Object, many, (Router.Route)route);
 
             // verify
-            mock.Platform.Assert(_ => _.AddAttachments(The<IEnumerable<UNNotificationAttachment>>.Is(e => e.All(i => i == attachment))));
+            mock.Assert(_ => _.AddAttachments(The<IEnumerable<UNNotificationAttachment>>.Is(e => e.All(i => i == attachment))));
         }
     }
 }

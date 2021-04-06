@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +29,8 @@ namespace DeviceTests
             return new NotificationManager(new ToastOptions());
 #elif __IOS__
             return new NotificationManager(options, permission);
+#else
+            throw new PlatformNotSupportedException();
 #endif
         }
 
@@ -51,7 +56,7 @@ namespace DeviceTests
             });
             return tcs.Task;
 #else
-#error platform is not supported
+            throw new PlatformNotSupportedException();
 #endif
         }
 
@@ -76,8 +81,10 @@ namespace DeviceTests
             });
             return tcs.Task;
 #else
-#error platform is not supported
+            throw new PlatformNotSupportedException();
 #endif
         }
     }
 }
+
+#endif

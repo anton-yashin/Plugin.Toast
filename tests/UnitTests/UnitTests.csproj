@@ -1,31 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
     <DefineConstants>$(DefineConstants);NETCORE_APP</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="SomeData.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="SomeData.txt" />
-  </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="LightMock" Version="2.0.1" />
+    <PackageReference Include="LightMock.Generator" Version="1.0.0-preview.3.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="coverlet.collector" Version="3.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -35,11 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="Moq" Version="4.14.5" />
   </ItemGroup>
 
   <ItemGroup>

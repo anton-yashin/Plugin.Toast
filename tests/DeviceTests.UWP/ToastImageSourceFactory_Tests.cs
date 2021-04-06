@@ -1,14 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
+using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using UnitTests;
 using UnitTests.Mocks;
 using Xamarin.Forms.Platform.UWP;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Xunit;
+using System.Threading;
 
 namespace DeviceTests.UWP
 {
@@ -21,7 +27,7 @@ namespace DeviceTests.UWP
             // prepare
             var expectedUri = new Uri("https://expected.com", UriKind.Absolute);
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
             // act
             var result = await factory.FromUriAsync(expectedUri);
@@ -35,7 +41,7 @@ namespace DeviceTests.UWP
         {
             // prepare
             using var sp = CreateServices();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
             Xamarin.Forms.Application.Current?.OnThisPlatform().SetImageDirectory(imageDir);
 
             // act
@@ -63,35 +69,31 @@ namespace DeviceTests.UWP
             const string KExepcted = "file:///c:/fullpath/image.png";
             var expectedAssembly = Assembly.GetExecutingAssembly();
             using var sp = CreateServices();
-            var mic = (MockImageCacher)sp.GetService<IImageCacher>();
-            var strategy = (MockResourceToFileNameStrategy)sp.GetService<IResourceToFileNameStrategy>();
-            var factory = sp.GetService<ToastImageSourceFactory>();
+            var mic = sp.GetRequiredService<Mock<IImageCacher>>();
+            var strategy = sp.GetRequiredService<Mock<IResourceToFileNameStrategy>>();
+            var factory = sp.GetRequiredService<ToastImageSourceFactory>();
 
-            strategy.OnConvert = (rp, assembly) =>
-            {
-                Assert.Equal(KArg, rp);
-                Assert.Same(expectedAssembly, assembly);
-                return KLocalPath;
-            };
-
-            mic.OnCacheAsync = (localPath, ct, copyToAsync) =>
-            {
-                Assert.Equal(KLocalPath, localPath);
-                return Task.FromResult(KFullPath);
-            };
+            strategy.Arrange(f => f.Convert(The<string>.IsAnyValue, The<Assembly>.IsAnyValue))
+                .Returns(() => KLocalPath);
+            mic.Arrange(f => f.CacheAsync(The<string>.IsAnyValue, The<CancellationToken>.IsAnyValue, The<Func<Stream, CancellationToken, Task>>.IsAnyValue))
+                .ReturnsAsync(() => KFullPath);
 
             // act
             var result = await factory.FromResourceAsync(KArg, expectedAssembly);
 
             // verify
             Assert.Equal(KExepcted, result.ImageUri.ToString());
+            strategy.Assert(f => f.Convert(
+                The<string>.Is(rp => KArg == rp),
+                The<Assembly>.Is(assembly => ReferenceEquals(expectedAssembly, assembly))));
+            mic.Assert(f => f.CacheAsync(The<string>.Is(lp => KLocalPath == lp), 
+                The<CancellationToken>.IsAnyValue, The<Func<Stream, CancellationToken, Task>>.IsAnyValue));
         }
 
         static ServiceProvider CreateServices()
         {
             var sc = new ServiceCollection();
-            sc.AddSingleton<IImageCacher, MockImageCacher>();
-            sc.AddSingleton<IResourceToFileNameStrategy, MockResourceToFileNameStrategy>();
+            sc.AddMock<IImageCacher, IResourceToFileNameStrategy>();
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }

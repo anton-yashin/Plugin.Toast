@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#if NETCORE_APP == false
+#nullable enable
+
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
 using Xunit;
 using System.Threading.Tasks;
-using DeviceTests.Mocks;
 
 namespace DeviceTests
 {
@@ -17,7 +21,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => platformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => invalidPlatformInvoked = true)
@@ -37,7 +41,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -57,7 +61,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -77,7 +81,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -97,7 +101,7 @@ namespace DeviceTests
                 bool invalidPlatformInvoked = false;
 
                 using var sp = CreateContainer();
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension, IUwpExtension, IUwpExtension>>();
 
                 builder.WhenUsing<IDroidNotificationExtension>(_ => invalidPlatformInvoked = true)
                     .WhenUsing<ISnackbarExtension>(_ => platformInvoked = true)
@@ -114,41 +118,42 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 // prepare
-                var mockDroidConfiguration = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockSnackbarConfiguration = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockIosConfiguration = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosLocalConfiguration = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockUwpConfiguration = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
+                var z = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockDroidConfiguration = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockSnackbarConfiguration = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockIosConfiguration = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosLocalConfiguration = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockUwpConfiguration = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
 
                 using var sp = CreateContainer(_ => _
-                .AddSingleton<IExtensionConfiguration<IDroidNotificationExtension>>(mockDroidConfiguration)
-                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(mockSnackbarConfiguration)
-                .AddSingleton<IExtensionConfiguration<IIosNotificationExtension>>(mockIosConfiguration)
-                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(mockIosLocalConfiguration)
-                .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration));
+                .AddSingleton<IExtensionConfiguration<IDroidNotificationExtension>>(mockDroidConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(mockSnackbarConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IIosNotificationExtension>>(mockIosConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(mockIosLocalConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration.Object));
 
                 // act
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
 
                 // verify
 #if __ANDROID__
-                Assert.Equal(expected: 1, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockUwpConfiguration.ConfigureCallCount);
+                mockDroidConfiguration.Assert(f => f.Configure(The<IDroidNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockSnackbarConfiguration.AssertNoOtherCalls();
+                mockIosConfiguration.AssertNoOtherCalls();
+                mockIosLocalConfiguration.AssertNoOtherCalls();
+                mockUwpConfiguration.AssertNoOtherCalls();
 #elif __IOS__
-                Assert.Equal(expected: 0, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockUwpConfiguration.ConfigureCallCount);
+                mockIosConfiguration.Assert(f => f.Configure(The<IIosNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockDroidConfiguration.AssertNoOtherCalls();
+                mockSnackbarConfiguration.AssertNoOtherCalls();
+                mockIosLocalConfiguration.AssertNoOtherCalls();
+                mockUwpConfiguration.AssertNoOtherCalls();
 #elif NETFX_CORE
-                Assert.Equal(expected: 0, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockUwpConfiguration.ConfigureCallCount);
+                mockUwpConfiguration.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Once);
+                mockDroidConfiguration.AssertNoOtherCalls();
+                mockSnackbarConfiguration.AssertNoOtherCalls();
+                mockIosConfiguration.AssertNoOtherCalls();
+                mockIosLocalConfiguration.AssertNoOtherCalls();
 #endif
             });
 
@@ -157,41 +162,41 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 // prepare
-                var mockDroidConfiguration = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockSnackbarConfiguration = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockIosConfiguration = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosLocalConfiguration = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockUwpConfiguration = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
+                var mockDroidConfiguration = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockSnackbarConfiguration = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockIosConfiguration = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosLocalConfiguration = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockUwpConfiguration = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
 
                 using var sp = CreateContainer(_ => _
-                .AddSingleton<IExtensionConfiguration<IDroidNotificationExtension>>(mockDroidConfiguration)
-                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(mockSnackbarConfiguration)
-                .AddSingleton<IExtensionConfiguration<IIosNotificationExtension>>(mockIosConfiguration)
-                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(mockIosLocalConfiguration)
-                .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration));
+                .AddSingleton<IExtensionConfiguration<IDroidNotificationExtension>>(mockDroidConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(mockSnackbarConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IIosNotificationExtension>>(mockIosConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(mockIosLocalConfiguration.Object)
+                .AddSingleton<IExtensionConfiguration<IUwpExtension>>(mockUwpConfiguration.Object));
 
                 // act
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
 
                 // verify
 #if __ANDROID__
-                Assert.Equal(expected: 0, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockUwpConfiguration.ConfigureCallCount);
+                mockSnackbarConfiguration.Assert(f => f.Configure(The<ISnackbarExtension>.IsAnyValue), Invoked.Once);
+                mockDroidConfiguration.AssertNoOtherCalls();
+                mockIosConfiguration.AssertNoOtherCalls();
+                mockIosLocalConfiguration.AssertNoOtherCalls();
+                mockUwpConfiguration.AssertNoOtherCalls();
 #elif __IOS__
-                Assert.Equal(expected: 0, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockUwpConfiguration.ConfigureCallCount);
+                mockIosLocalConfiguration.Assert(f => f.Configure(The<IIosLocalNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockDroidConfiguration   .AssertNoOtherCalls();
+                mockSnackbarConfiguration.AssertNoOtherCalls();
+                mockIosConfiguration     .AssertNoOtherCalls();
+                mockUwpConfiguration.AssertNoOtherCalls();
 #elif NETFX_CORE
-                Assert.Equal(expected: 0, mockDroidConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockSnackbarConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 0, mockIosLocalConfiguration.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockUwpConfiguration.ConfigureCallCount);
+                mockUwpConfiguration.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Once);
+                mockDroidConfiguration.AssertNoOtherCalls();
+                mockSnackbarConfiguration.AssertNoOtherCalls();
+                mockIosConfiguration.AssertNoOtherCalls();
+                mockIosLocalConfiguration.AssertNoOtherCalls();
 #endif
             });
 
@@ -200,78 +205,79 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 // prepare
-                var mockDroidConfiguration1 = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockDroidConfiguration2 = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockSnackbarConfiguration1 = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockSnackbarConfiguration2 = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockIosConfiguration1 = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosConfiguration2 = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosLocalConfiguration1 = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockIosLocalConfiguration2 = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockUwpConfiguration1 = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
-                var mockUwpConfiguration2 = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
+                var mockDroidConfiguration1 = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockDroidConfiguration2 = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockSnackbarConfiguration1 = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockSnackbarConfiguration2 = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockIosConfiguration1 = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosConfiguration2 = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosLocalConfiguration1 = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockIosLocalConfiguration2 = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockUwpConfiguration1 = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
+                var mockUwpConfiguration2 = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
 
-                mockDroidConfiguration1.OnToken = () => 1;
-                mockDroidConfiguration2.OnToken = () => 2;
-                mockSnackbarConfiguration1.OnToken = () => 1;
-                mockSnackbarConfiguration2.OnToken = () => 2;
-                mockIosConfiguration1.OnToken = () => 1;
-                mockIosConfiguration2.OnToken = () => 2;
-                mockIosLocalConfiguration1.OnToken = () => 1;
-                mockIosLocalConfiguration2.OnToken = () => 2;
-                mockUwpConfiguration1.OnToken = () => 1;
-                mockUwpConfiguration2.OnToken = () => 2;
+                mockDroidConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockDroidConfiguration2.Arrange(f => f.Token).Returns(2);
+
+                mockSnackbarConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockSnackbarConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockIosConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockIosConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockIosLocalConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockIosLocalConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockUwpConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockUwpConfiguration2.Arrange(f => f.Token).Returns(2);
 
                 using var sp = CreateContainer(_ => _
-                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2));
+                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2.Object));
 
-                var builder = sp.GetService<IBuilder>();
+                var builder = sp.GetRequiredService<IBuilder>();
                 // act
                 builder.UseConfiguration(2);
 
                 // verify
 #if __ANDROID__
-                Assert.Equal(expected: 0, mockDroidConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockDroidConfiguration2.ConfigureCallCount);
-                mockSnackbarConfiguration1.VerifyNoCalls();
-                mockSnackbarConfiguration2.VerifyNoCalls();
-                mockIosConfiguration1.VerifyNoCalls();
-                mockIosConfiguration2.VerifyNoCalls();
-                mockIosLocalConfiguration1.VerifyNoCalls();
-                mockIosLocalConfiguration2.VerifyNoCalls();
-                mockUwpConfiguration1.VerifyNoCalls();
-                mockUwpConfiguration2.VerifyNoCalls();
+                mockDroidConfiguration1.Assert(f => f.Configure(The<IDroidNotificationExtension>.IsAnyValue), Invoked.Never);
+                mockDroidConfiguration2.Assert(f => f.Configure(The<IDroidNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockSnackbarConfiguration1.AssertNoOtherCalls();
+                mockSnackbarConfiguration2.AssertNoOtherCalls();
+                mockIosConfiguration1.AssertNoOtherCalls();
+                mockIosConfiguration2.AssertNoOtherCalls();
+                mockIosLocalConfiguration1.AssertNoOtherCalls();
+                mockIosLocalConfiguration2.AssertNoOtherCalls();
+                mockUwpConfiguration1.AssertNoOtherCalls();
+                mockUwpConfiguration2.AssertNoOtherCalls();
 #elif __IOS__
-                mockDroidConfiguration1.VerifyNoCalls();
-                mockDroidConfiguration2.VerifyNoCalls();
-                mockSnackbarConfiguration1.VerifyNoCalls();
-                mockSnackbarConfiguration2.VerifyNoCalls();
-                Assert.Equal(expected: 0, mockIosConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockIosConfiguration2.ConfigureCallCount);
-                mockIosLocalConfiguration1.VerifyNoCalls();
-                mockIosLocalConfiguration2.VerifyNoCalls();
-                mockUwpConfiguration1.VerifyNoCalls();
-                mockUwpConfiguration2.VerifyNoCalls();
+                mockDroidConfiguration1.AssertNoOtherCalls();
+                mockDroidConfiguration2.AssertNoOtherCalls();
+                mockSnackbarConfiguration1.AssertNoOtherCalls();
+                mockSnackbarConfiguration2.AssertNoOtherCalls();
+                mockIosConfiguration1.Assert(f => f.Configure(The<IIosNotificationExtension>.IsAnyValue), Invoked.Never);
+                mockIosConfiguration2.Assert(f => f.Configure(The<IIosNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockIosLocalConfiguration1.AssertNoOtherCalls();
+                mockIosLocalConfiguration2.AssertNoOtherCalls();
+                mockUwpConfiguration1.AssertNoOtherCalls();
+                mockUwpConfiguration2.AssertNoOtherCalls();
 #elif NETFX_CORE
-                mockDroidConfiguration1.VerifyNoCalls();
-                mockDroidConfiguration2.VerifyNoCalls();
-                mockSnackbarConfiguration1.VerifyNoCalls();
-                mockSnackbarConfiguration2.VerifyNoCalls();
-                mockIosConfiguration1.VerifyNoCalls();
-                mockIosConfiguration2.VerifyNoCalls();
-                mockIosLocalConfiguration1.VerifyNoCalls();
-                mockIosLocalConfiguration2.VerifyNoCalls();
-                Assert.Equal(expected: 0, mockUwpConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockUwpConfiguration2.ConfigureCallCount);
+                mockDroidConfiguration1.AssertNoOtherCalls();
+                mockDroidConfiguration2.AssertNoOtherCalls();
+                mockSnackbarConfiguration1.AssertNoOtherCalls();
+                mockSnackbarConfiguration2.AssertNoOtherCalls();
+                mockIosConfiguration1.AssertNoOtherCalls();
+                mockIosConfiguration2.AssertNoOtherCalls();
+                mockIosLocalConfiguration1.AssertNoOtherCalls();
+                mockIosLocalConfiguration2.AssertNoOtherCalls();
+                mockUwpConfiguration1.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Never);
+                mockUwpConfiguration2.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Once);
 #endif
             });
 
@@ -280,78 +286,78 @@ namespace DeviceTests
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
             {
                 // prepare
-                var mockDroidConfiguration1 = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockDroidConfiguration2 = new MockSpecificExtensionConfiguration<IDroidNotificationExtension, int>();
-                var mockSnackbarConfiguration1 = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockSnackbarConfiguration2 = new MockSpecificExtensionConfiguration<ISnackbarExtension, int>();
-                var mockIosConfiguration1 = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosConfiguration2 = new MockSpecificExtensionConfiguration<IIosNotificationExtension, int>();
-                var mockIosLocalConfiguration1 = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockIosLocalConfiguration2 = new MockSpecificExtensionConfiguration<IIosLocalNotificationExtension, int>();
-                var mockUwpConfiguration1 = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
-                var mockUwpConfiguration2 = new MockSpecificExtensionConfiguration<IUwpExtension, int>();
+                var mockDroidConfiguration1 = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockDroidConfiguration2 = new Mock<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>();
+                var mockSnackbarConfiguration1 = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockSnackbarConfiguration2 = new Mock<ISpecificExtensionConfiguration<ISnackbarExtension, int>>();
+                var mockIosConfiguration1 = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosConfiguration2 = new Mock<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>();
+                var mockIosLocalConfiguration1 = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockIosLocalConfiguration2 = new Mock<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>();
+                var mockUwpConfiguration1 = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
+                var mockUwpConfiguration2 = new Mock<ISpecificExtensionConfiguration<IUwpExtension, int>>();
 
-                mockDroidConfiguration1.OnToken = () => 1;
-                mockDroidConfiguration2.OnToken = () => 2;
-                mockSnackbarConfiguration1.OnToken = () => 1;
-                mockSnackbarConfiguration2.OnToken = () => 2;
-                mockIosConfiguration1.OnToken = () => 1;
-                mockIosConfiguration2.OnToken = () => 2;
-                mockIosLocalConfiguration1.OnToken = () => 1;
-                mockIosLocalConfiguration2.OnToken = () => 2;
-                mockUwpConfiguration1.OnToken = () => 1;
-                mockUwpConfiguration2.OnToken = () => 2;
+                mockDroidConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockDroidConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockSnackbarConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockSnackbarConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockIosConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockIosConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockIosLocalConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockIosLocalConfiguration2.Arrange(f => f.Token).Returns(2);
+                mockUwpConfiguration1.Arrange(f => f.Token).Returns(1);
+                mockUwpConfiguration2.Arrange(f => f.Token).Returns(2);
 
                 using var sp = CreateContainer(_ => _
-                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration2)
-                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1)
-                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2));
+                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IDroidNotificationExtension, int>>(mockDroidConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<ISnackbarExtension, int>>(mockSnackbarConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosNotificationExtension, int>>(mockIosConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IIosLocalNotificationExtension, int>>(mockIosLocalConfiguration2.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration1.Object)
+                .AddSingleton<ISpecificExtensionConfiguration<IUwpExtension, int>>(mockUwpConfiguration2.Object));
 
-                var builder = sp.GetService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
+                var builder = sp.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>();
                 // act
                 builder.UseConfiguration(2);
 
                 // verify
 #if __ANDROID__
-                mockDroidConfiguration1.VerifyNoCalls();
-                mockDroidConfiguration2.VerifyNoCalls();
-                Assert.Equal(expected: 0, mockSnackbarConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockSnackbarConfiguration2.ConfigureCallCount);
-                mockIosConfiguration1.VerifyNoCalls();
-                mockIosConfiguration2.VerifyNoCalls();
-                mockIosLocalConfiguration1.VerifyNoCalls();
-                mockIosLocalConfiguration2.VerifyNoCalls();
-                mockUwpConfiguration1.VerifyNoCalls();
-                mockUwpConfiguration2.VerifyNoCalls();
+                mockDroidConfiguration1.AssertNoOtherCalls();
+                mockDroidConfiguration2.AssertNoOtherCalls();
+                mockSnackbarConfiguration1.Assert(f => f.Configure(The<ISnackbarExtension>.IsAnyValue), Invoked.Never);
+                mockSnackbarConfiguration2.Assert(f => f.Configure(The<ISnackbarExtension>.IsAnyValue), Invoked.Once);
+                mockIosConfiguration1.AssertNoOtherCalls();
+                mockIosConfiguration2.AssertNoOtherCalls();
+                mockIosLocalConfiguration1.AssertNoOtherCalls();
+                mockIosLocalConfiguration2.AssertNoOtherCalls();
+                mockUwpConfiguration1.AssertNoOtherCalls();
+                mockUwpConfiguration2.AssertNoOtherCalls();
 #elif __IOS__
-                mockDroidConfiguration1.VerifyNoCalls();
-                mockDroidConfiguration2.VerifyNoCalls();
-                mockSnackbarConfiguration1.VerifyNoCalls();
-                mockSnackbarConfiguration2.VerifyNoCalls();
-                mockIosConfiguration1.VerifyNoCalls();
-                mockIosConfiguration2.VerifyNoCalls();
-                Assert.Equal(expected: 0, mockIosLocalConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockIosLocalConfiguration2.ConfigureCallCount);
-                mockUwpConfiguration1.VerifyNoCalls();
-                mockUwpConfiguration2.VerifyNoCalls();
+                mockDroidConfiguration1.AssertNoOtherCalls();
+                mockDroidConfiguration2.AssertNoOtherCalls();
+                mockSnackbarConfiguration1.AssertNoOtherCalls();
+                mockSnackbarConfiguration2.AssertNoOtherCalls();
+                mockIosConfiguration1.AssertNoOtherCalls();
+                mockIosConfiguration2.AssertNoOtherCalls();
+                mockIosLocalConfiguration1.Assert(f => f.Configure(The<IIosLocalNotificationExtension>.IsAnyValue), Invoked.Never);
+                mockIosLocalConfiguration2.Assert(f => f.Configure(The<IIosLocalNotificationExtension>.IsAnyValue), Invoked.Once);
+                mockUwpConfiguration1.AssertNoOtherCalls();
+                mockUwpConfiguration2.AssertNoOtherCalls();
 #elif NETFX_CORE
-                mockDroidConfiguration1.VerifyNoCalls();
-                mockDroidConfiguration2.VerifyNoCalls();
-                mockSnackbarConfiguration1.VerifyNoCalls();
-                mockSnackbarConfiguration2.VerifyNoCalls();
-                mockIosConfiguration1.VerifyNoCalls();
-                mockIosConfiguration2.VerifyNoCalls();
-                mockIosLocalConfiguration1.VerifyNoCalls();
-                mockIosLocalConfiguration2.VerifyNoCalls();
-                Assert.Equal(expected: 0, mockUwpConfiguration1.ConfigureCallCount);
-                Assert.Equal(expected: 1, mockUwpConfiguration2.ConfigureCallCount);
+                mockDroidConfiguration1.AssertNoOtherCalls();
+                mockDroidConfiguration2.AssertNoOtherCalls();
+                mockSnackbarConfiguration1.AssertNoOtherCalls();
+                mockSnackbarConfiguration2.AssertNoOtherCalls();
+                mockIosConfiguration1.AssertNoOtherCalls();
+                mockIosConfiguration2.AssertNoOtherCalls();
+                mockIosLocalConfiguration1.AssertNoOtherCalls();
+                mockIosLocalConfiguration2.AssertNoOtherCalls();
+                mockUwpConfiguration1.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Never);
+                mockUwpConfiguration2.Assert(f => f.Configure(The<IUwpExtension>.IsAnyValue), Invoked.Once);
 #endif
             });
 
@@ -368,3 +374,5 @@ namespace DeviceTests
         }
     }
 }
+
+#endif

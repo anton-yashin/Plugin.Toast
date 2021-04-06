@@ -113,7 +113,7 @@ namespace DeviceTests.Android
         {
             // prepare
             byte[] data;
-            ToastId result;
+            ToastId? result;
             var expected = ToastId.New();
 
             // act

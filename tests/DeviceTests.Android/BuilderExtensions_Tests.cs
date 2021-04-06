@@ -10,11 +10,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using DeviceTests.Android.Mocks;
 using LightMock;
+using LightMock.Generator;
 using Plugin.Toast;
 using Plugin.Toast.Droid;
-using UnitTests.Mocks;
 using Xunit;
 using ABitmap = global::Android.Graphics.Bitmap;
 
@@ -26,35 +25,33 @@ namespace DeviceTests.Android
         public void AddImage()
         {
             // prepare
-            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8)
+            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
-            var mockContext = new MockContext<IBuilder>();
-            var extensionMock = new MockBulider(mockContext);
+            var mock = new Mock<IBuilder>();
             ToastImageSource ims = new SealedToastImageSource(bitmap);
 
             // act
-            extensionMock.AddImage(ims);
+            mock.Object.AddImage(ims);
 
             // verify
-            mockContext.Assert(_ => _.Add(ims, Router.Route.Default));
+            mock.Assert(_ => _.Add(ims, Router.Route.Default));
         }
 
         [Fact]
         public void AddLargeIcon()
         {
             // prepare
-            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8)
+            var bitmap = ABitmap.CreateBitmap(100, 100, ABitmap.Config.Alpha8!)
                 ?? throw new InvalidOperationException("can't create a test bitmap");
-            var droidContext = new MockContext<IDroidNotificationExtension>();
-            var extensionMock = new MockDroidNotificationExtension(droidContext);
-            var extension = (IDroidNotificationExtension)extensionMock;
+            var mock = new Mock<IDroidNotificationExtension>();
+            var extension = (IDroidNotificationExtension)mock.Object;
             ToastImageSource ims = new SealedToastImageSource(bitmap);
 
             // act
             extension.AddLargeIcon(ims);
 
             // verify
-            droidContext.Assert(_ => _.Add(ims, Router.Route.DroidLargeIcon));
+            mock.Assert(_ => _.Add(ims, Router.Route.DroidLargeIcon));
         }
     }
 }

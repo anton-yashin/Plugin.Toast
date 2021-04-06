@@ -41,8 +41,6 @@ namespace DeviceTests.iOS
             // tests can be inside the main assembly
             AddTestAssembly(Assembly.GetExecutingAssembly());
 
-            AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
-
             // otherwise you need to ensure that the test assemblies will
             // become part of the app bundle
             //    AddTestAssembly(typeof(PortableTests).Assembly);

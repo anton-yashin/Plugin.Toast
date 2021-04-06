@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿#nullable enable
+using Android.App;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Runtime;
@@ -42,7 +43,6 @@ namespace DeviceTests.Android
             // tests can be inside the main assembly
             AddTestAssembly(Assembly.GetExecutingAssembly());
             AddExecutionAssembly(Assembly.GetExecutingAssembly());
-            AddTestAssembly(typeof(MimeDetector_Tests).Assembly);
 
             // or in any reference assemblies
             //   AddTestAssembly(typeof(PortableTests).Assembly);
@@ -61,7 +61,7 @@ namespace DeviceTests.Android
             base.OnCreate(bundle);
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[]? permissions, [GeneratedEnum] Permission[]? grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
