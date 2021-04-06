@@ -16,6 +16,8 @@
     <ProvisioningType>automatic</ProvisioningType>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
+    <NoWarn>CS1701</NoWarn>
+    <MSBuildWarningsAsMessages>MSB3277, MSB3243</MSBuildWarningsAsMessages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
