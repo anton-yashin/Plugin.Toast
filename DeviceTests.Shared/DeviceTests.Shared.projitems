@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3d0a0512-7b44-4942-a19b-edd74dd7594a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DeviceTests.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BuilderTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjectionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)History_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationManagerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionExtensions_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionImagesExtensions_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShowNotificationTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToastImageSource_Tests_Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\EnumUtils.cs" />
+  </ItemGroup>
+</Project>

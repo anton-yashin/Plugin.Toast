@@ -75,44 +75,6 @@
     <Compile Include="ToastImageSourceFactory_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\DeviceTests\**\*.cs">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Compile>
-    <!--<Content Include="..\DeviceTests\**\*.opml">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <!--<Content Include="..\DeviceTests\**\*.xml">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <!--<Content Include="..\DeviceTests\**\*.json">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <Compile Remove="..\DeviceTests\bin\**\*.cs" />
-    <Compile Remove="..\DeviceTests\obj\**\*.cs" />
-    <Compile Remove="..\DeviceTests\Properties\**\*.cs" />
-    <Content Remove="..\DeviceTests\bin\**\*" />
-    <Content Remove="..\DeviceTests\obj\**\*" />
-    <Content Remove="..\DeviceTests\Properties\**\*" />
-    <Compile Include="..\UnitTests\**\*.cs">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Compile>
-    <!--<Content Include="..\UnitTests\**\*.opml">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <!--<Content Include="..\UnitTests\**\*.xml">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <!--<Content Include="..\UnitTests\**\*.json">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>-->
-    <Compile Remove="..\UnitTests\bin\**\*.cs" />
-    <Compile Remove="..\UnitTests\obj\**\*.cs" />
-    <Compile Remove="..\UnitTests\Properties\**\*.cs" />
-    <Content Remove="..\UnitTests\bin\**\*" />
-    <Content Remove="..\UnitTests\obj\**\*" />
-    <Content Remove="..\UnitTests\Properties\**\*" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -185,6 +147,8 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
+  <Import Project="..\..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
+  <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
