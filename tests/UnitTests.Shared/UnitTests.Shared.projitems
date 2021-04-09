@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>02e3efbb-f72a-47f2-bc84-58e9e343db18</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnitTests.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BundleToFileNameStrategy_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultConfiguration_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImageCacher_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MimeDetector_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\Declarations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockBuilderExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockHttpClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mocks\MockHttpClient_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationEventProxy_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceToFileNameStrategy_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionServiceExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SystemEventSource_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToastId_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToastImageSource_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UriToFileNameStrategy_Tests.cs" />
+  </ItemGroup>
+</Project>
