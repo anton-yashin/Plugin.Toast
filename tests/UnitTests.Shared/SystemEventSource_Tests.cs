@@ -47,6 +47,8 @@ namespace UnitTests
             Assert.Equal(0, ses.GetObserversCount());
         }
 
+#if (DEBUG && __IPHONE__) == false
+
         [Fact]
         public void SusbscribeAndGC()
         {
@@ -90,6 +92,8 @@ namespace UnitTests
             ses.Subscribe(mock.Object);
             return new WeakReference(mock, true);
         }
+
+#endif
 
         [Fact]
         public void PlatformSendPendingEvents()
