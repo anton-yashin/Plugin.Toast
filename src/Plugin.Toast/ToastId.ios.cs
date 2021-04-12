@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using Foundation;
 
 namespace Plugin.Toast
 {
@@ -10,7 +11,7 @@ namespace Plugin.Toast
         string id;
         public ToastId(string id) => this.id = id;
 
-        [DataMember]
+        [DataMember, Preserve]
         public string Id 
         {
             get => id;
