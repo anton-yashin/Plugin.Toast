@@ -156,7 +156,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
-      <Version>5.0.1</Version>
+      <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="UnitTests.HeadlessRunner">
       <Version>2.0.0</Version>
@@ -173,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.11</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
