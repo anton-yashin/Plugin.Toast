@@ -194,7 +194,7 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\System.Text.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="..\..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
+  <Import Project="..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

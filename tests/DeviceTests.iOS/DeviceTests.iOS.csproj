@@ -176,7 +176,7 @@
   <ItemGroup>
     <BundleResource Include="tests.cfg" />
   </ItemGroup>
-  <Import Project="..\..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
+  <Import Project="..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ProjectExtensions>
