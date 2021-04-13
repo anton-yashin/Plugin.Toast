@@ -7,16 +7,19 @@
              xmlns:tb="clr-namespace:ManualTests.Tests.Base"
              xmlns:resx="clr-namespace:ManualTests.ResX"
              mc:Ignorable="d"
-             x:Class="ManualTests.MainPage">
+             x:Class="ManualTests.MainPage"
+             Title="{x:Static resx:Localization.R_MANUAL_TESTS}">
     
     <ContentPage.Resources>
         <local:TestResultToBoolConverter x:Key="tr2bc"/>
     </ContentPage.Resources>
 
-    <CollectionView x:Name="testCollectionView">
+    <CollectionView
+        x:Name="testCollectionView"
+        Footer="{OnPlatform iOS=available, Default={x:Null}}">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="tb:IAbstractTest">
-                <StackLayout>
+                <StackLayout Padding="5,0,5,0">
                     <Label Text="{x:Binding ShortDescription}"/>
                     <StackLayout Orientation="Horizontal">
                         <Button
@@ -55,6 +58,11 @@
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <AbsoluteLayout HeightRequest="30"/>
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
     </CollectionView>
 
 </ContentPage>
