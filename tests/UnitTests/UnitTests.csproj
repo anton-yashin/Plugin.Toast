@@ -34,8 +34,6 @@
     <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
-
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
 
 </Project>
