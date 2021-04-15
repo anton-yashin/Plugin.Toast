@@ -4,8 +4,6 @@ namespace Plugin.Toast.Abstractions
 {
     public interface IBuilder
     {
-        IBuilder AddTitle(string title);
-        IBuilder AddDescription(string description);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1}"/> in IoC and
         /// call <see cref="IExtensionPlugin{TExtension, T1}.Configure(TExtension, T1)"/>.

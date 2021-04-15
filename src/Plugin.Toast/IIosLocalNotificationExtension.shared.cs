@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Plugin.Toast
 {
-    public interface IIosLocalNotificationExtension : IBuilderExtension<IIosLocalNotificationExtension>
+    public interface IIosLocalNotificationExtension : INotificationBuilderExtension<IIosLocalNotificationExtension>
     {
         IIosLocalNotificationExtension AddSoundName(string soundName);
         IIosLocalNotificationExtension WithCustomArg(string key, string value);

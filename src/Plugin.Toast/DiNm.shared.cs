@@ -14,36 +14,36 @@ namespace Plugin.Toast
 
         public Task InitializeAsync() => ((IInitialization)serviceProvider.GetService(typeof(IInitialization))).InitializeAsync();
 
-        public IBuilder GetBuilder() => (IBuilder)serviceProvider.GetRequiredService(typeof(IBuilder));
+        public INotificationBuilder GetBuilder() => (INotificationBuilder)serviceProvider.GetRequiredService(typeof(INotificationBuilder));
 
-        public IBuilder GetBuilder<T>()
-            where T : IBuilderExtension<T>
-            => (IBuilder)serviceProvider.GetService(typeof(T)) 
+        public INotificationBuilder GetBuilder<T>()
+            where T : INotificationBuilderExtension<T>
+            => (INotificationBuilder)serviceProvider.GetService(typeof(T)) 
             ?? GetBuilder();
 
-        public IBuilder GetBuilder<T1, T2>()
-            where T1 : IBuilderExtension<T1>
-            where T2 : IBuilderExtension<T2>
-            => (IBuilder)(serviceProvider.GetService(typeof(T1))
+        public INotificationBuilder GetBuilder<T1, T2>()
+            where T1 : INotificationBuilderExtension<T1>
+            where T2 : INotificationBuilderExtension<T2>
+            => (INotificationBuilder)(serviceProvider.GetService(typeof(T1))
             ?? serviceProvider.GetService(typeof(T2))) 
             ?? GetBuilder();
 
-        public IBuilder GetBuilder<T1, T2, T3>()
-            where T1 : IBuilderExtension<T1>
-            where T2 : IBuilderExtension<T2>
-            where T3 : IBuilderExtension<T3>
+        public INotificationBuilder GetBuilder<T1, T2, T3>()
+            where T1 : INotificationBuilderExtension<T1>
+            where T2 : INotificationBuilderExtension<T2>
+            where T3 : INotificationBuilderExtension<T3>
             => BuildNotificationUsing(typeof(T1), typeof(T2), typeof(T3));
 
-        public IBuilder GetBuilder<T1, T2, T3, T4>()
-            where T1 : IBuilderExtension<T1>
-            where T2 : IBuilderExtension<T2>
-            where T3 : IBuilderExtension<T3>
-            where T4 : IBuilderExtension<T4>
+        public INotificationBuilder GetBuilder<T1, T2, T3, T4>()
+            where T1 : INotificationBuilderExtension<T1>
+            where T2 : INotificationBuilderExtension<T2>
+            where T3 : INotificationBuilderExtension<T3>
+            where T4 : INotificationBuilderExtension<T4>
             => BuildNotificationUsing(typeof(T1), typeof(T2), typeof(T3), typeof(T4));
 
-        IBuilder BuildNotificationUsing(params Type[] types)
+        INotificationBuilder BuildNotificationUsing(params Type[] types)
             => (from i in types
-                let j = serviceProvider.GetService(i) as IBuilder
+                let j = serviceProvider.GetService(i) as INotificationBuilder
                 where j != null
                 select j).FirstOrDefault()
             ?? GetBuilder();

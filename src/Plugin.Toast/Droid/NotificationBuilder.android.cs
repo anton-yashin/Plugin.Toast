@@ -12,7 +12,7 @@ using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast.Droid
 {
-    sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, IBuilder, IPlatformNotificationBuilder
+    sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, INotificationBuilder, IPlatformNotificationBuilder
     {
         private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
@@ -119,7 +119,7 @@ namespace Plugin.Toast.Droid
             return new Notification(this, intentManager, androidNotificationManager);
         }
 
-        IBuilder IBuilder.AddDescription(string description) => AddDescription(description);
+        INotificationBuilder INotificationBuilder.AddDescription(string description) => AddDescription(description);
 
         public IBuilder WhenUsing<T>(Action<T> buildAction) where T : IBuilderExtension<T>
         {
@@ -128,7 +128,7 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
+        INotificationBuilder INotificationBuilder.AddTitle(string title) => AddTitle(title);
 
         public IBuilder UseConfiguration<T>(T token)
         {
@@ -582,16 +582,16 @@ namespace Plugin.Toast.Droid
 
         #region IBuilderExtension implementation
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>.AddTitle(string title)
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>.AddTitle(string title)
             => AddTitle(title);
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>.AddDescription(string description)
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>.AddDescription(string description)
             => AddDescription(description);
 
-        IDroidNotificationExtension IBuilderExtension<IDroidNotificationExtension>.AddTitle(string title)
+        IDroidNotificationExtension INotificationBuilderExtension<IDroidNotificationExtension>.AddTitle(string title)
             => AddTitle(title);
 
-        IDroidNotificationExtension IBuilderExtension<IDroidNotificationExtension>.AddDescription(string description)
+        IDroidNotificationExtension INotificationBuilderExtension<IDroidNotificationExtension>.AddDescription(string description)
             => AddDescription(description);
 
         #endregion

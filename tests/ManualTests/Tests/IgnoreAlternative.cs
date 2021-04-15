@@ -19,7 +19,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetRequiredService<IBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>()
+            var result = await serviceProvider.GetRequiredService<INotificationBuilder<ISnackbarExtension, IIosLocalNotificationExtension>>()
                 .AddTitle(Localization.R_SOME_TITLE).AddDescription(Localization.R_LOREM_IPSUM)
                 .WhenUsing<ISnackbarExtension>(_ => _.WithAction(Localization.R_DONT_TAP))
                 .Build().ShowAsync();

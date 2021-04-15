@@ -42,7 +42,7 @@ namespace Plugin.Toast
             return new AndroidNotificationManager();
         }
 
-        IBuilder? PlatformResolve(Type extensionType)
+        INotificationBuilder? PlatformResolve(Type extensionType)
         {
             if (extensionType == snackbarExtension)
                 return CreateSnackBarBuilder();
@@ -51,12 +51,12 @@ namespace Plugin.Toast
             return null;
         }
 
-        IBuilder CreateSnackBarBuilder() => new SnackbarBuilder(options, null);
-        IBuilder CreateDroidNotificationBuilder()
+        INotificationBuilder CreateSnackBarBuilder() => new SnackbarBuilder(options, null);
+        INotificationBuilder CreateDroidNotificationBuilder()
             => new NotificationBuilder(options, intentManager, androidNotificationManager, null);
 
-        IBuilder PlatformBuildNotification() => options.NotificationStyle
-            .Resolve<Func<IBuilder>>(CreateSnackBarBuilder, CreateDroidNotificationBuilder)();
+        INotificationBuilder PlatformBuildNotification() => options.NotificationStyle
+            .Resolve<Func<INotificationBuilder>>(CreateSnackBarBuilder, CreateDroidNotificationBuilder)();
 
         Task PlatformInitializeAsync() => Task.CompletedTask;
         static IHistory PlatformGetHistory() => instance?.history ?? throw Exceptions.ExceptionUtils.PleaseCallInit;

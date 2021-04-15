@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Plugin.Toast.UWP
 {
-    public interface IPlatformSpecificExtension : IUwpExtension, IBuilderExtension<IPlatformSpecificExtension>
+    public interface IPlatformSpecificExtension : IUwpExtension, INotificationBuilderExtension<IPlatformSpecificExtension>
     {
     }
 }

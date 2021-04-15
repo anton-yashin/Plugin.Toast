@@ -18,7 +18,7 @@ namespace ManualTests.Tests
         {
             await serviceProvider.GetRequiredService<IInitialization>().InitializeAsync();
             var scheduleTo = DateTimeOffset.Now + TimeSpan.FromSeconds(3);
-            var builder = serviceProvider.GetRequiredService<IBuilder>();
+            var builder = serviceProvider.GetRequiredService<INotificationBuilder>();
             using var token = builder.AddTitle(Localization.R_SOME_TITLE).AddDescription(Localization.R_PLEASE_IGNORE)
                 .Build().ScheduleTo(scheduleTo);
             await Task.Delay(TimeSpan.FromSeconds(6));

@@ -8,8 +8,6 @@ namespace Plugin.Toast.Abstractions
         where T: IBuilderExtension<T>
     {
         T Use(IExtensionConfiguration<T> visitor);
-        T AddTitle(string title);
-        T AddDescription(string description);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1}"/> in IoC and
         /// call <see cref="IExtensionPlugin{TExtension, T1}.Configure(TExtension, T1)"/>.

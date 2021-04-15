@@ -7,7 +7,7 @@ using UserNotifications;
 
 namespace Plugin.Toast.IOS
 {
-    public interface IPlatformSpecificExtension : IIosNotificationExtension, IBuilderExtension<IPlatformSpecificExtension>
+    public interface IPlatformSpecificExtension : IIosNotificationExtension, INotificationBuilderExtension<IPlatformSpecificExtension>
     {
         IPlatformSpecificExtension AddAttachments(IEnumerable<UNNotificationAttachment> attachments);
         IPlatformSpecificExtension AddAttachment(UNNotificationAttachment attachment);

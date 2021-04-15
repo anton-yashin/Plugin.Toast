@@ -99,7 +99,7 @@ namespace DeviceTests
                     var randomId = GetRandomScheduledToastId();
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     await sp.GetRequiredService<IInitialization>().InitializeAsync();
-                    using (var cancellation = sp.GetRequiredService<IBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
+                    using (var cancellation = sp.GetRequiredService<INotificationBuilder>().AddTitle(nameof(IsScheduledAsync)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1)))
                     {
                         toastId = cancellation.ToastId;
                         Assert.True(await history.IsScheduledAsync(toastId), "scheduled not found");
@@ -120,7 +120,7 @@ namespace DeviceTests
                     var randomId = GetRandomScheduledToastId();
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     await sp.GetRequiredService<IInitialization>().InitializeAsync();
-                    var cancellation = sp.GetRequiredService<IBuilder>().AddTitle(nameof(RemoveScheduled)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1));
+                    var cancellation = sp.GetRequiredService<INotificationBuilder>().AddTitle(nameof(RemoveScheduled)).Build().ScheduleTo(DateTimeOffset.Now + TimeSpan.FromDays(1));
                     Assert.True(await history.IsScheduledAsync(cancellation.ToastId), "scheduled not found");
                     Assert.False(await history.IsScheduledAsync(randomId), "random id found");
                     history.RemoveScheduled(cancellation.ToastId);

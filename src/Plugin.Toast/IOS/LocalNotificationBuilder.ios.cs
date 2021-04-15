@@ -6,7 +6,7 @@ using UIKit;
 
 namespace Plugin.Toast.IOS
 {
-    sealed class LocalNotificationBuilder : IBuilder, ILocalNotificationBuilder, IIosLocalNotificationExtension
+    sealed class LocalNotificationBuilder : INotificationBuilder, ILocalNotificationBuilder, IIosLocalNotificationExtension
     {
         NSMutableDictionary? customArgs;
         bool build;
@@ -43,9 +43,9 @@ namespace Plugin.Toast.IOS
             return new LocalNotification(this);
         }
 
-        IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
+        INotificationBuilder INotificationBuilder.AddTitle(string title) => AddTitle(title);
 
-        IBuilder IBuilder.AddDescription(string description) => AddDescription(description);
+        INotificationBuilder INotificationBuilder.AddDescription(string description) => AddDescription(description);
 
         public IBuilder WhenUsing<T>(Action<T> buildAction) where T : IBuilderExtension<T>
         {
@@ -97,10 +97,10 @@ namespace Plugin.Toast.IOS
 
         #region IBuilderExtension implementation
 
-        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+        IIosLocalNotificationExtension INotificationBuilderExtension<IIosLocalNotificationExtension>
             .AddTitle(string title) => AddTitle(title);
 
-        IIosLocalNotificationExtension IBuilderExtension<IIosLocalNotificationExtension>
+        IIosLocalNotificationExtension INotificationBuilderExtension<IIosLocalNotificationExtension>
             .AddDescription(string description) => AddDescription(description);
 
         #endregion

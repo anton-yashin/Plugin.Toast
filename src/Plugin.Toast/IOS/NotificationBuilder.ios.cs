@@ -7,7 +7,7 @@ using UserNotifications;
 
 namespace Plugin.Toast.IOS
 {
-    sealed class NotificationBuilder : IBuilder, IPlatformNotificationBuilder, IIosNotificationExtension, IPlatformSpecificExtension
+    sealed class NotificationBuilder : INotificationBuilder, IPlatformNotificationBuilder, IIosNotificationExtension, IPlatformSpecificExtension
     {
         NSMutableDictionary? customArgs;
         bool build;
@@ -48,9 +48,9 @@ namespace Plugin.Toast.IOS
 
         #region IBuilder implementation
 
-        IBuilder IBuilder.AddDescription(string description) => AddDescription(description);
+        INotificationBuilder INotificationBuilder.AddDescription(string description) => AddDescription(description);
 
-        IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
+        INotificationBuilder INotificationBuilder.AddTitle(string title) => AddTitle(title);
 
         public INotification Build()
         {
@@ -208,16 +208,16 @@ namespace Plugin.Toast.IOS
 
         #region IBuilderExtension implementation
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>
             .AddTitle(string title) => AddTitle(title);
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>
             .AddDescription(string description) => AddDescription(description);
 
-        IIosNotificationExtension IBuilderExtension<IIosNotificationExtension>
+        IIosNotificationExtension INotificationBuilderExtension<IIosNotificationExtension>
             .AddTitle(string title) => AddTitle(title);
 
-        IIosNotificationExtension IBuilderExtension<IIosNotificationExtension>
+        IIosNotificationExtension INotificationBuilderExtension<IIosNotificationExtension>
             .AddDescription(string description) => AddDescription(description);
 
         #endregion

@@ -15,10 +15,10 @@ namespace Plugin.Toast
             @this.TryAddSingleton<INotificationManager, DiNm>();
             @this.TryAddSingleton<ISystemEventSource, SystemEventSource>();
             @this.TryAddTransient<INotificationEventSource, NotificationEventProxy>();
-            @this.TryAddTransient(typeof(IBuilder<>), typeof(BuilderFactory<>));
-            @this.TryAddTransient(typeof(IBuilder<,>), typeof(BuilderFactory<,>));
-            @this.TryAddTransient(typeof(IBuilder<,,>), typeof(BuilderFactory<,,>));
-            @this.TryAddTransient(typeof(IBuilder<,,,>), typeof(BuilderFactory<,,,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<>), typeof(NotificationBuilderFactory<>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,>), typeof(NotificationBuilderFactory<,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,,>), typeof(NotificationBuilderFactory<,,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,,,>), typeof(NotificationBuilderFactory<,,,>));
             return @this;
         }
     }

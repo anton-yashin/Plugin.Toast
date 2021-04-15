@@ -48,7 +48,7 @@ namespace Plugin.Toast
             _ = options ?? throw new ArgumentNullException(nameof(@this));
             @this.TryAddSingleton<IToastOptions>(_ => options);
             @this.TryAddSingleton<IIntentManager, IntentManager>();
-            @this.TryAddTransient(typeof(IBuilder), options.NotificationStyle.Resolve(typeof(SnackbarBuilder), typeof(NotificationBuilder)));
+            @this.TryAddTransient(typeof(INotificationBuilder), options.NotificationStyle.Resolve(typeof(SnackbarBuilder), typeof(NotificationBuilder)));
             @this.TryAddTransient<ISnackbarExtension, SnackbarBuilder>();
             @this.TryAddTransient<IDroidNotificationExtension, NotificationBuilder>();
             if (AndroidPlatform.IsM)

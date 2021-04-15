@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Plugin.Toast
 {
-    public interface IUwpExtension : IBuilderExtension<IUwpExtension>
+    public interface IUwpExtension : INotificationBuilderExtension<IUwpExtension>
     {
         /// <summary>
         /// Override the app logo with custom image of choice that will be displayed on the toast.

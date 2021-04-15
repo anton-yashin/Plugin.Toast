@@ -11,7 +11,7 @@ namespace Plugin.Toast
     /// Other platform specific functions located <see cref="global::Plugin.Toast.Droid.IPlatformSpecificExtension"/>
     /// More docs: https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
     /// </summary>
-    public interface IDroidNotificationExtension : IBuilderExtension<IDroidNotificationExtension>
+    public interface IDroidNotificationExtension : INotificationBuilderExtension<IDroidNotificationExtension>
     {
         /// <summary>
         /// Delete notification from notification center on timeout <seealso cref="SetTimeout(TimeSpan)"/>.

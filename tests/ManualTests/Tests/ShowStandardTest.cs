@@ -17,7 +17,7 @@ namespace ManualTests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetRequiredService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                 .AddTitle(Localization.R_SOME_TITLE).AddDescription(Localization.R_TAP_ME)
                 .Build().ShowAsync();
             Assert(result == NotificationResult.Activated);
