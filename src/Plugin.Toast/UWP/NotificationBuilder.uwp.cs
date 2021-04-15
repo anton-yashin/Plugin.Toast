@@ -1,11 +1,12 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Web;
 
 namespace Plugin.Toast.UWP
 {
-    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, IBuilder, INotificationBuilder
+    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, INotificationBuilder, IPlatformNotificationBuilder
     {
         readonly ToastContentBuilder tbc;
         private readonly IServiceProvider? serviceProvider;
@@ -72,9 +73,9 @@ namespace Plugin.Toast.UWP
             return result;
         }
 
-        IBuilder IBuilder.AddTitle(string title) => AddTitle(title);
+        INotificationBuilder INotificationBuilder.AddTitle(string title) => AddTitle(title);
 
-        IBuilder IBuilder.AddDescription(string description) => AddDescription(description);
+        INotificationBuilder INotificationBuilder.AddDescription(string description) => AddDescription(description);
 
         public IBuilder WhenUsing<T>(Action<T> buildAction) where T : IBuilderExtension<T>
         {
@@ -278,16 +279,16 @@ namespace Plugin.Toast.UWP
 
         #region IBuilderExtension implementation
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>
             .AddTitle(string title) => AddTitle(title);
 
-        IPlatformSpecificExtension IBuilderExtension<IPlatformSpecificExtension>
+        IPlatformSpecificExtension INotificationBuilderExtension<IPlatformSpecificExtension>
             .AddDescription(string description) => AddDescription(description);
 
-        IUwpExtension IBuilderExtension<IUwpExtension>
+        IUwpExtension INotificationBuilderExtension<IUwpExtension>
             .AddTitle(string title) => AddTitle(title);
 
-        IUwpExtension IBuilderExtension<IUwpExtension>
+        IUwpExtension INotificationBuilderExtension<IUwpExtension>
             .AddDescription(string description) => AddDescription(description);
 
         #endregion

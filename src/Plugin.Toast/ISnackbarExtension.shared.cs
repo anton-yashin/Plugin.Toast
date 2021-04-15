@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Plugin.Toast.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Plugin.Toast
 {
-    public interface ISnackbarExtension : IBuilderExtension<ISnackbarExtension>
+    public interface ISnackbarExtension : INotificationBuilderExtension<ISnackbarExtension>
     {
         ISnackbarExtension WithAction(string actionText);
         ISnackbarExtension WithAction(string actionText, int colorResource);

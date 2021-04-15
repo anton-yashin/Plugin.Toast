@@ -2,6 +2,7 @@
 using ManualTests.Tests.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,7 +32,7 @@ namespace ManualTests.Tests
                 await file.FlushAsync();
             }
 
-            var result = await serviceProvider.GetRequiredService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                         .AddTitle(Localization.R_SOME_TITLE)
                         .AddDescription(Localization.R_LOREM_IPSUM)
                         .AddImage(await toastImageSourceFactory.FromFileAsync(fileName))

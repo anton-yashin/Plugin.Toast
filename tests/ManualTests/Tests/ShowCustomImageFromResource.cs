@@ -2,6 +2,7 @@
 using ManualTests.Tests.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetRequiredService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                        .AddTitle(Localization.R_SOME_TITLE)
                        .AddDescription(Localization.R_LOREM_IPSUM)
                        .AddImage(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType())) 

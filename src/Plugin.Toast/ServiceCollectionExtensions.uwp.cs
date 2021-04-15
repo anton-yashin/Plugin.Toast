@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using Plugin.Toast.UWP;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {
@@ -39,7 +40,7 @@ namespace Plugin.Toast
         {
             _ = @this ?? throw new ArgumentNullException(nameof(@this));
             _ = options ?? throw new ArgumentNullException(nameof(options));
-            @this.TryAddTransient<IBuilder, NotificationBuilder>();
+            @this.TryAddTransient<INotificationBuilder, NotificationBuilder>();
             @this.TryAddSingleton<IHistory, History>();
             return @this.AddBase();
         }

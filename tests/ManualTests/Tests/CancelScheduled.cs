@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {
@@ -19,7 +20,7 @@ namespace ManualTests.Tests
         {
             await serviceProvider.GetRequiredService<IInitialization>().InitializeAsync();
             var scheduleTo = DateTimeOffset.Now + TimeSpan.FromSeconds(4);
-            var builder = serviceProvider.GetRequiredService<IBuilder>();
+            var builder = serviceProvider.GetRequiredService<INotificationBuilder>();
             var token = builder.AddTitle(Localization.R_SOME_TITLE).AddDescription("Test failed if you see this")
                 .Build().ScheduleTo(scheduleTo);
             await Task.Delay(TimeSpan.FromSeconds(1));

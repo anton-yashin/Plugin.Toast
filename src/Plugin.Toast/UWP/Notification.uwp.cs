@@ -11,15 +11,15 @@ namespace Plugin.Toast.UWP
     sealed class Notification : INotification
     {
         private readonly XmlDocument xmlDocument;
-        private readonly INotificationBuilder notificationBuilder;
+        private readonly IPlatformNotificationBuilder notificationBuilder;
 
-        public Notification(XmlDocument xmlDocument, INotificationBuilder notificationBuilder)
+        public Notification(XmlDocument xmlDocument, IPlatformNotificationBuilder notificationBuilder)
         {
             this.xmlDocument = xmlDocument;
             this.notificationBuilder = notificationBuilder;
         }
 
-        public Notification(ToastContent toastContent, INotificationBuilder notificationBuilder)
+        public Notification(ToastContent toastContent, IPlatformNotificationBuilder notificationBuilder)
             : this(toastContent.GetXml(), notificationBuilder)
         { }
 

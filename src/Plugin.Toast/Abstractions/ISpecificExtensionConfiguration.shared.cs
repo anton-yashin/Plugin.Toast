@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     /// <summary>
     /// A configuration that may be applied after <see cref="IBuilder.UseConfiguration{T}(T)"/> if parameter

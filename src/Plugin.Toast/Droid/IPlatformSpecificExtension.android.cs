@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
 using Java.Lang;
+using Plugin.Toast.Abstractions;
 using System;
 
 namespace Plugin.Toast.Droid
@@ -13,7 +14,7 @@ namespace Plugin.Toast.Droid
     /// This interface contains platform specific functions, that can't be placed into <see cref="IDroidNotificationExtension"/>.
     /// More docs: https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
     /// </summary>
-    public interface IPlatformSpecificExtension : IDroidNotificationExtension, IBuilderExtension<IPlatformSpecificExtension>
+    public interface IPlatformSpecificExtension : IDroidNotificationExtension, INotificationBuilderExtension<IPlatformSpecificExtension>
     {
         /// <summary>
         /// <see cref="NotificationCompat.Builder.AddAction(int, ICharSequence, PendingIntent)"/>

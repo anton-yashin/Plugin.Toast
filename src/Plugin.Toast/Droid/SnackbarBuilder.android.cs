@@ -1,9 +1,10 @@
 ﻿using Android.Support.Design.Widget;
+using Plugin.Toast.Abstractions;
 using System;
 
 namespace Plugin.Toast.Droid
 {
-    sealed class SnackbarBuilder : IBuilder, ISnackbarExtension, ISnackbarBuilder
+    sealed class SnackbarBuilder : INotificationBuilder, ISnackbarExtension, ISnackbarBuilder
     {
         private readonly IToastOptions options;
         private readonly IServiceProvider? serviceProvider;
@@ -62,10 +63,10 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        IBuilder IBuilder.AddTitle(string title)
+        INotificationBuilder INotificationBuilder.AddTitle(string title)
             => AddTitle(title);
 
-        IBuilder IBuilder.AddDescription(string description)
+        INotificationBuilder INotificationBuilder.AddDescription(string description)
             => AddDescription(description);
 
         public IBuilder UseConfiguration<T>(T token)
@@ -100,10 +101,10 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        ISnackbarExtension IBuilderExtension<ISnackbarExtension>.AddTitle(string title)
+        ISnackbarExtension INotificationBuilderExtension<ISnackbarExtension>.AddTitle(string title)
             => AddTitle(title);
 
-        ISnackbarExtension IBuilderExtension<ISnackbarExtension>.AddDescription(string description)
+        ISnackbarExtension INotificationBuilderExtension<ISnackbarExtension>.AddDescription(string description)
             => AddDescription(description);
 
         #region IExtensionPlugin support

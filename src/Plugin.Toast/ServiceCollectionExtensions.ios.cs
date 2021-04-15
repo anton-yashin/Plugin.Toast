@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using UIKit;
 using Plugin.Toast.IOS;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {
@@ -44,7 +45,7 @@ namespace Plugin.Toast
             _ = options ?? throw new ArgumentNullException(nameof(options));
             @this.TryAddSingleton<IToastOptions>(_ => options);
             @this.TryAddSingleton<INotificationReceiver, NotificationReceiver>();
-            @this.TryAddTransient(typeof(IBuilder), UIDevice.CurrentDevice.CheckSystemVersion(10, 0)
+            @this.TryAddTransient(typeof(INotificationBuilder), UIDevice.CurrentDevice.CheckSystemVersion(10, 0)
                 ? typeof(NotificationBuilder) : typeof(LocalNotificationBuilder));
             @this.TryAddTransient<IIosNotificationExtension, NotificationBuilder>();
             @this.TryAddTransient<IIosLocalNotificationExtension, LocalNotificationBuilder>();

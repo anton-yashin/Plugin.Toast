@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +15,10 @@ namespace Plugin.Toast
             @this.TryAddSingleton<INotificationManager, DiNm>();
             @this.TryAddSingleton<ISystemEventSource, SystemEventSource>();
             @this.TryAddTransient<INotificationEventSource, NotificationEventProxy>();
-            @this.TryAddTransient(typeof(IBuilder<>), typeof(BuilderFactory<>));
-            @this.TryAddTransient(typeof(IBuilder<,>), typeof(BuilderFactory<,>));
-            @this.TryAddTransient(typeof(IBuilder<,,>), typeof(BuilderFactory<,,>));
-            @this.TryAddTransient(typeof(IBuilder<,,,>), typeof(BuilderFactory<,,,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<>), typeof(NotificationBuilderFactory<>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,>), typeof(NotificationBuilderFactory<,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,,>), typeof(NotificationBuilderFactory<,,>));
+            @this.TryAddTransient(typeof(INotificationBuilder<,,,>), typeof(NotificationBuilderFactory<,,,>));
             return @this;
         }
     }

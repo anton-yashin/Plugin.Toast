@@ -5,6 +5,7 @@ using Plugin.Toast;
 using ManualTests.Tests.Base;
 using System.IO;
 using Newtonsoft.Json;
+using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {
@@ -53,7 +54,7 @@ namespace ManualTests.Tests
             var path = DataPath;
             if (File.Exists(path) == false)
             {
-                var task = serviceProvider.GetRequiredService<IBuilder>()
+                var task = serviceProvider.GetRequiredService<INotificationBuilder>()
                     .AddTitle("First close app").AddDescription("then tap me")
                     .WhenUsing<IDroidNotificationExtension>(b => b.ForceOpenAppOnNotificationTap(true))
                     .Build().ShowAsync(out tid);

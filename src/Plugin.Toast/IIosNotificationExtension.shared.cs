@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Plugin.Toast.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Plugin.Toast
 {
-    public interface IIosNotificationExtension : IBuilderExtension<IIosNotificationExtension>
+    public interface IIosNotificationExtension : INotificationBuilderExtension<IIosNotificationExtension>
     {
         IIosNotificationExtension AddBadgeNumber(int number);
         IIosNotificationExtension AddBody(string body);

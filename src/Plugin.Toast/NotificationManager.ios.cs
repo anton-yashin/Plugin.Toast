@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UIKit;
 using Plugin.Toast.IOS;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {
@@ -34,14 +35,14 @@ namespace Plugin.Toast
         public static void Init() => instance = new NotificationManager();
         public static void Init(IToastOptions options) => instance = new NotificationManager(options);
 
-        IBuilder PlatformBuildNotification()
+        INotificationBuilder PlatformBuildNotification()
         {
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
                 return new NotificationBuilder(options, notificationReceiver, permission, null);
             return new LocalNotificationBuilder(null);
         }
 
-        IBuilder? PlatformResolve(Type extensionType)
+        INotificationBuilder? PlatformResolve(Type extensionType)
         {
             if (extensionType == notificationExtension)
                 return new NotificationBuilder(options, notificationReceiver, permission, null);

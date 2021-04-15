@@ -5,6 +5,7 @@ using System;
 using UnitTests.Mocks;
 using Xunit;
 using LightMock.Generator;
+using Plugin.Toast.Abstractions;
 
 namespace DeviceTests.UWP
 {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.Toast;
 using ManualTests.ResX;
 using ManualTests.Tests.Base;
+using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {
@@ -15,7 +16,7 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var result = await serviceProvider.GetRequiredService<IBuilder>()
+            var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                 .AddTitle(Localization.R_SOME_TITLE).AddDescription(Localization.R_PLEASE_IGNORE)
                 .Build().ShowAsync();
             Assert(result == NotificationResult.TimedOut);

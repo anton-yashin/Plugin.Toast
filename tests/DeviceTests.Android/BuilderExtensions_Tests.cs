@@ -13,6 +13,7 @@ using Android.Widget;
 using LightMock;
 using LightMock.Generator;
 using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using Plugin.Toast.Droid;
 using Xunit;
 using ABitmap = global::Android.Graphics.Bitmap;

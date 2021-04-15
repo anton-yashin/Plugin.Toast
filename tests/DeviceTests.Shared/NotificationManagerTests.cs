@@ -55,7 +55,7 @@ namespace DeviceTests
                 Assert.True(builder is IXPlatformSpecificExtension);
 #if __ANDROID__
                 Assert.True(builder is IDroidNotificationExtension);
-                Assert.True(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.True(builder is Plugin.Toast.Droid.IPlatformNotificationBuilder);
 #elif __IOS__
                 Assert.True(builder is IIosNotificationExtension);
 #elif NETFX_CORE
@@ -76,7 +76,7 @@ namespace DeviceTests
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is ISnackbarExtension);
                 Assert.False(builder is IDroidNotificationExtension);
-                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is Plugin.Toast.Droid.IPlatformNotificationBuilder);
 #elif __IOS__
                 Assert.True(builder is IXPlatformSpecificExtension);
                 Assert.False(builder is IIosLocalNotificationExtension);
@@ -100,7 +100,7 @@ namespace DeviceTests
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is ISnackbarExtension);
                 Assert.False(builder is IDroidNotificationExtension);
-                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is Plugin.Toast.Droid.IPlatformNotificationBuilder);
 #elif __IOS__
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is IIosLocalNotificationExtension);
@@ -124,7 +124,7 @@ namespace DeviceTests
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is ISnackbarExtension);
                 Assert.False(builder is IDroidNotificationExtension);
-                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is Plugin.Toast.Droid.IPlatformNotificationBuilder);
 #elif __IOS__
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is IIosLocalNotificationExtension);
@@ -148,7 +148,7 @@ namespace DeviceTests
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is ISnackbarExtension);
                 Assert.False(builder is IDroidNotificationExtension);
-                Assert.False(builder is Plugin.Toast.Droid.INotificationBuilder);
+                Assert.False(builder is Plugin.Toast.Droid.IPlatformNotificationBuilder);
 #elif __IOS__
                 Assert.False(builder is IXPlatformSpecificExtension);
                 Assert.True(builder is IIosLocalNotificationExtension);

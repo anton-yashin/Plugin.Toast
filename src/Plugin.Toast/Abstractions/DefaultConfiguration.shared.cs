@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     sealed class DefaultConfiguration<T> : IExtensionConfiguration<T>
         where T : IBuilderExtension<T>

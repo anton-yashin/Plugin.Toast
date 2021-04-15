@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -331,11 +332,11 @@ namespace DeviceTests
             Assert.NotNull(sp.GetService<ISystemEventSource>());
             Assert.NotNull(sp.GetService<INotificationEventSource>());
             Assert.NotNull(sp.GetService<IHistory>());
-            Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension, IUwpExtension, IUwpExtension>>());
-            Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension, IUwpExtension>>());
-            Assert.NotNull(sp.GetService<IBuilder<IUwpExtension, IUwpExtension>>());
-            Assert.NotNull(sp.GetService<IBuilder<IUwpExtension>>());
-            Assert.NotNull(sp.GetService<IBuilder>());
+            Assert.NotNull(sp.GetService<INotificationBuilder<IUwpExtension, IUwpExtension, IUwpExtension, IUwpExtension>>());
+            Assert.NotNull(sp.GetService<INotificationBuilder<IUwpExtension, IUwpExtension, IUwpExtension>>());
+            Assert.NotNull(sp.GetService<INotificationBuilder<IUwpExtension, IUwpExtension>>());
+            Assert.NotNull(sp.GetService<INotificationBuilder<IUwpExtension>>());
+            Assert.NotNull(sp.GetService<INotificationBuilder>());
         }
     }
 }
