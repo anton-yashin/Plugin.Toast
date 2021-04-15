@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using UIKit;
 using Plugin.Toast.IOS;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {

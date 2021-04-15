@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xunit;

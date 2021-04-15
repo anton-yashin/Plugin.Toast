@@ -8,6 +8,7 @@ using LightMock.Generator;
 using Plugin.Toast;
 using Xunit;
 using System.Threading.Tasks;
+using Plugin.Toast.Abstractions;
 
 namespace DeviceTests
 {

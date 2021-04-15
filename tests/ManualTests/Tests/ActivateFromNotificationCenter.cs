@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.Toast;
 using ManualTests.ResX;
 using ManualTests.Tests.Base;
+using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {

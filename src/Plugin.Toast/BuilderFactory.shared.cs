@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     abstract class BuilderFactory : IBuilder
     {

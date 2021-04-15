@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     /// <summary>
     /// Interface to create a plugin to forward data to platform specific notification builders. You need to create

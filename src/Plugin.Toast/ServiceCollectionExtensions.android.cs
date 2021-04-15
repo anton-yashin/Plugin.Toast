@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using Plugin.Toast.Droid;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {

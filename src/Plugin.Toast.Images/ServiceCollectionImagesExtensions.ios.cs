@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Plugin.Toast.Abstractions;
 using Plugin.Toast.IOS;
 using System;
 using System.Collections.Generic;

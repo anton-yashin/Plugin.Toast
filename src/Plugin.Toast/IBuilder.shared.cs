@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     public interface IBuilder
     {

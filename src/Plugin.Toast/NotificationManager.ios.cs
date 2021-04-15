@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UIKit;
 using Plugin.Toast.IOS;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {

@@ -1,4 +1,5 @@
 ﻿using Android.Support.Design.Widget;
+using Plugin.Toast.Abstractions;
 using System;
 
 namespace Plugin.Toast.Droid

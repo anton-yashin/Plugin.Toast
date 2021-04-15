@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Plugin.Toast.Abstractions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

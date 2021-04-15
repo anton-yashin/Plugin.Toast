@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.Toast
+namespace Plugin.Toast.Abstractions
 {
     public interface IBuilderExtension<T>
         where T: IBuilderExtension<T>

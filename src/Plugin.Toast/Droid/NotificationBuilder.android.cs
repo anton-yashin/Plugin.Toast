@@ -8,6 +8,7 @@ using Android.OS;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Android.Content;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast.Droid
 {

@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Plugin.Toast.Droid;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {

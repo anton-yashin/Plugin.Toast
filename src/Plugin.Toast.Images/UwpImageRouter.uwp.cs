@@ -1,4 +1,5 @@
-﻿using Plugin.Toast.UWP;
+﻿using Plugin.Toast.Abstractions;
+using Plugin.Toast.UWP;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -5,6 +5,7 @@ using Plugin.Toast;
 using ManualTests.Tests.Base;
 using System.IO;
 using Newtonsoft.Json;
+using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {

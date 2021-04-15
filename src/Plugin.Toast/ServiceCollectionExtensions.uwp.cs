@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using Plugin.Toast.UWP;
+using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {

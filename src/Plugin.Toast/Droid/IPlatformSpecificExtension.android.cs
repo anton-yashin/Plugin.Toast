@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
 using Java.Lang;
+using Plugin.Toast.Abstractions;
 using System;
 
 namespace Plugin.Toast.Droid
