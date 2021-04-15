@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Plugin.Toast.UWP
 {
-    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, IBuilder, INotificationBuilder
+    sealed class NotificationBuilder : IPlatformSpecificExtension, IUwpExtension, IBuilder, IPlatformNotificationBuilder
     {
         readonly ToastContentBuilder tbc;
         private readonly IServiceProvider? serviceProvider;

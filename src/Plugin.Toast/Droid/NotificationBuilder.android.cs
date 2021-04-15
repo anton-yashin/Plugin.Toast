@@ -12,7 +12,7 @@ using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast.Droid
 {
-    sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, IBuilder, INotificationBuilder
+    sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, IBuilder, IPlatformNotificationBuilder
     {
         private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
@@ -97,7 +97,7 @@ namespace Plugin.Toast.Droid
                 intent.PutExtra(arg.Key, arg.Value);
         }
 
-        global::Android.App.Notification INotificationBuilder.Build()
+        global::Android.App.Notification IPlatformNotificationBuilder.Build()
             => builder.Build();
 
         public bool GetForceOpenAppOnNotificationTap() => forceOpenAppOnNotificationTap;

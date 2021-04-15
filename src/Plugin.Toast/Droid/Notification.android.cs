@@ -9,12 +9,12 @@ namespace Plugin.Toast.Droid
 {
     sealed class Notification : INotification
     {
-        private readonly INotificationBuilder notificationBuilder;
+        private readonly IPlatformNotificationBuilder notificationBuilder;
         private readonly IIntentManager intentManager;
         private readonly IAndroidNotificationManager androidNotificationManager;
 
         public Notification(
-            INotificationBuilder notificationBuilder,
+            IPlatformNotificationBuilder notificationBuilder,
             IIntentManager intentManager,
             IAndroidNotificationManager androidNotificationManager)
         {

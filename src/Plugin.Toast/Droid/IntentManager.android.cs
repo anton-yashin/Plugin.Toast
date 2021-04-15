@@ -53,7 +53,7 @@ namespace Plugin.Toast.Droid
             return null;
         }
 
-        public PendingIntent RegisterToShowWithDelay(INotificationBuilder builder, ToastId toastId)
+        public PendingIntent RegisterToShowWithDelay(IPlatformNotificationBuilder builder, ToastId toastId)
         {
             if (builder.UsingCustomContentIntent == false)
                 SetContentIntent(builder, toastId);
@@ -73,7 +73,7 @@ namespace Plugin.Toast.Droid
 
         public bool IsPendingIntentExists(ToastId toastId) => GetPendingIntentById(toastId) != null;
 
-        public TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(INotificationBuilder builder, ToastId toastId)
+        public TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(IPlatformNotificationBuilder builder, ToastId toastId)
         {
             var (cdi, cci) = (builder.UsingCustomDeleteIntent, builder.UsingCustomContentIntent);
             TaskCompletionSource<NotificationResult> result = new TaskCompletionSource<NotificationResult>();
@@ -89,7 +89,7 @@ namespace Plugin.Toast.Droid
             return result;
         }
 
-        void SetContentIntent(INotificationBuilder builder, ToastId toastId)
+        void SetContentIntent(IPlatformNotificationBuilder builder, ToastId toastId)
         {
             builder.SetContentIntent(
                 builder.GetForceOpenAppOnNotificationTap()
@@ -97,7 +97,7 @@ namespace Plugin.Toast.Droid
                 : CreateContentOrDeleteIntent(IntentConstants.KTapped, builder, toastId));
         }
 
-        static PendingIntent CreateContentOrDeleteIntent(string action, INotificationBuilder builder, ToastId toastId)
+        static PendingIntent CreateContentOrDeleteIntent(string action, IPlatformNotificationBuilder builder, ToastId toastId)
         {
             var intent = new Intent(action);
             toastId.ToIntent(intent);
@@ -108,7 +108,7 @@ namespace Plugin.Toast.Droid
             return result;
         }
 
-        PendingIntent CreateLaunchIntent(INotificationBuilder builder, ToastId toastId)
+        PendingIntent CreateLaunchIntent(IPlatformNotificationBuilder builder, ToastId toastId)
         {
             var packageManager = Application.Context.PackageManager;
             var intent = packageManager?.GetLaunchIntentForPackage(options.PackageName);

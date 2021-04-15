@@ -2,7 +2,7 @@
 
 namespace Plugin.Toast.UWP
 {
-    interface INotificationBuilder
+    interface IPlatformNotificationBuilder
     {
         string? Tag { get; }
         string? Group { get; }

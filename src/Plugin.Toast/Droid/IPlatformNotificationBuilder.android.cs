@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Plugin.Toast.Droid
 {
-    public interface INotificationBuilder : IPlatformSpecificExtension
+    public interface IPlatformNotificationBuilder : IPlatformSpecificExtension
     {
         /// <summary>
         /// Add extra data to a intent using custom argumets

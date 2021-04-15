@@ -7,13 +7,13 @@ namespace Plugin.Toast.IOS
 {
     sealed class Notification : INotification
     {
-        private readonly INotificationBuilder builder;
+        private readonly IPlatformNotificationBuilder builder;
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
         const double KMagicTimeout = 7;
         static UNUserNotificationCenter UNC => UNUserNotificationCenter.Current;
 
-        public Notification(INotificationBuilder builder, INotificationReceiver notificationReceiver, IPermission permission)
+        public Notification(IPlatformNotificationBuilder builder, INotificationReceiver notificationReceiver, IPermission permission)
             => (this.builder, this.notificationReceiver, this.permission) = (builder, notificationReceiver, permission);
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)

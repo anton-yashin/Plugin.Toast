@@ -7,7 +7,7 @@ using UserNotifications;
 
 namespace Plugin.Toast.IOS
 {
-    sealed class NotificationBuilder : IBuilder, INotificationBuilder, IIosNotificationExtension, IPlatformSpecificExtension
+    sealed class NotificationBuilder : IBuilder, IPlatformNotificationBuilder, IIosNotificationExtension, IPlatformSpecificExtension
     {
         NSMutableDictionary? customArgs;
         bool build;

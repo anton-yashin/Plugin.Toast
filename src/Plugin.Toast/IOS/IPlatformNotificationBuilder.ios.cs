@@ -2,7 +2,7 @@
 
 namespace Plugin.Toast.IOS
 {
-    interface INotificationBuilder
+    interface IPlatformNotificationBuilder
     {
         UNMutableNotificationContent Notification { get; }
     }
