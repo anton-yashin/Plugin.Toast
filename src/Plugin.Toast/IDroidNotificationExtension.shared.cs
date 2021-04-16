@@ -293,7 +293,7 @@ namespace Plugin.Toast
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IDroidNotificationExtension SetPriority(int pri);
+        IDroidNotificationExtension SetPriority(DroidPriority pri);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetProgress(int, int, bool)"/>
         /// </summary>

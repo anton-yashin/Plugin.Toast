@@ -269,9 +269,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetPriority(int pri)
+        public IDroidNotificationExtension SetPriority(DroidPriority pri)
         {
-            builder.SetPriority(pri);
+            builder.SetPriority((int)pri);
             prioritySet = true;
             return this;
         }
