@@ -71,7 +71,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetAutoCancel(bool autoCancel);
         /// <summary>
         /// Sets which icon to display as a badge for this notification. 
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetBadgeIconType(int)"/>
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setbadgeicontype"/>
         /// </summary>
         /// <remarks>
         /// <b>Note:</b> This value might be ignored, for launchers that don't support badge icons.
@@ -83,7 +83,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetBadgeIconType(DroidBadgeIcon badgeIconType);
         /// <summary>
         /// Set the notification category.
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetCategory(string)"/>
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcategory"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -92,32 +92,87 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetCategory(DroidNotificationCategory category);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetChannelId(string)"/>
+        /// Specifies the channel the notification should be delivered on. No-op on versions prior to O . 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setChannelId(java.lang.String)"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetChannelId(string channelId);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetColor(int)"/>
+        /// Sets color.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcolor"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetColor(int argb);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetColorized(bool)"/>
+        /// Set whether this notification should be colorized. When set, the color set with <see cref="SetColor(int)"/>
+        /// will be used as the background color of this notification. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcolorized"/>
         /// </summary>
+        /// <remarks>
+        /// This should only be used for high priority ongoing tasks like navigation, an ongoing call,
+        /// or other similarly high-priority events for the user.
+        /// <br/>
+        /// For most styles, the coloring will only be applied if the notification is for a foreground
+        /// service notification.
+        /// <br/>
+        /// However, for MediaStyle and DecoratedMediaCustomViewStyle notifications that have a media
+        /// session attached there is no such requirement.
+        /// <br/>
+        /// Calling this method on any version prior to O will not have an effect on the notification
+        /// and it won't be colorized.
+        /// <br/>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetColorized(bool colorize);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetContentInfo(string)"/>
+        /// Set the large text at the right-hand side of the notification. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontentinfo"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetContentInfo(string info);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetContentText(stringtext)"/>
+        /// Set the text (second row) of the notification, in a standard notification. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontenttext"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetContentText(string text);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetContentTitle(string)"/>
+        /// Set the title (first row) of the notification, in a standard notification. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontenttitle"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetContentTitle(string title);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetDefaults(int)"/>
+        /// Set the default notification options that will be used. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setdefaults"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetDefaults(int defaults);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroup(string)"/>
