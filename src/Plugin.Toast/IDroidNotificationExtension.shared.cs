@@ -175,12 +175,33 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetDefaults(DroidNotificationDefaults droidNotificationDefaults);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroup(string)"/>
+        /// Set this notification to be part of a group of notifications sharing the same key.
+        /// Grouped notifications may display in a cluster or stack on devices which support such rendering. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroup"/>
         /// </summary>
+        /// <remarks>
+        /// To make this notification the summary for its group, also call <see cref="SetGroupSummary(bool)"/>.
+        /// A sort order can be specified for group members by using <see cref="SetSortKey(string)"/>.
+        /// <br/>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetGroup(string groupKey);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroupAlertBehavior(int)"/>
+        /// Sets the group alert behavior for this notification. Use this method to mute
+        /// this notification if alerts for this notification's group should be handled
+        /// by a different notification. This is only applicable for notifications that
+        /// belong to a group <see cref="SetGroup(string)"/>. This must be called on all notifications you want to mute.
+        /// For example, if you want only the summary of your group to make noise, all
+        /// children in the group should have the group alert behavior GROUP_ALERT_SUMMARY. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroupalertbehavior"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetGroupAlertBehavior(int groupAlertBehavior);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroupSummary(bool)"/>
