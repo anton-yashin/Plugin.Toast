@@ -295,60 +295,176 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetPriority(DroidPriority pri);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetProgress(int, int, bool)"/>
+        /// Set the progress this notification represents, which may be represented as a ProgressBar. 
+        /// <see href="https://developer.android.com/reference/android/widget/ProgressBar.html"/>
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setprogress"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetProgress(int max, int progress, bool indeterminate);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetRemoteInputHistory(string[])"/>
+        /// Set the remote input history. This should be set to the most recent inputs that have been sent through a
+        /// RemoteInput of this Notification and cleared once the it is no longer relevant (e.g. for chat notifications
+        /// once the other party has responded). The most recent input must be stored at the 0 index, the second most
+        /// recent at the 1 index, etc. Note that the system will limit both how far back the inputs will be shown and
+        /// how much of each individual input is shown. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/RemoteInput"/>
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setremoteinputhistory"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetRemoteInputHistory(string[] text);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetShortcutId(string)"/>
+        /// If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut,
+        /// in case the Launcher wants to hide the shortcut. 
+        /// 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setshortcutid"/>
         /// </summary>
+        /// <remarks>
+        /// <para><b>Note</b>:This field will be ignored by Launchers that don't support badging or shortcuts.</para>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetShortcutId(string shortcutId);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetShowWhen(bool)"/>
+        /// Control whether the timestamp set with <see cref="SetWhen(long)"/> is shown in the content view. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setshowwhen"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetShowWhen(bool show);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetSmallIcon(int)"/>
+        /// Set the small icon to use in the notification layouts. Different classes
+        /// of devices may return different sizes. See the UX guidelines for more
+        /// information on how to design these icons.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsmallicon_1"/>
         /// </summary>
+        /// <param name="icon">A resource ID in the application's package of the drawable to use.</param>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetSmallIcon(int icon);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetSmallIcon(int, int)"/>
+        /// A variant of <see cref="SetSmallIcon(int)"/> that takes an additional level
+        /// parameter for when the icon is a
+        /// <see href="https://developer.android.com/reference/android/graphics/drawable/LevelListDrawable.html">LevelListDrawable</see>.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsmallicon"/>
         /// </summary>
+        /// <param name="icon">A resource ID in the application's package of the drawable to use.</param>
+        /// <param name="level">The level to use for the icon.</param>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetSmallIcon(int icon, int level);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetSortKey(string)"/>
+        /// Set a sort key that orders this notification among other notifications from the same package.
+        /// This can be useful if an external sort was already applied and an app would like to preserve
+        /// this. Notifications will be sorted lexicographically using this value, although providing
+        /// different priorities in addition to providing sort key may cause this value to be ignored. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsortkey"/>
         /// </summary>
+        /// <remarks>
+        /// <para>This sort key can also be used to order members of a notification group. See <see cref="SetGroup(string)"/>.</para>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetSortKey(string sortKey);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetSubText(string)"/>
+        /// Set the third line of text in the platform notification template. Don't
+        /// use if you're also using <see cref="SetProgress(int, int, bool)"/>; they occupy the
+        /// same location in the standard template. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsubtext"/>
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the platform does not provide large-format notifications, this
+        /// method has no effect. The third line of text only appears in expanded view.
+        /// </para>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetSubText(string text);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetTicker(string)"/>
+        /// Sets the "ticker" text which is sent to accessibility services. Prior
+        /// to LOLLIPOP, sets the text that is displayed in the status bar when the
+        /// notification first arrives, and also a RemoteViews object that may be
+        /// displayed instead on some devices. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setticker"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetTicker(string tickerText);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetTimeoutAfter(long)"/>
+        /// Specifies the time at which this notification should be canceled, if it is not already canceled. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#settimeoutafter"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetTimeoutAfter(long durationMs);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetUsesChronometer(bool)"/>
+        /// Show the when field as a stopwatch. Instead of presenting when as a timestamp, the notification
+        /// will show an automatically updating display of the minutes and seconds since when. Useful when
+        /// showing an elapsed time (like an ongoing phone call).
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setuseschronometer"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetUsesChronometer(bool b);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetVibrate(long[])"/>
+        /// Set the vibration pattern to use. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setvibrate"/>
         /// </summary>
+        /// <remarks>
+        /// <para>On some platforms, a notification that vibrates is more likely to be presented as a heads-up notification.</para>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetVibrate(long[] pattern);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetVisibility(int)"/>
+        /// Sets visibility.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setvisibility"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetVisibility(int visibility);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetWhen(long)"/>
+        /// Set the time that the event occurred. Notifications in the panel are sorted by this time. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setwhen"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetWhen(long when);
 
         /// <summary>
