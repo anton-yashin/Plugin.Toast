@@ -10,7 +10,17 @@ namespace Plugin.Toast.Droid
     /// </summary>
     public interface IIntentManager
     {
+        /// <summary>
+        /// Checks if a <see cref="PendingIntent"/> that will perform a broadcast and unique to <paramref name="toastId"/> is exists.
+        /// </summary>
+        /// <param name="toastId">Id of <see cref="PendingIntent"/></param>
+        /// <returns><b>True</b> if exists</returns>
         bool IsPendingIntentExists(ToastId toastId);
+        /// <summary>
+        /// Retrieve a <see cref="PendingIntent"/> that will perform a broadcast and unique to <paramref name="toastId"/>.
+        /// </summary>
+        /// <param name="toastId">Id of <see cref="PendingIntent"/></param>
+        /// <returns><see cref="PendingIntent"/> or <b>null</b> if not exists</returns>
         PendingIntent? GetPendingIntentById(ToastId toastId);
 
         /// <summary>
@@ -27,7 +37,6 @@ namespace Plugin.Toast.Droid
         /// Creates a content intent for notifications.
         /// </summary>
         /// <param name="builder">notification builder</param>
-        /// <param name="build">action to build a android notification</param>
         /// <param name="notificationId">notification id. Currently not used in <seealso cref="global::Android.App.NotificationManager"/></param>
         /// <exception cref="InvalidOperationException">
         /// if can't get PendingIntent for activity or broadcast from Application.Context
