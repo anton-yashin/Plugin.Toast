@@ -165,15 +165,15 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetBadgeIconType(int icon)
+        public IDroidNotificationExtension SetBadgeIconType(DroidBadgeIcon badgeIconType)
         {
-            builder.SetBadgeIconType(icon);
+            builder.SetBadgeIconType((int)badgeIconType);
             return this;
         }
 
-        public IDroidNotificationExtension SetCategory(string category)
+        public IDroidNotificationExtension SetCategory(DroidNotificationCategory category)
         {
-            builder.SetCategory(category);
+            builder.SetCategory(category.ToString());
             return this;
         }
 

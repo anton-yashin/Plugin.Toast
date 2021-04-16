@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Plugin.Toast.Abstractions
 {
+
     /// <summary>
     /// A configuration that applied after a <see cref="IBuilder"/> is created.
     /// Create an implementation and register it in your IoC or use with <see cref="IBuilderExtension{T}.Use(IExtensionConfiguration{T})"/>

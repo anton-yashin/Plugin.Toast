@@ -1,17 +1,22 @@
-﻿using Plugin.Toast.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Plugin.Toast
 {
+#if __ANDROID__ == false
+#pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
+#endif
     /// <summary>
-    /// Interface of proxy of <see cref="global::Android.Support.V4.App.NotificationCompat.Builder."/>.
+    /// Interface is the proxy for <see cref="global::Android.Support.V4.App.NotificationCompat.Builder"/>.
     /// Additional functions: <seealso cref="SetCleanupOnTimeout(bool)"/>,
     /// <seealso cref="SetTimeout(TimeSpan)"/>, <seealso cref="SetChannel(Action{IDroidNotifcationChannelBuilder})"/>.
     /// Other platform specific functions located <see cref="global::Plugin.Toast.Droid.IPlatformSpecificExtension"/>
-    /// More docs: https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
+    /// More docs: <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html"/>
     /// </summary>
     public interface IDroidNotificationExtension : INotificationBuilderExtension<IDroidNotificationExtension>
+#if __ANDROID__ == false
+#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
+#endif
     {
         /// <summary>
         /// Delete notification from notification center on timeout <seealso cref="SetTimeout(TimeSpan)"/>.
@@ -21,7 +26,7 @@ namespace Plugin.Toast
         /// <returns>builder</returns>
         IDroidNotificationExtension SetCleanupOnTimeout(bool cleanup);
         /// <summary>
-        /// Set timeout to wait user input in <see cref="INotification.ShowAsync(System.Threading.CancellationToken)"/>.
+        /// Set timeout to wait user input in <see cref="INotification.ShowAsync(out ToastId, System.Threading.CancellationToken)"/>.
         /// Default is 7 seconds. Set <see cref="System.Threading.Timeout.InfiniteTimeSpan"/> to wait infinite
         /// </summary>
         /// <param name="timeout">Timeout</param>
@@ -29,25 +34,63 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetTimeout(TimeSpan timeout);
 
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.AddPerson(string)"/>
+        /// Add a person that is relevant to this notification. 
+        /// <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#addperson"/>
         /// </summary>
+        /// <remarks>
+        /// Depending on user preferences, this annotation may allow the notification to 
+        /// pass through interruption filters, and to appear more prominently in the user interface.
+        /// <br/>
+        /// The person should be specified by the String representation of a
+        /// <see cref="global::Android.Provider.ContactsContract.Contacts.ContentLookupUri"/>.
+        /// <br/>
+        /// The system will also attempt to resolve mailto: and tel: schema URIs. The path part
+        /// of these URIs must exist in the contacts database, in the appropriate column, or the
+        /// reference will be discarded as invalid.Telephone schema URIs will be resolved by <see cref="global::Android.Provider.ContactsContract.PhoneLookup"/>.
+        /// <br/>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension AddPerson(string uri);
         /// <summary>
         /// Will create main activity and remove previous if it is exists.
         /// </summary>
         IDroidNotificationExtension ForceOpenAppOnNotificationTap(bool forceOpenAppOnNotificationTap);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetAutoCancel(bool)"/>
+        /// Setting this flag will make it so the notification is automatically canceled when the
+        /// user clicks it in the panel. The PendingIntent set with <see cref="Droid.IPlatformSpecificExtension.SetDeleteIntent(Android.App.PendingIntent)"/>
+        /// will be broadcast when the notification is canceled.
+        /// <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#setautocancel"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetAutoCancel(bool autoCancel);
         /// <summary>
+        /// Sets which icon to display as a badge for this notification. 
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetBadgeIconType(int)"/>
         /// </summary>
-        IDroidNotificationExtension SetBadgeIconType(int icon);
+        /// <remarks>
+        /// <b>Note:</b> This value might be ignored, for launchers that don't support badge icons.
+        /// <br/>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IDroidNotificationExtension SetBadgeIconType(DroidBadgeIcon badgeIconType);
         /// <summary>
+        /// Set the notification category.
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetCategory(string)"/>
         /// </summary>
-        IDroidNotificationExtension SetCategory(string category);
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IDroidNotificationExtension SetCategory(DroidNotificationCategory category);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetChannelId(string)"/>
         /// </summary>
@@ -179,7 +222,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension WithCustomArgs(IEnumerable<(string key, string value)> args);
 
         /// <summary>
-        /// Creates channel if it don't exists & uses it
+        /// Creates channel if it don't exists &amp; uses it
         /// </summary>
         IDroidNotificationExtension SetChannel(Action<IDroidNotifcationChannelBuilder> buildAction);
     }

@@ -29,7 +29,7 @@ namespace Plugin.Toast
         /// <param name="toastId">Identifier of notification</param>
         /// <returns>True if found</returns>
         /// <remarks>
-        /// On android api level < 23 (Marshmallow) this function will always return false
+        /// On android api level &lt; 23 (Marshmallow) this function will always return false
         /// </remarks>
         Task<bool> IsDeliveredAsync(ToastId toastId);
 

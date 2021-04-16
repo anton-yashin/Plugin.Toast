@@ -86,7 +86,9 @@ namespace Plugin.Toast
                 foreach (var i in observers)
                     i.OnNotificationReceived(@event);
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
 #if NETSTANDARD1_4 == false
                 logger?.LogError(ex, "observer error");
