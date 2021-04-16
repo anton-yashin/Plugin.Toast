@@ -204,32 +204,95 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetGroupAlertBehavior(DroidGroupAlert groupAlertBehavior);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroupSummary(bool)"/>
+        /// Set this notification to be the group summary for a group of notifications.
+        /// Grouped notifications may display in a cluster or stack on devices which support
+        /// such rendering. Requires a group key also be set using <see cref="SetGroup(string)"/>.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroupsummary"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetGroupSummary(bool isGroupSummary);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetLights(int, int, int)"/>
+        /// Set the argb value that you would like the LED on the device to blink, as well
+        /// as the rate. The rate is specified in terms of the number of milliseconds to
+        /// be on and then the number of milliseconds to be off. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setlights"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetLights(int argb, int onMs, int offMs);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetLocalOnly(bool)"/>
+        /// Set whether or not this notification is only relevant to the current device.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setlocalonly"/>
         /// </summary>
+        /// <remarks>
+        /// Some notifications can be bridged to other devices for remote display.
+        /// This hint can be set to recommend this notification not be bridged. 
+        /// <br/>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetLocalOnly(bool b);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetNumber(int)"/>
+        /// Set the large number at the right-hand side of the notification.
+        /// This is equivalent to setContentInfo, although it might show the
+        /// number in a different font size for readability. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setnumber"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetNumber(int number);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetOngoing(bool)"/>
+        /// Set whether this is an ongoing notification. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setongoing"/>
         /// </summary>
+        /// <remarks>
+        /// Ongoing notifications differ from regular notifications in the following ways:
+        /// <list type="bullet">
+        /// <item>Ongoing notifications are sorted above the regular notifications in the notification panel.</item>
+        /// <item>Ongoing notifications do not have an 'X' close button, and are not affected by the "Clear all" button.</item>
+        /// </list>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetOngoing(bool ongoing);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetOnlyAlertOnce(bool)"/>
+        /// Set this flag if you would only like the sound, vibrate and ticker
+        /// to be played if the notification is not already showing. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setonlyalertonce"/>
         /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetOnlyAlertOnce(bool onlyAlertOnce);
         /// <summary>
-        /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetPriority(int)"/>
+        /// Set the relative priority for this notification. Priority is an indication of
+        /// how much of the user's valuable attention should be consumed by this notification.
+        /// Low-priority notifications may be hidden from the user in certain situations,
+        /// while the user might be interrupted for a higher-priority notification. The system
+        /// sets a notification's priority based on various factors including the setPriority
+        /// value. The effect may differ slightly on different platforms.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setpriority"/>
         /// </summary>
+        /// <param name="pri">Relative priority for this notification.</param>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
         IDroidNotificationExtension SetPriority(int pri);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetProgress(int, int, bool)"/>
