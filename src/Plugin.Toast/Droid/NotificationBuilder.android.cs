@@ -214,9 +214,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetDefaults(int defaults)
+        public IDroidNotificationExtension SetDefaults(DroidNotificationDefaults defaults)
         {
-            builder.SetDefaults(defaults);
+            builder.SetDefaults((int)defaults);
             defaultsSet = true;
             return this;
         }

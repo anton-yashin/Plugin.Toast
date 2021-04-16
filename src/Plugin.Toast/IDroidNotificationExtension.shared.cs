@@ -173,7 +173,7 @@ namespace Plugin.Toast
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IDroidNotificationExtension SetDefaults(int defaults);
+        IDroidNotificationExtension SetDefaults(DroidNotificationDefaults droidNotificationDefaults);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroup(string)"/>
         /// </summary>
