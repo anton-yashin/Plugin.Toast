@@ -227,9 +227,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetGroupAlertBehavior(int groupAlertBehavior)
+        public IDroidNotificationExtension SetGroupAlertBehavior(DroidGroupAlert groupAlertBehavior)
         {
-            builder.SetGroupAlertBehavior(groupAlertBehavior);
+            builder.SetGroupAlertBehavior((int)groupAlertBehavior);
             return this;
         }
 

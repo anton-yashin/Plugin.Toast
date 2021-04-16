@@ -194,7 +194,7 @@ namespace Plugin.Toast
         /// by a different notification. This is only applicable for notifications that
         /// belong to a group <see cref="SetGroup(string)"/>. This must be called on all notifications you want to mute.
         /// For example, if you want only the summary of your group to make noise, all
-        /// children in the group should have the group alert behavior GROUP_ALERT_SUMMARY. 
+        /// children in the group should have the group alert behavior <see cref="DroidGroupAlert.Summary"/>.
         /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroupalertbehavior"/>
         /// </summary>
         /// <remarks>
@@ -202,7 +202,7 @@ namespace Plugin.Toast
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IDroidNotificationExtension SetGroupAlertBehavior(int groupAlertBehavior);
+        IDroidNotificationExtension SetGroupAlertBehavior(DroidGroupAlert groupAlertBehavior);
         /// <summary>
         /// <see cref="global::Android.Support.V4.App.NotificationCompat.Builder.SetGroupSummary(bool)"/>
         /// </summary>
