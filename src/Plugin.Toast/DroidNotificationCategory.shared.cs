@@ -4,12 +4,18 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+#if __ANDROID__ == false
+#pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
+#endif
     /// <summary>
     /// Notification category for <see cref="IDroidNotificationExtension.SetCategory(DroidNotificationCategory)"/>
     /// <see cref="global::Android.App.Notification"/>
     /// </summary>
     public sealed class DroidNotificationCategory
     {
+#if __ANDROID__ == false
+#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
+#endif
         private readonly string category;
 
         /// <summary>
