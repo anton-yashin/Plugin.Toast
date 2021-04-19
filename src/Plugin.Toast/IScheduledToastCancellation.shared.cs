@@ -9,6 +9,9 @@ namespace Plugin.Toast
     /// </summary>
     public interface IScheduledToastCancellation : IDisposable
     {
+        /// <summary>
+        /// The notification id associated with this token.
+        /// </summary>
         ToastId ToastId { get; }
     }
 }
