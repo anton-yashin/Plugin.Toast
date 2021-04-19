@@ -32,7 +32,14 @@ namespace Plugin.Toast
             this.history = new History();
         }
 
+        /// <summary>
+        /// Initializes a singleton <see cref="Instance"/>.
+        /// </summary>
         public static void Init() => instance = new NotificationManager();
+        /// <summary>
+        /// Initializes a singleton <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="options">Platform defaults.</param>
         public static void Init(IToastOptions options) => instance = new NotificationManager(options);
 
         INotificationBuilder PlatformBuildNotification()

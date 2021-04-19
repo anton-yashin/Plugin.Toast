@@ -4,7 +4,7 @@ using System;
 namespace Plugin.Toast
 {
     /// <summary>
-    /// Options used by android platform to show notifications.
+    /// Defaults used by android platform to show notifications.
     /// </summary>
     public interface IToastOptions
     {

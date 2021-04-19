@@ -13,6 +13,9 @@ namespace Plugin.Toast
         /// Send events registered via <see cref="Platform"/> class
         /// </summary>
         void SendPendingEvents();
+        /// <summary>
+        /// Notification received event handler.
+        /// </summary>
         event EventHandler<NotificationEvent> NotificationReceived;
     }
 }
