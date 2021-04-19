@@ -243,16 +243,28 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetExtras(Bundle extras);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetFullScreenIntent(PendingIntent, bool)"/>
+        /// An intent to launch instead of posting the notification to the status bar.
+        /// Only for use with extremely high-priority notifications demanding the user's
+        /// immediate attention, such as an incoming phone call or alarm clock that the
+        /// user has explicitly set to a particular time. If this facility is used for
+        /// something else, please give the user an option to turn it off and use a
+        /// normal notification, as this can be extremely disruptive. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setfullscreenintent"/>
         /// </summary>
+        /// <param name="intent">The pending intent to launch.</param>
+        /// <param name="highPriority">Passing true will cause this notification to be sent even if other notifications are suppressed. </param>
         /// <remarks>
+        /// <para>On some platforms, the system UI may choose to display a heads-up
+        /// notification, instead of launching this intent, while the user is using
+        /// the device. </para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension SetFullScreenIntent(PendingIntent intent, bool highPriority);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetLargeIcon(Bitmap)"/>
+        /// Set the large icon that is shown in the ticker and notification.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setlargeicon"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -261,8 +273,11 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetLargeIcon(Bitmap icon);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetPublicVersion(global::Android.App.Notification)"/>
+        /// Supply a replacement Notification whose contents should be shown in
+        /// insecure contexts (i.e. atop the secure lockscreen).
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setpublicversion"/>
         /// </summary>
+        /// <param name="n">A replacement notification, presumably with some or all info redacted.</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
@@ -279,7 +294,14 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetRemoteInputHistory(ICharSequence[] text);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetSound(global::Android.Net.Uri)"/>
+        /// Set the remote input history. This should be set to the most recent
+        /// inputs that have been sent through a RemoteInput of this Notification
+        /// and cleared once the it is no longer relevant (e.g. for chat notifications
+        /// once the other party has responded). The most recent input must be
+        /// stored at the 0 index, the second most recent at the 1 index, etc.
+        /// Note that the system will limit both how far back the inputs will be
+        /// shown and how much of each individual input is shown.
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setremoteinputhistory"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -288,34 +310,52 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetSound(global::Android.Net.Uri sound);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetSound(global::Android.Net.Uri, int)"/>
+        /// Set the sound to play. It will play on the default stream. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsound"/>
         /// </summary>
         /// <remarks>
+        /// <para>On some platforms, a notification that is noisy is more likely
+        /// to be presented as a heads-up notification.</para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension SetSound(global::Android.Net.Uri sound, int streamType);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetStyle(NotificationCompat.Style)"/>
+        /// Add a rich notification style to be applied at build time. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setstyle"/>
         /// </summary>
+        /// <param name="style">Object responsible for modifying the notification style.</param>
         /// <remarks>
+        /// <para>If the platform does not provide rich notification styles, this
+        /// method has no effect. The user will always see the normal notification
+        /// style.</para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension SetStyle(NotificationCompat.Style style);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetSubText(ICharSequence)"/>
+        /// Set the third line of text in the platform notification template.
+        /// Don't use if you're also using <see cref="IDroidNotificationExtension.SetProgress(int, int, bool)"/>;
+        /// they occupy the same location in the standard template. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsubtext"/>
         /// </summary>
         /// <remarks>
+        /// <para>If the platform does not provide large-format notifications,
+        /// this method has no effect. The third line of text only appears in
+        /// expanded view.</para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension SetSubText(ICharSequence text);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetTicker(string, RemoteViews)"/>
+        /// Sets the "ticker" text which is sent to accessibility services. Prior to
+        /// <see cref="BuildVersionCodes.Lollipop"/>, sets the text that is displayed
+        /// in the status bar when the notification first arrives, and also a
+        /// <see cref="RemoteViews"/> object that may be displayed instead on some devices. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setticker"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -324,7 +364,11 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetTicker(string tickerText, RemoteViews views);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetTicker(ICharSequence, RemoteViews)"/>
+        /// Sets the "ticker" text which is sent to accessibility services. Prior to
+        /// <see cref="BuildVersionCodes.Lollipop"/>, sets the text that is displayed
+        /// in the status bar when the notification first arrives, and also a
+        /// <see cref="RemoteViews"/> object that may be displayed instead on some devices. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setticker"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -333,7 +377,10 @@ namespace Plugin.Toast.Droid
         /// </remarks>
         IPlatformSpecificExtension SetTicker(ICharSequence tickerText, RemoteViews views);
         /// <summary>
-        /// <see href="NotificationCompat.Builder.SetTicker(ICharSequence)"/>
+        /// Sets the "ticker" text which is sent to accessibility services. Prior to
+        /// <see cref="BuildVersionCodes.Lollipop"/>, sets the text that is displayed
+        /// in the status bar when the notification first arrives. 
+        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setticker_1"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
