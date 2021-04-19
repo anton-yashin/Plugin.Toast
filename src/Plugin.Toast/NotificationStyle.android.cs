@@ -3,6 +3,9 @@ using Plugin.Toast.Droid;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Notification style used by <see cref="IToastOptions.NotificationStyle"/>
+    /// </summary>
     public enum NotificationStyle
     {
         /// <summary>
