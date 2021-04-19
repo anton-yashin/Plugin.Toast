@@ -1,40 +1,26 @@
 ﻿using Android.App;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <inheritdoc/>
     public sealed class ToastOptions : IToastOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastOptions"/> class.
+        /// </summary>
+        /// <param name="activity">Activity that used to show a snackbar notification.</param>
         public ToastOptions(Activity activity) => Activity = activity ?? throw new ArgumentNullException(nameof(activity));
 
-        /// <summary>
-        /// Aplication package name. By default it is Application.Context.PackageName. See also:<br/>
-        /// <seealso cref="global::Android.App.Application.Context"/> <br/>
-        /// <seealso cref="global::Android.Content.Context.PackageName"/>
-        /// </summary>
+        /// <inheritdoc/>
         public string PackageName { get; set; } = Application.Context.PackageName ?? "";
-        /// <summary>
-        /// Notification style selected by <seealso cref="INotificationManager.GetBuilder()"/>.
-        /// Default value is <seealso cref="NotificationStyle.Default"/>
-        /// </summary>
+        /// <inheritdoc/>
         public NotificationStyle NotificationStyle { get; set; } = NotificationStyle.Default;
-        /// <summary>
-        /// The default drawable icon for the small icon on the notification, using <see cref="IDroidNotificationExtension"/>.
-        /// Not applicable to <seealso cref="ISnackbarExtension"/>. Default value is 
-        /// <seealso cref="global::Android.Resource.Drawable.IcDialogInfo"/>
-        /// </summary>
+        /// <inheritdoc/>
         public int DefaultIconId { get; set; } = global::Android.Resource.Drawable.IcDialogInfo;
-        /// <summary>
-        /// Channel options. Default value <seealso cref="Droid.ChannelOptions"/>. You can also setup channel using 
-        /// <see cref="IDroidNotificationExtension.SetChannel(Action{IDroidNotifcationChannelBuilder})"/>
-        /// </summary>
+        /// <inheritdoc/>
         public IChannelOptions ChannelOptions { get; set; } = new ChannelOptions();
-
-        /// <summary>
-        /// Activity that used to show a snackbar notification.
-        /// </summary>
+        /// <inheritdoc/>
         public Activity Activity { get; }
     }
 }
