@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using UserNotifications;
 
 namespace Plugin.Toast
 {
+    /// <inheritdoc/>
     public sealed class ToastOptions : IToastOptions
     {
         /// <summary>
