@@ -6,17 +6,6 @@ using ANotificationManager = Android.App.NotificationManager;
 
 namespace Plugin.Toast.Droid
 {
-
-    public interface INotificationChannelBuilder : IDroidNotifcationChannelBuilder
-    {
-        INotificationChannelBuilder SetSound(global::Android.Net.Uri sound, global::Android.Media.AudioAttributes audioAttributes);
-    }
-
-    internal interface IInternalNotificationChannelBuilder : INotificationChannelBuilder
-    {
-        ANotificationChannel Build();
-    }
-
     sealed class NotificationChannelBuilder : INotificationChannelBuilder, IInternalNotificationChannelBuilder
     {
         bool? lights;
