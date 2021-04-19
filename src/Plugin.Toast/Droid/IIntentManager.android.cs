@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Plugin.Toast.Droid
 {
     /// <summary>
-    /// Intent manager must create a content intent & delete intent for notifications,
+    /// Intent manager must create a content intent &amp; delete intent for notifications,
     /// must watch for broadcast intents.
     /// </summary>
     public interface IIntentManager
@@ -24,14 +24,14 @@ namespace Plugin.Toast.Droid
         PendingIntent? GetPendingIntentById(ToastId toastId);
 
         /// <summary>
-        /// Creates a content intent & delete intent for notifications.
+        /// Creates a content intent &amp; delete intent for notifications.
         /// </summary>
         /// <param name="builder">notification builder</param>
         /// <param name="notificationId">id in <seealso cref="global::Android.App.NotificationManager"/></param>
         /// <exception cref="InvalidOperationException">
         /// if can't get PendingIntent for activity or broadcast from Application.Context
         /// </exception>
-        /// <returns>Task source for result of <see cref="INotification.ShowAsync(System.Threading.CancellationToken)"/></returns>
+        /// <returns>Task source for result of <see cref="INotification.ShowAsync(out ToastId, System.Threading.CancellationToken)"/></returns>
         TaskCompletionSource<NotificationResult> RegisterToShowImmediatly(IPlatformNotificationBuilder builder, ToastId notificationId);
         /// <summary>
         /// Creates a content intent for notifications.
