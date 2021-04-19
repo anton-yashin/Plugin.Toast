@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Predefined values for <see cref="ISnackbarExtension.WithDuration(SnackbarDuration)"/>.
+    /// </summary>
     public enum SnackbarDuration
     {
         /// <summary>
