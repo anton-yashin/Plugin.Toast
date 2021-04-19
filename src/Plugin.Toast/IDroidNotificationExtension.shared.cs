@@ -14,9 +14,6 @@ namespace Plugin.Toast
     /// More docs: <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html"/>
     /// </summary>
     public interface IDroidNotificationExtension : INotificationBuilderExtension<IDroidNotificationExtension>
-#if __ANDROID__ == false
-#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
-#endif
     {
         /// <summary>
         /// Delete notification from notification center on timeout <seealso cref="SetTimeout(TimeSpan)"/>.
@@ -481,4 +478,7 @@ namespace Plugin.Toast
         /// </summary>
         IDroidNotificationExtension SetChannel(Action<IDroidNotifcationChannelBuilder> buildAction);
     }
+#if __ANDROID__ == false
+#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
+#endif
 }

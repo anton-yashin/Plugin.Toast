@@ -79,7 +79,6 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotifcationChannelBuilder EnableVibration(bool vibration);
         /// <summary>
-        /// <see cref="global::Android.App.NotificationChannel.SetAllowBubbles(bool)"/>
         /// Android 10 is required (API 29), otherwise ignored.
         /// <seealso href="https://developer.android.com/reference/android/app/NotificationChannel#setAllowBubbles(boolean)"/>
         /// </summary>
