@@ -9,8 +9,14 @@ namespace Plugin.Toast
     public partial class ToastId : IEquatable<ToastId>
     {
         string id;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastId"/> class.
+        /// </summary>
         public ToastId(string id) => this.id = id;
 
+        /// <summary>
+        /// The identifier used on current platform.
+        /// </summary>
         [DataMember, Preserve]
         public string Id 
         {

@@ -9,6 +9,9 @@ namespace Plugin.Toast
         string tag;
         string group;
 
+        /// <summary>
+        /// Tag part of notification identifier.
+        /// </summary>
         [DataMember]
         public string Tag 
         {
@@ -17,6 +20,9 @@ namespace Plugin.Toast
             set => tag = value;
         }
 
+        /// <summary>
+        /// Group part of notification identifier.
+        /// </summary>
         [DataMember]
         public string Group
         {
@@ -25,12 +31,16 @@ namespace Plugin.Toast
             set => group = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastId"/> class.
+        /// </summary>
+        /// <param name="tag">Tag part of notificaition identifier</param>
+        /// <param name="group">Group part of notificaition identifier</param>
         public ToastId(string tag, string group)
         {
             this.tag = tag ?? "";
             this.group = group ?? "";
         }
-
 
         /// <summary>
         /// Creates <see cref="ToastId"/> from specified notification.

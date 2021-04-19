@@ -1,5 +1,4 @@
 ﻿using Android.Content;
-using Android.Support.Annotation;
 using Plugin.Toast.Droid;
 using System;
 using System.Runtime.Serialization;
@@ -12,6 +11,10 @@ namespace Plugin.Toast
         int id;
         string tag;
 
+        /// <summary>
+        /// First part of identifier used by
+        /// <see cref="AndroidNotificationManager.NotificationManager"/>
+        /// </summary>
         [DataMember]
         public int Id
         {
@@ -20,7 +23,10 @@ namespace Plugin.Toast
             set => id = value;
         }
 
-
+        /// <summary>
+        /// Second part of identifier used by
+        /// <see cref="AndroidNotificationManager.NotificationManager"/>
+        /// </summary>
         [DataMember]
         public string Tag 
         {
@@ -29,6 +35,13 @@ namespace Plugin.Toast
             set => tag = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastId"/> class.
+        /// </summary>
+        /// <param name="id">First part of identifier used by
+        /// <see cref="AndroidNotificationManager.NotificationManager"/></param>
+        /// <param name="tag">Second part of identifier used by
+        /// <see cref="AndroidNotificationManager.NotificationManager"/></param>
         public ToastId(int id, string tag)
         {
             this.id = id;
