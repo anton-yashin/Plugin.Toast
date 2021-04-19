@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Notification abstraction.
+    /// </summary>
     public interface INotification
     {
         /// <summary>
@@ -35,6 +38,9 @@ namespace Plugin.Toast
         IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime);
     }
 
+    /// <summary>
+    /// Extensions for <see cref="INotification"/>
+    /// </summary>
     public static class NotificationExtensions
     {
         /// <summary>
@@ -52,6 +58,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Show notification and wait for timeout or user action
         /// </summary>
+        /// <param name="this">The notification</param>
         /// <param name="cancellationToken">token to hide notification</param>
         /// <returns>Notification result</returns>
         /// <exception cref="Exceptions.NotificationException"/>
@@ -65,6 +72,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Show notification and wait for timeout or user action
         /// </summary>
+        /// <param name="this">The notification</param>
         /// <param name="toastId">Identifier, that you can use to remove notification from history, store somewhere, etc</param>
         /// <returns>Notification result</returns>
         /// <exception cref="Exceptions.NotificationException"/>

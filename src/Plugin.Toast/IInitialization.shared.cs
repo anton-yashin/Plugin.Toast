@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Abstraction for platform initialization
+    /// </summary>
     public interface IInitialization
     {
         /// <summary>

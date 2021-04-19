@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Abstraction for notification history.
+    /// </summary>
     public interface IHistory
     {
         /// <summary>
