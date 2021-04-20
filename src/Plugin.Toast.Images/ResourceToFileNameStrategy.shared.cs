@@ -22,6 +22,12 @@ namespace Plugin.Toast
     /// </summary>
     public interface IResourceToFileNameStrategy
     {
+        /// <summary>
+        /// Converts resource name to local file name.
+        /// </summary>
+        /// <param name="resourcePath">Path to resource inside assembly.</param>
+        /// <param name="assembly">The assembly to search.</param>
+        /// <returns>The local file path.</returns>
         string Convert(string resourcePath, Assembly assembly);
     }
 }

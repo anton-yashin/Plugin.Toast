@@ -13,6 +13,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Write a data to local cache folder.
         /// </summary>
+        /// <param name="this">The image cacher</param>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
         /// <param name="copyToAsync">Callback which will write to provided file stream</param>
         /// <returns>Full path to file where a cached data is stored</returns>
@@ -26,7 +27,9 @@ namespace Plugin.Toast
         /// <summary>
         /// Write a data to local cache folder.
         /// </summary>
+        /// <param name="this">The image cacher</param>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <param name="getStreamAsync">Provide a stream which must be written to cache</param>
         /// <returns>Full path to file where a cached data is stored</returns>
         /// <remarks>
@@ -45,6 +48,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Write a data to local cache folder.
         /// </summary>
+        /// <param name="this">The image cacher</param>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
         /// <param name="getStreamAsync">Provide a stream which must be written to cache</param>
         /// <returns>Full path to file where a cached data is stored</returns>
@@ -58,7 +62,9 @@ namespace Plugin.Toast
         /// <summary>
         /// Write a data to local cache folder.
         /// </summary>
+        /// <param name="this">The image cacher</param>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <param name="getStream">Provide a stream which must be written to cache</param>
         /// <returns>Full path to file where a cached data is stored</returns>
         /// <remarks>
@@ -77,6 +83,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Write a data to local cache folder.
         /// </summary>
+        /// <param name="this">The image cacher</param>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
         /// <param name="getStream">Provide a stream which must be written to cache</param>
         /// <returns>Full path to file where a cached data is stored</returns>

@@ -7,6 +7,9 @@ namespace Plugin.Toast
     {
         internal Bitmap Bitmap { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastImageSource"/> class.
+        /// </summary>
         protected internal ToastImageSource(Bitmap bitmap) => this.Bitmap = bitmap;
     }
 

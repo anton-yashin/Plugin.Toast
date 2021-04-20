@@ -15,6 +15,7 @@ namespace Plugin.Toast
         /// Write a data into local cache folder.
         /// </summary>
         /// <param name="relativePath">Path relative to temporary folder to file where a data will be stored</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <param name="copyToAsync">Callback which will write to provided file stream</param>
         /// <returns>Full path to file where a cached data is stored</returns>
         /// <remarks>
