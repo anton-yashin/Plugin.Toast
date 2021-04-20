@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Extension methods <see cref="IBuilder"/>
+    /// </summary>
     public static partial class BuilderExtensions
     {
         /// <summary>
@@ -90,6 +93,8 @@ namespace Plugin.Toast
         /// <seealso cref="IUwpExtension.AddAppLogoOverride(Uri, ToastGenericAppLogoCrop?, string?, bool?)"/>
         /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
+        /// <param name="extension">Target extension.</param>
+        /// <param name="imageSource">Image to add.</param>
         /// <param name="hintCrop">Specify how the image should be cropped.</param>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
@@ -100,8 +105,8 @@ namespace Plugin.Toast
         /// Add a hero image to the toast. <seealso cref="IUwpExtension.AddHeroImage(Uri, string?, bool?)"/>
         /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
-        /// <param name="extension"></param>
-        /// <param name="imageSource"></param>
+        /// <param name="extension">Target extension.</param>
+        /// <param name="imageSource">Image to add.</param>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
         /// <returns></returns>
@@ -112,6 +117,8 @@ namespace Plugin.Toast
         /// Add an image inline with other toast content. <seealso cref="IUwpExtension.AddInlineImage(Uri, string?, bool?, AdaptiveImageCrop?, bool?)"/>
         /// <seealso cref="IToastImageSourceFactory"/>
         /// </summary>
+        /// <param name="extension">Target extension.</param>
+        /// <param name="imageSource">Image to add.</param>
         /// <param name="alternateText">A description of the image, for users of assistive technologies.</param>
         /// <param name="addImageQuery">A value whether Windows is allowed to append a query string to the image URI supplied in the Tile notification.</param>
         /// <param name="hintCrop">A value whether a margin is removed. images have an 8px margin around them.</param>
