@@ -184,14 +184,6 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
-        [Obsolete("Use IPlatformSpecificExtension AddAttachments(IEnumerable<UNNotificationAttachment> attachments);", true)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPlatformSpecificExtension AddAttachments(UNNotificationAttachment[] attachments)
-        {
-            this.attachments.AddRange(attachments);
-            return this;
-        }
-
         public IPlatformSpecificExtension AddAttachment(UNNotificationAttachment attachment)
         {
             this.attachments.Add(attachment);

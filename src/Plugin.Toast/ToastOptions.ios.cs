@@ -8,8 +8,5 @@ namespace Plugin.Toast
     {
         /// <inheritdoc/>
         public UNNotificationSound? Sound { get; set; }
-        /// <inheritdoc/>
-        [Obsolete("not supported by OS", true)]
-        public bool MultipleAuthorizationRequests { get; set; }
     }
 }
