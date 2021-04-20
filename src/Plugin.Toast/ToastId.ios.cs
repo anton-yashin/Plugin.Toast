@@ -6,6 +6,7 @@ using Foundation;
 
 namespace Plugin.Toast
 {
+    [Preserve(AllMembers = true)]
     public partial class ToastId : IEquatable<ToastId>
     {
         string id;
@@ -17,7 +18,7 @@ namespace Plugin.Toast
         /// <summary>
         /// The identifier used on current platform.
         /// </summary>
-        [DataMember, Preserve]
+        [DataMember]
         public string Id 
         {
             get => id;
