@@ -11,6 +11,7 @@ namespace Plugin.Toast
     /// </summary>
     public static partial class BuilderExtensions
     {
+#pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
         /// <summary>
         /// Add a image to builder.
         /// </summary>
@@ -81,6 +82,8 @@ namespace Plugin.Toast
         {
             return extension.PrivateAddAttachment(imageSource);
         }
+
+#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
 
         static T PrivateAddAttachment<T>(this T extension, ToastImageSource imageSource)
             where T : IBuilderExtension<T>
