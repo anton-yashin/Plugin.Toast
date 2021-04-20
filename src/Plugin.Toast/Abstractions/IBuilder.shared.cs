@@ -2,6 +2,9 @@
 
 namespace Plugin.Toast.Abstractions
 {
+    /// <summary>
+    /// Base abstraction for builder classes.
+    /// </summary>
     public interface IBuilder
     {
         /// <summary>
@@ -244,21 +247,44 @@ namespace Plugin.Toast.Abstractions
         IBuilder UseConfiguration<T>(T token);
     }
 
+
+    /// <summary>
+    /// Base abstraction for builder classes.
+    /// </summary>
+    /// <typeparam name="T">Extension type</typeparam>
     public interface IBuilder<T> : IBuilder
         where T : IBuilderExtension<T>
     { }
 
+    /// <summary>
+    /// Base abstraction for builder classes.
+    /// </summary>
+    /// <typeparam name="T1">First extension type</typeparam>
+    /// <typeparam name="T2">Second extension type</typeparam>
     public interface IBuilder<T1, T2> : IBuilder
         where T1 : IBuilderExtension<T1>
         where T2 : IBuilderExtension<T2>
     { }
 
+    /// <summary>
+    /// Base abstraction for builder classes.
+    /// </summary>
+    /// <typeparam name="T1">First extension type</typeparam>
+    /// <typeparam name="T2">Second extension type</typeparam>
+    /// <typeparam name="T3">Thrid extension type</typeparam>
     public interface IBuilder<T1, T2, T3> : IBuilder
         where T1 : IBuilderExtension<T1>
         where T2 : IBuilderExtension<T2>
         where T3 : IBuilderExtension<T3>
     { }
 
+    /// <summary>
+    /// Base abstraction for builder classes.
+    /// </summary>
+    /// <typeparam name="T1">First extension type</typeparam>
+    /// <typeparam name="T2">Second extension type</typeparam>
+    /// <typeparam name="T3">Thrid extension type</typeparam>
+    /// <typeparam name="T4">Fourth extension type</typeparam>
     public interface IBuilder<T1, T2, T3, T4> : IBuilder
         where T1 : IBuilderExtension<T1>
         where T2 : IBuilderExtension<T2>

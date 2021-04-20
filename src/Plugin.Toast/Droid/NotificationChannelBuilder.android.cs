@@ -6,17 +6,6 @@ using ANotificationManager = Android.App.NotificationManager;
 
 namespace Plugin.Toast.Droid
 {
-
-    public interface INotificationChannelBuilder : IDroidNotifcationChannelBuilder
-    {
-        INotificationChannelBuilder SetSound(global::Android.Net.Uri sound, global::Android.Media.AudioAttributes audioAttributes);
-    }
-
-    internal interface IInternalNotificationChannelBuilder : INotificationChannelBuilder
-    {
-        ANotificationChannel Build();
-    }
-
     sealed class NotificationChannelBuilder : INotificationChannelBuilder, IInternalNotificationChannelBuilder
     {
         bool? lights;
@@ -25,7 +14,7 @@ namespace Plugin.Toast.Droid
         bool? bypassDnd;
         string? group;
         string? id;
-        NotificationImportance? notificationImportance;
+        DroidNotificationImportance? notificationImportance;
         string? name;
         bool? showBadge;
         long[]? vibrationPattern;
@@ -113,7 +102,7 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotifcationChannelBuilder SetImportance(NotificationImportance notificationImportance)
+        public IDroidNotifcationChannelBuilder SetImportance(DroidNotificationImportance notificationImportance)
         {
             this.notificationImportance = notificationImportance;
             return this;

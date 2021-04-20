@@ -32,7 +32,10 @@ namespace Plugin.Toast
 
         int? persistentHashCode;
 
-        internal const int KMagicSeed = 1558670046; // A random number. Must be persistent between runs.
+        /// <summary>
+        /// A random number. Must be persistent between runs.
+        /// </summary>
+        internal const int KMagicSeed = 1558670046;
 
         internal static int CombineHashCode(int h1, int h2)
         {
@@ -56,15 +59,27 @@ namespace Plugin.Toast
             return h1;
         }
 
+        /// <inheritdoc/>
         public bool Equals(ToastId? other) => PlatformEquals(other);
 
+        /// <inheritdoc/>
         public override bool Equals(object? obj) => PlatformEquals(obj);
 
+        /// <inheritdoc/>
         public override int GetHashCode() => PlatformGetHashCode();
 
+        /// <inheritdoc/>
         public override string ToString() => PlatformToString();
 
+        /// <summary>
+        /// Checks if two <see cref="ToastId"/> is equals.
+        /// </summary>
+        /// <returns><b>True</b> if equals, otherwise <b>false</b>.</returns>
         public static bool operator ==(ToastId? left, ToastId? right) => EqualityComparer<ToastId>.Default.Equals(left!, right!);
+        /// <summary>
+        /// Checks if two <see cref="ToastId"/> is not equals.
+        /// </summary>
+        /// <returns><b>True</b> if not equals, otherwise <b>false</b>.</returns>
         public static bool operator !=(ToastId? left, ToastId? right) => (left == right) == false;
     }
 }

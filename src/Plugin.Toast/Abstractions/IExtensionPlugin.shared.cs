@@ -8,12 +8,11 @@ namespace Plugin.Toast.Abstractions
     /// Interface to create a plugin to forward data to platform specific notification builders. You need to create
     /// an implementation of this interface, register it in your IoC, and then call
     /// <see cref="IBuilder.Add{T1}(T1)"/>
-    /// or <see cref="IBuilderExtension{T}.Add{T1}(T1, T2)"/> to 
+    /// or <see cref="IBuilderExtension{T}.Add{T1}(T1)"/> to 
     /// call <see cref="Configure(TExtension, T1)"/>
     /// </summary>
     /// <typeparam name="TExtension">An extension type which you want to configure</typeparam>
     /// <typeparam name="T1">A type to forward</typeparam>
-    /// <typeparam name="T2">A type to forward</typeparam>
     public interface IExtensionPlugin<TExtension, in T1>
         where TExtension : IBuilderExtension<TExtension>
     {

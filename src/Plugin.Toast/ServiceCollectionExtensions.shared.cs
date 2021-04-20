@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Plugin.Toast.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Extensions for <see cref="IServiceCollection"/>
+    /// </summary>
     public static partial class ServiceCollectionExtensions
     {
         internal static IServiceCollection AddBase(this IServiceCollection @this)

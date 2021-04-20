@@ -1,11 +1,15 @@
 ﻿using Android.App;
 using Android.Content;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Plugin.Toast.Droid
 {
+    /// <summary>
+    /// Interface of android notification builder.
+    /// </summary>
+    /// <remarks>
+    /// WARNING: This is part of internal api. And may be changed at any time.
+    /// </remarks>
     public interface IPlatformNotificationBuilder : IPlatformSpecificExtension
     {
         /// <summary>
@@ -14,15 +18,15 @@ namespace Plugin.Toast.Droid
         /// <param name="intent">An intent to add an extra data</param>
         void AddCustomArgsTo(Intent intent);
         /// <summary>
-        /// true if <see cref="IPlatformSpecificExtension.SetContentIntent(PendingIntent)" is called, otherwise is false/>
+        /// true if <see cref="IPlatformSpecificExtension.SetContentIntent(PendingIntent)"/> is called, otherwise is false
         /// </summary>
         bool UsingCustomContentIntent { get; }
         /// <summary>
-        /// true if <see cref="IPlatformSpecificExtension.SetDeleteIntent(PendingIntent)" is called, otherwise is false/>
+        /// true if <see cref="IPlatformSpecificExtension.SetDeleteIntent(PendingIntent)"/> is called, otherwise is false
         /// </summary>
         bool UsingCustomDeleteIntent { get; }
         /// <summary>
-        /// parameter of <see cref="IDroidNotificationExtension.ForceOpenAppOnNotificationTap(bool)" />
+        /// parameter of <see cref="IDroidNotificationExtension.ForceOpenAppOnNotificationTap(bool)"/>
         /// </summary>
         bool GetForceOpenAppOnNotificationTap();
 
@@ -36,6 +40,10 @@ namespace Plugin.Toast.Droid
         /// </summary>
         TimeSpan Timeout { get; }
 
+        /// <summary>
+        /// Builds android notification.
+        /// </summary>
+        /// <returns>Android noitification.</returns>
         global::Android.App.Notification Build();
     }
 }

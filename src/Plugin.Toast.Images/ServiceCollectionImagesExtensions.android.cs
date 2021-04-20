@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Android specific extensions for <see cref="IServiceCollection"/>
+    /// </summary>
     public static class ServiceCollectionImagesExtensions
     {
         /// <summary>

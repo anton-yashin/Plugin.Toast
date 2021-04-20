@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Plugin.Toast.Droid;
-using Plugin.Toast.Abstractions;
 
 namespace Plugin.Toast
 {
@@ -27,9 +26,17 @@ namespace Plugin.Toast
             this.history = new History(intentManager, androidNotificationManager);
         }
 
+        /// <summary>
+        /// Initializes a singleton <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="activity">Activity that used to show a snackbar notification.</param>
         public static void Init(Activity activity)
             => Init(new ToastOptions(activity));
 
+        /// <summary>
+        /// Initializes a singleton <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="options">Platform defaults.</param>
         public static void Init(IToastOptions options)
             => instance = new NotificationManager(options);
 

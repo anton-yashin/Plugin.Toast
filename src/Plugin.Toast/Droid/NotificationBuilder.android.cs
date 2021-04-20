@@ -165,15 +165,15 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetBadgeIconType(int icon)
+        public IDroidNotificationExtension SetBadgeIconType(DroidBadgeIcon badgeIconType)
         {
-            builder.SetBadgeIconType(icon);
+            builder.SetBadgeIconType((int)badgeIconType);
             return this;
         }
 
-        public IDroidNotificationExtension SetCategory(string category)
+        public IDroidNotificationExtension SetCategory(DroidNotificationCategory category)
         {
-            builder.SetCategory(category);
+            builder.SetCategory(category.ToString());
             return this;
         }
 
@@ -214,9 +214,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetDefaults(int defaults)
+        public IDroidNotificationExtension SetDefaults(DroidNotificationDefaults defaults)
         {
-            builder.SetDefaults(defaults);
+            builder.SetDefaults((int)defaults);
             defaultsSet = true;
             return this;
         }
@@ -227,9 +227,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetGroupAlertBehavior(int groupAlertBehavior)
+        public IDroidNotificationExtension SetGroupAlertBehavior(DroidGroupAlert groupAlertBehavior)
         {
-            builder.SetGroupAlertBehavior(groupAlertBehavior);
+            builder.SetGroupAlertBehavior((int)groupAlertBehavior);
             return this;
         }
 
@@ -269,9 +269,9 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public IDroidNotificationExtension SetPriority(int pri)
+        public IDroidNotificationExtension SetPriority(DroidPriority pri)
         {
-            builder.SetPriority(pri);
+            builder.SetPriority((int)pri);
             prioritySet = true;
             return this;
         }

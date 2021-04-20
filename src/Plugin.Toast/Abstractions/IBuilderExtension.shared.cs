@@ -4,9 +4,18 @@ using System.Text;
 
 namespace Plugin.Toast.Abstractions
 {
+    /// <summary>
+    /// Base abstraction for builder extension classes
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBuilderExtension<T>
         where T: IBuilderExtension<T>
     {
+        /// <summary>
+        /// Use a configuration to configure this builder.
+        /// </summary>
+        /// <param name="visitor">The configuration.</param>
+        /// <returns>Instance of current builder.</returns>
         T Use(IExtensionConfiguration<T> visitor);
         /// <summary>
         /// This function will search an implementation of <see cref="IExtensionPlugin{TExtension, T1}"/> in IoC and
@@ -19,8 +28,8 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1>(T1 a1);
         /// <summary>
@@ -34,10 +43,10 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2>(T1 a1, T2 a2);
         /// <summary>
@@ -51,12 +60,12 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3>(T1 a1, T2 a2, T3 a3);
         /// <summary>
@@ -70,14 +79,14 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4>(T1 a1, T2 a2, T3 a3, T4 a4);
         /// <summary>
@@ -91,16 +100,16 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <typeparam name="T5">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
-        /// <param name="a5">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <typeparam name="T5">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
+        /// <param name="a5">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5);
         /// <summary>
@@ -114,18 +123,18 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <typeparam name="T5">A type to forward.</typeparam>
-        /// <typeparam name="T6">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
-        /// <param name="a5">A data to forward.</param>
-        /// <param name="a6">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <typeparam name="T5">The type to forward.</typeparam>
+        /// <typeparam name="T6">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
+        /// <param name="a5">The data to forward.</param>
+        /// <param name="a6">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6);
         /// <summary>
@@ -139,20 +148,20 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <typeparam name="T5">A type to forward.</typeparam>
-        /// <typeparam name="T6">A type to forward.</typeparam>
-        /// <typeparam name="T7">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
-        /// <param name="a5">A data to forward.</param>
-        /// <param name="a6">A data to forward.</param>
-        /// <param name="a7">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <typeparam name="T5">The type to forward.</typeparam>
+        /// <typeparam name="T6">The type to forward.</typeparam>
+        /// <typeparam name="T7">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
+        /// <param name="a5">The data to forward.</param>
+        /// <param name="a6">The data to forward.</param>
+        /// <param name="a7">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7);
         /// <summary>
@@ -167,22 +176,22 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <typeparam name="T5">A type to forward.</typeparam>
-        /// <typeparam name="T6">A type to forward.</typeparam>
-        /// <typeparam name="T7">A type to forward.</typeparam>
-        /// <typeparam name="T8">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
-        /// <param name="a5">A data to forward.</param>
-        /// <param name="a6">A data to forward.</param>
-        /// <param name="a7">A data to forward.</param>
-        /// <param name="a8">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <typeparam name="T5">The type to forward.</typeparam>
+        /// <typeparam name="T6">The type to forward.</typeparam>
+        /// <typeparam name="T7">The type to forward.</typeparam>
+        /// <typeparam name="T8">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
+        /// <param name="a5">The data to forward.</param>
+        /// <param name="a6">The data to forward.</param>
+        /// <param name="a7">The data to forward.</param>
+        /// <param name="a8">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7, T8>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8);
         /// <summary>
@@ -197,24 +206,24 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        /// <typeparam name="T1">A type to forward.</typeparam>
-        /// <typeparam name="T2">A type to forward.</typeparam>
-        /// <typeparam name="T3">A type to forward.</typeparam>
-        /// <typeparam name="T4">A type to forward.</typeparam>
-        /// <typeparam name="T5">A type to forward.</typeparam>
-        /// <typeparam name="T6">A type to forward.</typeparam>
-        /// <typeparam name="T7">A type to forward.</typeparam>
-        /// <typeparam name="T8">A type to forward.</typeparam>
-        /// <typeparam name="T9">A type to forward.</typeparam>
-        /// <param name="a1">A data to forward.</param>
-        /// <param name="a2">A data to forward.</param>
-        /// <param name="a3">A data to forward.</param>
-        /// <param name="a4">A data to forward.</param>
-        /// <param name="a5">A data to forward.</param>
-        /// <param name="a6">A data to forward.</param>
-        /// <param name="a7">A data to forward.</param>
-        /// <param name="a8">A data to forward.</param>
-        /// <param name="a9">A data to forward.</param>
+        /// <typeparam name="T1">The type to forward.</typeparam>
+        /// <typeparam name="T2">The type to forward.</typeparam>
+        /// <typeparam name="T3">The type to forward.</typeparam>
+        /// <typeparam name="T4">The type to forward.</typeparam>
+        /// <typeparam name="T5">The type to forward.</typeparam>
+        /// <typeparam name="T6">The type to forward.</typeparam>
+        /// <typeparam name="T7">The type to forward.</typeparam>
+        /// <typeparam name="T8">The type to forward.</typeparam>
+        /// <typeparam name="T9">The type to forward.</typeparam>
+        /// <param name="a1">The data to forward.</param>
+        /// <param name="a2">The data to forward.</param>
+        /// <param name="a3">The data to forward.</param>
+        /// <param name="a4">The data to forward.</param>
+        /// <param name="a5">The data to forward.</param>
+        /// <param name="a6">The data to forward.</param>
+        /// <param name="a7">The data to forward.</param>
+        /// <param name="a8">The data to forward.</param>
+        /// <param name="a9">The data to forward.</param>
         /// <returns>Instance of current builder</returns>
         T Add<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9);
     }

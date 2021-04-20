@@ -6,6 +6,9 @@ namespace Plugin.Toast
     {
         internal Uri ImageUri { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ToastImageSource"/> class.
+        /// </summary>
         protected internal ToastImageSource(Uri image) => this.ImageUri = image;
     }
 

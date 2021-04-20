@@ -1,11 +1,12 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// The interface is proxy for <see cref="Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder"/>
+    /// </summary>
     public interface IUwpExtension : INotificationBuilderExtension<IUwpExtension>
     {
         /// <summary>

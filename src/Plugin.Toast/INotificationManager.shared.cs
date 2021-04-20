@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Manages notification builder creation and platform initialization.
+    /// </summary>
     public interface INotificationManager
     {
         /// <summary>
-        /// Initialize current platform if need.
+        /// Platform dependent initialization.
         /// </summary>
         /// <exception cref="Exceptions.NotificationException"/>
         Task InitializeAsync();

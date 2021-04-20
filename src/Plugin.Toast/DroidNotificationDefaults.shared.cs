@@ -1,54 +1,49 @@
-﻿using Plugin.Toast.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Plugin.Toast
 {
     /// <summary>
-    /// The interface of snackbar extension that availalbe on android.
+    /// Default notification options for <see cref="IDroidNotificationExtension.SetDefaults(DroidNotificationDefaults)"/>
     /// </summary>
-    public interface ISnackbarExtension : INotificationBuilderExtension<ISnackbarExtension>
+    [Flags]
+    public enum DroidNotificationDefaults
     {
         /// <summary>
-        /// Set the action to be displayed in this BaseTransientBottomBar
+        /// Use all default values (where applicable).
         /// </summary>
-        /// <param name="actionText">Text to display for the action</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        ISnackbarExtension WithAction(string actionText);
+        All = -1,
         /// <summary>
-        /// Set the action to be displayed in this BaseTransientBottomBar
+        /// Use the default notification sound.
         /// </summary>
-        /// <param name="actionText">Text to display for the action</param>
-        /// <param name="colorResource">The text color of the action</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        ISnackbarExtension WithAction(string actionText, int colorResource);
+        Sound = 1,
         /// <summary>
-        /// How long to display the message.
+        /// Use the default notification vibrate.
         /// </summary>
-        /// <param name="duration">Duration in milliseconds.</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        ISnackbarExtension WithDuration(int duration);
+        Vibrate = 2,
         /// <summary>
-        /// How long to display the message.
+        /// Use the default notification lights.
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        ISnackbarExtension WithDuration(SnackbarDuration duration);
+        Lights = 4
     }
+
 }

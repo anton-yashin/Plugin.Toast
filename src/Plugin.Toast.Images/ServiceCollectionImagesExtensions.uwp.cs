@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// UWP specific extension for <see cref="IServiceCollection"/>
+    /// </summary>
     public static class ServiceCollectionImagesExtensions
     {
         /// <summary>

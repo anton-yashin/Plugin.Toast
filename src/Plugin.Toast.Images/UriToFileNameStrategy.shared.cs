@@ -21,11 +21,16 @@ namespace Plugin.Toast
 
     /// <summary>
     /// Provides a conversion from uri to local file name.
-    /// You can override default behaviour by registering in 
+    /// You can override default behaviour by registering in
     /// IoC a custom implementation.
     /// </summary>
     public interface IUriToFileNameStrategy
     {
+        /// <summary>
+        /// Converts uri to local file name.
+        /// </summary>
+        /// <param name="uri">The uri to covert.</param>
+        /// <returns>The local file path.</returns>
         string Convert(Uri uri);
     }
 }
