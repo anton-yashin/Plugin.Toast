@@ -416,8 +416,6 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-#if __ANDROID_28__
-
         public IPlatformSpecificExtension AddInvisibleAction(int icon, string title, PendingIntent intent)
         {
             builder.AddInvisibleAction(icon, title, intent);
@@ -435,8 +433,6 @@ namespace Plugin.Toast.Droid
             builder.AddInvisibleAction(action);
             return this;
         }
-
-#endif
 
         public IPlatformSpecificExtension Extend(NotificationCompat.IExtender extender)
         {

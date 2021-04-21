@@ -65,7 +65,6 @@ namespace Plugin.Toast.Droid
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension AddExtras(Bundle extras);
-#if __ANDROID_28__
         /// <summary>
         /// Add an invisible action to this notification. Invisible actions are never displayed by the
         /// system, but can be retrieved and used by other application listening to system notifications.
@@ -112,7 +111,6 @@ namespace Plugin.Toast.Droid
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IPlatformSpecificExtension AddInvisibleAction(NotificationCompat.Action action);
-#endif
         /// <summary>
         /// <see href="NotificationCompat.Builder.Extend(NotificationCompat.IExtender extender)"/>
         /// </summary>
