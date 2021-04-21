@@ -28,8 +28,8 @@ namespace ManualTests.UWP
             this.InitializeComponent();
 
             LoadApplication(new ManualTests.App(_
-                => _.AddNotificationManager().AddNotificationManagerImagesSupport(()
-                => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory())));
+                => _.AddNotificationManager().AddNotificationManagerImagesSupport(
+                    Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory)));
         }
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)

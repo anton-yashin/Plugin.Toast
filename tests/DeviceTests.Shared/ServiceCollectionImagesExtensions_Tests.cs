@@ -64,7 +64,7 @@ namespace DeviceTests
         {
             // prepare & act
             var sc = new ServiceCollection();
-            sc.AddNotificationManagerImagesSupport(() => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory());
+            sc.AddNotificationManagerImagesSupport(Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory);
             using var sp = sc.BuildServiceProvider();
 
             // verify
