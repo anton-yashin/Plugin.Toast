@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.22">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid81;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <!-- FIXME: got exception while xamarin android version check after Xamarin.Android.Support.Design package is installed -->
     <XamarinAndroidSupportSkipVerifyVersions>true</XamarinAndroidSupportSkipVerifyVersions>
