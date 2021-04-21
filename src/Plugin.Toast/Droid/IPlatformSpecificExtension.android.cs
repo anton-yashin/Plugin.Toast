@@ -1,8 +1,8 @@
 ﻿using Android.App;
 using Android.Graphics;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Widget;
+using AndroidX.Core.App;
 using Java.Lang;
 using Plugin.Toast.Abstractions;
 using System;

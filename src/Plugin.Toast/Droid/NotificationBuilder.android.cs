@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Support.V4.App;
 using System;
 using System.Collections.Generic;
 using Java.Lang;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Android.Content;
 using Plugin.Toast.Abstractions;
+using AndroidX.Core.App;
 
 namespace Plugin.Toast.Droid
 {
