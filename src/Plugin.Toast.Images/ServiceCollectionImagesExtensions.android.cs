@@ -19,7 +19,18 @@ namespace Plugin.Toast
         /// <summary>
         /// Add the notification manager image support to a service collection
         /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="resourceNameToBitmap">The function that retrieves a bitmap by resource name.</param>
         /// <remarks>
+        /// Usage:
+        /// <code>
+        /// using Xamarin.Forms.Platform.Android;<br/>
+        /// // ...<br/>
+        /// serviceCollection.AddNotificationManagerImagesSupport(fn => Resources.GetBitmapAsync(fn))));<br/>
+        /// // or <br/>
+        /// serviceCollection.AddNotificationManagerImagesSupport(fn => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn));
+        /// </code>
+        /// <br/>
         /// Following services will be included to collection:<br/>
         /// <seealso cref="IExtensionPlugin{TExtension, T1, T2, T3}"/>,<br/>
         /// <seealso cref="IImageCacher"/>,<br/>

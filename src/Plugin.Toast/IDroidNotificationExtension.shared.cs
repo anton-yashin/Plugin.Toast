@@ -7,7 +7,7 @@ namespace Plugin.Toast
 #pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
 #endif
     /// <summary>
-    /// Interface is the proxy for <see cref="global::Android.Support.V4.App.NotificationCompat.Builder"/>.
+    /// Interface is the proxy for <see cref="global::AndroidX.Core.App.NotificationCompat.Builder"/>.
     /// Additional functions: <seealso cref="SetCleanupOnTimeout(bool)"/>,
     /// <seealso cref="SetTimeout(TimeSpan)"/>, <seealso cref="SetChannel(Action{IDroidNotifcationChannelBuilder})"/>.
     /// Other platform specific functions located <see cref="global::Plugin.Toast.Droid.IPlatformSpecificExtension"/>

@@ -17,7 +17,13 @@ namespace Plugin.Toast
         /// <summary>
         /// Add the notification manager image support to a service collection
         /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="getImageDirectory">The function that returns windows image directory</param>
         /// <remarks>
+        /// Usage:
+        /// <code>
+        /// serviceCollection.AddNotificationManagerImagesSupport(Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory)
+        /// </code>
         /// Following services will be included to collection:<br/>
         /// <seealso cref="IExtensionPlugin{TExtension, T1, T2, T3}"/>,<br/>
         /// <seealso cref="IImageCacher"/>,<br/>
