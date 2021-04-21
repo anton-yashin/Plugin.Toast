@@ -32,7 +32,7 @@ namespace Plugin.Toast
 
         /// <summary>
         /// Add a person that is relevant to this notification. 
-        /// <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#addperson"/>
+        /// <seealso href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#addPerson(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// Depending on user preferences, this annotation may allow the notification to 
@@ -56,9 +56,10 @@ namespace Plugin.Toast
         IDroidNotificationExtension ForceOpenAppOnNotificationTap(bool forceOpenAppOnNotificationTap);
         /// <summary>
         /// Setting this flag will make it so the notification is automatically canceled when the
-        /// user clicks it in the panel. The PendingIntent set with <see cref="Droid.IPlatformSpecificExtension.SetDeleteIntent(Android.App.PendingIntent)"/>
+        /// user clicks it in the panel. The PendingIntent set with
+        /// <see cref="Droid.IPlatformSpecificExtension.SetDeleteIntent(Android.App.PendingIntent)"/>
         /// will be broadcast when the notification is canceled.
-        /// <seealso href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#setautocancel"/>
+        /// <seealso href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setAutoCancel(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -68,7 +69,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetAutoCancel(bool autoCancel);
         /// <summary>
         /// Sets which icon to display as a badge for this notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setbadgeicontype"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setBadgeIconType(int)"/>
         /// </summary>
         /// <remarks>
         /// <b>Note:</b> This value might be ignored, for launchers that don't support badge icons.
@@ -80,7 +81,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetBadgeIconType(DroidBadgeIcon badgeIconType);
         /// <summary>
         /// Set the notification category.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcategory"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setCategory(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -90,7 +91,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetCategory(DroidNotificationCategory category);
         /// <summary>
         /// Specifies the channel the notification should be delivered on. No-op on versions prior to O . 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setChannelId(java.lang.String)"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setChannelId(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -100,7 +101,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetChannelId(string channelId);
         /// <summary>
         /// Sets color.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcolor"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setColor(int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -111,7 +112,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Set whether this notification should be colorized. When set, the color set with <see cref="SetColor(int)"/>
         /// will be used as the background color of this notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcolorized"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setColorized(boolean)"/>
         /// </summary>
         /// <remarks>
         /// This should only be used for high priority ongoing tasks like navigation, an ongoing call,
@@ -132,8 +133,12 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetColorized(bool colorize);
         /// <summary>
-        /// Set the large text at the right-hand side of the notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontentinfo"/>
+        /// A small piece of additional information pertaining to this notification.
+        /// Where this text is displayed varies between platform versions. Use
+        /// <see cref="SetSubText(string)"/> instead to set a text in the header.
+        /// For legacy apps targeting a version below Build.VERSION_CODES.N this
+        /// field will still show up, but the subtext will take precedence.
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setContentInfo(java.lang.CharSequence)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -143,7 +148,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetContentInfo(string info);
         /// <summary>
         /// Set the text (second row) of the notification, in a standard notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontenttext"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setContentText(java.lang.CharSequence)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -153,7 +158,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetContentText(string text);
         /// <summary>
         /// Set the title (first row) of the notification, in a standard notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setcontenttitle"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setContentTitle(java.lang.CharSequence)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -163,7 +168,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetContentTitle(string title);
         /// <summary>
         /// Set the default notification options that will be used. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setdefaults"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setDefaults(int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -174,7 +179,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Set this notification to be part of a group of notifications sharing the same key.
         /// Grouped notifications may display in a cluster or stack on devices which support such rendering. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroup"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setGroup(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// To make this notification the summary for its group, also call <see cref="SetGroupSummary(bool)"/>.
@@ -192,7 +197,7 @@ namespace Plugin.Toast
         /// belong to a group <see cref="SetGroup(string)"/>. This must be called on all notifications you want to mute.
         /// For example, if you want only the summary of your group to make noise, all
         /// children in the group should have the group alert behavior <see cref="DroidGroupAlert.Summary"/>.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroupalertbehavior"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setGroupAlertBehavior(int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -204,7 +209,7 @@ namespace Plugin.Toast
         /// Set this notification to be the group summary for a group of notifications.
         /// Grouped notifications may display in a cluster or stack on devices which support
         /// such rendering. Requires a group key also be set using <see cref="SetGroup(string)"/>.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setgroupsummary"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setGroupSummary(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -216,7 +221,7 @@ namespace Plugin.Toast
         /// Set the argb value that you would like the LED on the device to blink, as well
         /// as the rate. The rate is specified in terms of the number of milliseconds to
         /// be on and then the number of milliseconds to be off. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setlights"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setLights(int,%20int,%20int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -226,7 +231,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetLights(int argb, int onMs, int offMs);
         /// <summary>
         /// Set whether or not this notification is only relevant to the current device.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setlocalonly"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setLocalOnly(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Some notifications can be bridged to other devices for remote display.
@@ -238,10 +243,12 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetLocalOnly(bool b);
         /// <summary>
-        /// Set the large number at the right-hand side of the notification.
-        /// This is equivalent to setContentInfo, although it might show the
-        /// number in a different font size for readability. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setnumber"/>
+        /// Sets the number of items this notification represents. On the latest
+        /// platforms, this may be displayed as a badge count for Launchers that
+        /// support badging. Prior to Build.VERSION_CODES.O it could be shown in
+        /// the header. And prior to Build.VERSION_CODES.N this was shown in the
+        /// notification on the right side. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setNumber(int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -250,15 +257,15 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetNumber(int number);
         /// <summary>
-        /// Set whether this is an ongoing notification. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setongoing"/>
+        /// Set whether this is an ongoing notification. Ongoing notifications
+        /// cannot be dismissed by the user, so your application or service must
+        /// take care of canceling them. They are typically used to indicate a
+        /// background task that the user is actively engaged with (e.g., playing
+        /// music) or is pending in some way and therefore occupying the device
+        /// (e.g., a file download, sync operation, active network connection).
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setOngoing(boolean)"/>
         /// </summary>
         /// <remarks>
-        /// Ongoing notifications differ from regular notifications in the following ways:
-        /// <list type="bullet">
-        /// <item>Ongoing notifications are sorted above the regular notifications in the notification panel.</item>
-        /// <item>Ongoing notifications do not have an 'X' close button, and are not affected by the "Clear all" button.</item>
-        /// </list>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
@@ -267,7 +274,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Set this flag if you would only like the sound, vibrate and ticker
         /// to be played if the notification is not already showing. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setonlyalertonce"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setOnlyAlertOnce(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -276,25 +283,33 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetOnlyAlertOnce(bool onlyAlertOnce);
         /// <summary>
-        /// Set the relative priority for this notification. Priority is an indication of
-        /// how much of the user's valuable attention should be consumed by this notification.
-        /// Low-priority notifications may be hidden from the user in certain situations,
-        /// while the user might be interrupted for a higher-priority notification. The system
-        /// sets a notification's priority based on various factors including the setPriority
-        /// value. The effect may differ slightly on different platforms.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setpriority"/>
+        /// Set the relative priority for this notification.
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setPriority(int)"/>
         /// </summary>
         /// <param name="pri">Relative priority for this notification.</param>
         /// <remarks>
+        /// Priority is an indication of how much of the user's valuable attention
+        /// should be consumed by this notification. Low-priority notifications may
+        /// be hidden from the user in certain situations, while the user might be
+        /// interrupted for a higher-priority notification. The system sets a
+        /// notification's priority based on various factors including the setPriority
+        /// value. The effect may differ slightly on different platforms. 
+        /// <br/>
+        /// On platforms Build.VERSION_CODES.O and above this value is ignored in
+        /// favor of the importance value set on the
+        /// <see cref="SetChannelId(string)">notification's channel</see>. On older
+        /// platforms, this value is still used, so it is still required for apps
+        /// supporting those platforms.
+        /// <br/>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IDroidNotificationExtension SetPriority(DroidPriority pri);
         /// <summary>
-        /// Set the progress this notification represents, which may be represented as a ProgressBar. 
-        /// <see href="https://developer.android.com/reference/android/widget/ProgressBar.html"/>
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setprogress"/>
+        /// Set the progress this notification represents, which may be represented as a
+        /// <see href="https://developer.android.com/reference/android/widget/ProgressBar.html">ProgressBar</see>. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setProgress(int,%20int,%20boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -304,14 +319,15 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetProgress(int max, int progress, bool indeterminate);
         /// <summary>
         /// Set the remote input history. This should be set to the most recent inputs that have been sent through a
-        /// RemoteInput of this Notification and cleared once the it is no longer relevant (e.g. for chat notifications
+        /// <see href="https://developer.android.com/reference/androidx/core/app/RemoteInput">RemoteInput</see>
+        /// of this Notification and cleared once the it is no longer relevant (e.g. for chat notifications
         /// once the other party has responded). The most recent input must be stored at the 0 index, the second most
         /// recent at the 1 index, etc. Note that the system will limit both how far back the inputs will be shown and
         /// how much of each individual input is shown. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/RemoteInput"/>
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setremoteinputhistory"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setRemoteInputHistory(java.lang.CharSequence[])"/>
         /// </summary>
         /// <remarks>
+        /// <para><b>Note</b>: The reply text will only be shown on notifications that have least one action with a RemoteInput.</para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
@@ -320,8 +336,7 @@ namespace Plugin.Toast
         /// <summary>
         /// If this notification is duplicative of a Launcher shortcut, sets the id of the shortcut,
         /// in case the Launcher wants to hide the shortcut. 
-        /// 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setshortcutid"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setShortcutId(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// <para><b>Note</b>:This field will be ignored by Launchers that don't support badging or shortcuts.</para>
@@ -332,7 +347,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetShortcutId(string shortcutId);
         /// <summary>
         /// Control whether the timestamp set with <see cref="SetWhen(long)"/> is shown in the content view. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setshowwhen"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setShowWhen(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -344,7 +359,7 @@ namespace Plugin.Toast
         /// Set the small icon to use in the notification layouts. Different classes
         /// of devices may return different sizes. See the UX guidelines for more
         /// information on how to design these icons.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsmallicon_1"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setSmallIcon(int)"/>
         /// </summary>
         /// <param name="icon">A resource ID in the application's package of the drawable to use.</param>
         /// <remarks>
@@ -357,7 +372,7 @@ namespace Plugin.Toast
         /// A variant of <see cref="SetSmallIcon(int)"/> that takes an additional level
         /// parameter for when the icon is a
         /// <see href="https://developer.android.com/reference/android/graphics/drawable/LevelListDrawable.html">LevelListDrawable</see>.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsmallicon"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setSmallIcon(int,%20int)"/>
         /// </summary>
         /// <param name="icon">A resource ID in the application's package of the drawable to use.</param>
         /// <param name="level">The level to use for the icon.</param>
@@ -372,7 +387,7 @@ namespace Plugin.Toast
         /// This can be useful if an external sort was already applied and an app would like to preserve
         /// this. Notifications will be sorted lexicographically using this value, although providing
         /// different priorities in addition to providing sort key may cause this value to be ignored. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsortkey"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setSortKey(java.lang.String)"/>
         /// </summary>
         /// <remarks>
         /// <para>This sort key can also be used to order members of a notification group. See <see cref="SetGroup(string)"/>.</para>
@@ -382,15 +397,25 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetSortKey(string sortKey);
         /// <summary>
-        /// Set the third line of text in the platform notification template. Don't
-        /// use if you're also using <see cref="SetProgress(int, int, bool)"/>; they occupy the
-        /// same location in the standard template. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setsubtext"/>
+        /// This provides some additional information that is displayed in the
+        /// notification. No guarantees are given where exactly it is displayed. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setSubText(java.lang.CharSequence)"/>
         /// </summary>
         /// <remarks>
         /// <para>
-        /// If the platform does not provide large-format notifications, this
-        /// method has no effect. The third line of text only appears in expanded view.
+        /// This information should only be provided if it provides an essential
+        /// benefit to the understanding of the notification. The more text you
+        /// provide the less readable it becomes. For example, an email client
+        /// should only provide the account name here if more than one email
+        /// account has been added.
+        /// <br/>
+        /// As of Build.VERSION_CODES.N this information is displayed in the
+        /// notification header area.
+        /// <br/>
+        /// On Android versions before Build.VERSION_CODES.N this will be shown
+        /// in the third line of text in the platform notification template. You
+        /// should not be using <see cref="SetProgress(int, int, bool)"/> at the
+        /// same time on those versions; they occupy the same place. 
         /// </para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
@@ -399,10 +424,9 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetSubText(string text);
         /// <summary>
         /// Sets the "ticker" text which is sent to accessibility services. Prior
-        /// to LOLLIPOP, sets the text that is displayed in the status bar when the
-        /// notification first arrives, and also a RemoteViews object that may be
-        /// displayed instead on some devices. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setticker"/>
+        /// to Build.VERSION_CODES.LOLLIPOP, sets the text that is displayed in
+        /// the status bar when the notification first arrives. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setTicker(java.lang.CharSequence)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -411,8 +435,9 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetTicker(string tickerText);
         /// <summary>
-        /// Specifies the time at which this notification should be canceled, if it is not already canceled. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#settimeoutafter"/>
+        /// Specifies the time at which this notification should be canceled, if it
+        /// is not already canceled. No-op on versions prior to Build.VERSION_CODES.O. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setTimeoutAfter(long)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -421,10 +446,12 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetTimeoutAfter(long durationMs);
         /// <summary>
-        /// Show the when field as a stopwatch. Instead of presenting when as a timestamp, the notification
-        /// will show an automatically updating display of the minutes and seconds since when. Useful when
-        /// showing an elapsed time (like an ongoing phone call).
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setuseschronometer"/>
+        /// Show the <see cref="SetWhen(long)"/> field as a stopwatch. Instead of
+        /// presenting <c>when</c> as a timestamp, the notification will show an
+        /// automatically updating display of the minutes and seconds since
+        /// <c>when</c>. Useful when showing an elapsed time (like an ongoing
+        /// phone call).
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setUsesChronometer(boolean)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -434,10 +461,19 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetUsesChronometer(bool b);
         /// <summary>
         /// Set the vibration pattern to use. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setvibrate"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setVibrate(long[])"/>
         /// </summary>
         /// <remarks>
-        /// <para>On some platforms, a notification that vibrates is more likely to be presented as a heads-up notification.</para>
+        /// <para>
+        /// On some platforms, a notification that vibrates is more likely to be
+        /// presented as a heads-up notification.
+        /// <br/>
+        /// On platforms Build.VERSION_CODES.O and above this value is ignored in
+        /// favor of the value set on the
+        /// <see cref="SetChannelId(string)">notification's channel</see>. On
+        /// older platforms, this value is still used, so it is still required for
+        /// apps supporting those platforms.
+        /// </para>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
@@ -445,7 +481,7 @@ namespace Plugin.Toast
         IDroidNotificationExtension SetVibrate(long[] pattern);
         /// <summary>
         /// Sets visibility.
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setvisibility"/>
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setVisibility(int)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
@@ -454,8 +490,9 @@ namespace Plugin.Toast
         /// </remarks>
         IDroidNotificationExtension SetVisibility(int visibility);
         /// <summary>
-        /// Set the time that the event occurred. Notifications in the panel are sorted by this time. 
-        /// <see href="https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder#setwhen"/>
+        /// Set the time that the event occurred. Notifications in the panel are
+        /// sorted by this time. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setWhen(long)"/>
         /// </summary>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
