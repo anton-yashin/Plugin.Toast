@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Plugin.Toast.Abstractions;
+using Plugin.Toast.Images;
 using Plugin.Toast.UWP;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,15 @@ namespace Plugin.Toast
         /// <seealso cref="IToastImageSourceFactory"/>,<br/>
         /// <seealso cref="IResourceToFileNameStrategy"/>,<br/>
         /// </remarks>
-        public static IServiceCollection AddNotificationManagerImagesSupport(this IServiceCollection services)
+        public static IServiceCollection AddNotificationManagerImagesSupport(
+            this IServiceCollection services,
+            Func<string?> getImageDirectory)
         {
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, ToastImageSource, Router.Route>, UwpImageRouter>();
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
             services.TryAddSingleton<IResourceToFileNameStrategy, ResourceToFileNameStrategy>();
+            services.TryAddSingleton<IImageDirectoryResolver>(sc => new ImageDirectoryResolver(getImageDirectory));
             return services;
         }
     }

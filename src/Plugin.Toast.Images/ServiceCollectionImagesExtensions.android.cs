@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Android.Graphics;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Plugin.Toast.Abstractions;
 using Plugin.Toast.Droid;
+using Plugin.Toast.Images;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
@@ -23,11 +26,14 @@ namespace Plugin.Toast
         /// <seealso cref="IToastImageSourceFactory"/>,<br/>
         /// <seealso cref="HttpClientFactoryServiceCollectionExtensions.AddHttpClient(IServiceCollection)"/>.
         /// </remarks>
-        public static IServiceCollection AddNotificationManagerImagesSupport(this IServiceCollection services)
+        public static IServiceCollection AddNotificationManagerImagesSupport(
+            this IServiceCollection services,
+            Func<string, Task<Bitmap>> resourceNameToBitmap)
         {
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, ToastImageSource, Router.Route>, DroidImageRouter>();
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
+            services.TryAddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(resourceNameToBitmap));
             services.AddHttpClient();
             return services;
         }

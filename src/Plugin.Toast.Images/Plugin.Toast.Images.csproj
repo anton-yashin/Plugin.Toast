@@ -64,12 +64,6 @@
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid81' ">
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991864" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' != 'MonoAndroid81' ">
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
-  </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />

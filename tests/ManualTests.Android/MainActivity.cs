@@ -10,6 +10,7 @@ using Android.OS;
 using Plugin.Toast;
 using Android.Content;
 using Android.Util;
+using Xamarin.Forms.Platform.Android;
 
 namespace ManualTests.Droid
 {
@@ -26,7 +27,9 @@ namespace ManualTests.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Plugin.Toast.Platform.OnActivated(this);
-            LoadApplication(new App(_ => _.AddNotificationManager(this).AddNotificationManagerImagesSupport()));
+            LoadApplication(new App(_
+                => _.AddNotificationManager(this)
+                .AddNotificationManagerImagesSupport(fn => Resources.GetBitmapAsync(fn))));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

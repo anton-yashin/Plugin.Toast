@@ -10,11 +10,11 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using UnitTests;
-using UnitTests.Mocks;
 using Xamarin.Forms.Platform.UWP;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Xunit;
 using System.Threading;
+using Plugin.Toast.Images;
 
 namespace DeviceTests.UWP
 {
@@ -94,6 +94,9 @@ namespace DeviceTests.UWP
         {
             var sc = new ServiceCollection();
             sc.AddMock<IImageCacher, IResourceToFileNameStrategy>();
+            sc.AddSingleton<IImageDirectoryResolver>(sc => new ImageDirectoryResolver(()
+                => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory()));
+
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }
