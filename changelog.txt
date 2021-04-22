@@ -1,0 +1,14 @@
+0.90.0-beta:
+* added support of platform activation: android, ios, uwp.
+* added support of activation of notifications INotificationEventSource
+* removed NotificationManager.Init(IIntentManager,..) on android
+* fixed ToastId serialization & deserialization
+0.11.0-beta:
+* added (IHistory)[https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IHistory.shared.cs] support
+0.10.1-beta:
+* added documentation
+* fix for mime detector
+0.10.0-beta:
+* Added image support.
+* Added default configuration support via builders.
+* Added IExtensionPlugin set.
