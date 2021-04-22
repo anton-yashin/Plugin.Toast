@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Plugin.Toast.Images;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Forms.Platform.UWP;
-using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 
 namespace Plugin.Toast
 {
@@ -12,11 +11,16 @@ namespace Plugin.Toast
     {
         private readonly IImageCacher imageCacher;
         private readonly IResourceToFileNameStrategy resourceToFileNameStrategy;
+        private readonly IImageDirectoryResolver imageDirectoryResolver;
 
-        public ToastImageSourceFactory(IImageCacher imageCacher, IResourceToFileNameStrategy resourceToFileNameStrategy)
+        public ToastImageSourceFactory(
+            IImageCacher imageCacher,
+            IResourceToFileNameStrategy resourceToFileNameStrategy,
+            IImageDirectoryResolver imageDirectoryResolver)
         {
             this.imageCacher = imageCacher;
             this.resourceToFileNameStrategy = resourceToFileNameStrategy;
+            this.imageDirectoryResolver = imageDirectoryResolver;
         }
 
         public Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
@@ -25,15 +29,14 @@ namespace Plugin.Toast
         public Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
-            filePath = CombineWithImageDirectory(filePath);
+            filePath = CombineWithImageDirectory(imageDirectoryResolver.GetImageDirectory(), filePath);
             var fullPath = Path.GetFullPath(filePath);
             var uri = "file:///" + fullPath.Replace("\\", "/");
             return Task.FromResult<ToastImageSource>(new SealedToastImageSource(new Uri(uri)));
         }
 
-        internal static string CombineWithImageDirectory(string filePath)
+        internal static string CombineWithImageDirectory(string? imageDirectory, string filePath)
         {
-            var imageDirectory = Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory();
             if (string.IsNullOrEmpty(imageDirectory) == false)
             {
                 var directory = Path.GetDirectoryName(filePath);

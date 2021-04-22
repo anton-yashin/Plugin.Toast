@@ -11,9 +11,9 @@ Available implementations:
 * [IIosNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosNotificationExtension.shared.cs), using UNUserNotificationCenter
 * [IIosLocalNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosLocalNotificationExtension.shared.cs), using UILocalNotification
 
-### MonoAndroid80, MonoAndroid81, MonoAndroid90, MonoAndroid10.0
-* [IDroidNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IDroidNotificationExtension.shared.cs), using Android.Support.V4.App.NotificationCompat
-* [ISnackbarExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/ISnackbarExtension.shared.cs), using Android.Support.Design.Widget.Snackbar
+### MonoAndroid90, MonoAndroid10.0, MonoAndroid11.0
+* [IDroidNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IDroidNotificationExtension.shared.cs), using AndroidX.Core.App.NotificationCompat
+* [ISnackbarExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/ISnackbarExtension.shared.cs), using Google.Android.Material.Snackbar.Snackbar
 
 ### uap10.0.16299
 * [IUwpExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IUwpExtension.shared.cs), using Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder

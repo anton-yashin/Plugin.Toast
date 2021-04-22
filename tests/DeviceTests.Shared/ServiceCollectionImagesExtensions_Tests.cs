@@ -8,6 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+#if __ANDROID__
+using Xamarin.Forms.Platform.Android;
+#endif
+#if NETFX_CORE
+using Xamarin.Forms.Platform.UWP;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
+#endif
 using Xunit;
 
 namespace DeviceTests
@@ -20,7 +27,7 @@ namespace DeviceTests
         {
             // prepare & act
             var sc = new ServiceCollection();
-            sc.AddNotificationManagerImagesSupport();
+            sc.AddNotificationManagerImagesSupport(fn => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn));
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -57,7 +64,7 @@ namespace DeviceTests
         {
             // prepare & act
             var sc = new ServiceCollection();
-            sc.AddNotificationManagerImagesSupport();
+            sc.AddNotificationManagerImagesSupport(Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory);
             using var sp = sc.BuildServiceProvider();
 
             // verify

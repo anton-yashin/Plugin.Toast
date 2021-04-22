@@ -31,6 +31,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviceTests.Shared", "tests
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "tests\UnitTests.Shared\UnitTests.Shared.shproj", "{02E3EFBB-F72A-47F2-BC84-58E9E343DB18}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6915CE7C-E654-4456-9541-4DD4FD37D3B9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		tests\UnitTests.Shared\UnitTests.Shared.projitems*{02e3efbb-f72a-47f2-bc84-58e9e343db18}*SharedItemsImports = 13

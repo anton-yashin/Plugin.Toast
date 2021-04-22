@@ -12,6 +12,8 @@ using Plugin.Toast;
 using UnitTests;
 using UnitTests.Mocks;
 using Xunit;
+using Xamarin.Forms.Platform.Android;
+using Plugin.Toast.Images;
 
 namespace DeviceTests.Android
 {
@@ -98,6 +100,8 @@ namespace DeviceTests.Android
         {
             var sc = new ServiceCollection();
             sc.AddMock<IHttpClientFactory>();
+            sc.AddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(fn
+                => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn)));
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }

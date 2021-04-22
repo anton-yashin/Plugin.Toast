@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Navigation;
 using Xamarin.Forms;
 using Plugin.Toast;
 using Plugin.Toast.UWP;
+using Xamarin.Forms.Platform.UWP;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 
 namespace ManualTests.UWP
 {
@@ -25,7 +27,9 @@ namespace ManualTests.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new ManualTests.App(_ => _.AddNotificationManager().AddNotificationManagerImagesSupport()));
+            LoadApplication(new ManualTests.App(_
+                => _.AddNotificationManager().AddNotificationManagerImagesSupport(
+                    Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory)));
         }
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)

@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Support.V4.App;
 using System;
 using System.Collections.Generic;
 using Java.Lang;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Android.Content;
 using Plugin.Toast.Abstractions;
+using AndroidX.Core.App;
 
 namespace Plugin.Toast.Droid
 {
@@ -416,8 +416,6 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-#if __ANDROID_28__
-
         public IPlatformSpecificExtension AddInvisibleAction(int icon, string title, PendingIntent intent)
         {
             builder.AddInvisibleAction(icon, title, intent);
@@ -435,8 +433,6 @@ namespace Plugin.Toast.Droid
             builder.AddInvisibleAction(action);
             return this;
         }
-
-#endif
 
         public IPlatformSpecificExtension Extend(NotificationCompat.IExtender extender)
         {
