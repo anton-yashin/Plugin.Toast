@@ -1,0 +1,48 @@
+<Project>
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
+
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>0.90.0.0</AssemblyVersion>
+    <AssemblyFileVersion>0.90.0.0</AssemblyFileVersion>
+    <Version>0.90.0</Version>
+    <VersionSuffix>-beta</VersionSuffix>
+    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+    <Authors>Anton Yashin</Authors>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>Copyright © Anton Yashin 2021</Copyright>
+    <RepositoryUrl>https://github.com/anton-yashin/Plugin.Toast</RepositoryUrl>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/release-notes.txt"))</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/anton-yashin/Plugin.Toast</PackageProjectUrl>
+
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+    <DebugType>portable</DebugType>
+    <Configurations>Debug;Release</Configurations>
+
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <GenerateDocumentation>true</GenerateDocumentation>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) And '$(OS)' != 'Windows_NT' ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+    
+  <ItemGroup>
+    <None Include="..\..\LICENSE" PackagePath="" Pack="true" Visible="false"/>
+    <None Include="..\..\README.md" PackagePath="" Pack="true" Visible="false"/>
+    <!-- <None Include="..\..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
+  </ItemGroup>
+</Project>

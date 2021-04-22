@@ -1,8 +1,6 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
     <AssemblyName>Plugin.Toast.Images</AssemblyName>
     <RootNamespace>Plugin.Toast.Images</RootNamespace>
     <PackageId>Xamarin.Plugin.Toast.Images</PackageId>
@@ -10,53 +8,15 @@
     <Description>Xamarin.Plugin.Toast.Images: Show local notifications with images inside your Xamarin application on UWP, iOS and Android platforms</Description>
     <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast, image</PackageTags>
     <Title>Plugin.Toast.Images</Title>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>0.90.0.0</AssemblyVersion>
-    <AssemblyFileVersion>0.90.0.0</AssemblyFileVersion>
-    <Version>0.90.0</Version>
-    <VersionSuffix>-beta</VersionSuffix>
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion><Authors>Anton Yashin</Authors>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Copyright>Copyright © Anton Yashin 2020</Copyright>
-    <RepositoryUrl>https://github.com/anton-yashin/Plugin.Toast</RepositoryUrl>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/release-notes.txt"))</PackageReleaseNotes>
-    <DefineConstants>$(DefineConstants);</DefineConstants>
-    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/anton-yashin/Plugin.Toast</PackageProjectUrl>
-    <DebugType>portable</DebugType>
-    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
 
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
+  <Import Project="../../common.props" />
 
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <GenerateDocumentation>true</GenerateDocumentation>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
-    <!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- sourcelink: Include PDB in the built .nupkg -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) And '$(OS)' != 'Windows_NT' ">
-    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
-  </PropertyGroup>
-  <ItemGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+  <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
-    <None Include="..\..\README.md" PackagePath="" Pack="true" />
-    <None Include="..\..\nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
-    <!-- <None Include="..\..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
+    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true"/>
     <ProjectReference Include="..\Plugin.Toast\Plugin.Toast.csproj" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
@@ -77,7 +37,7 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
     <Compile Include="**\*.android.cs" />
     <Compile Include="**\*.android.*.cs" />
     <AndroidResource Include="Resources\xml\*.xml" />
@@ -85,6 +45,6 @@
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />
   </ItemGroup>
 </Project>
