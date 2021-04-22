@@ -8,15 +8,20 @@ Show local notifications using Xamarin for Android, iOS or UWP. Beta version.
 
 ### Xamarin.iOS10 
 Available implementations:
-* [IIosNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosNotificationExtension.shared.cs), using UNUserNotificationCenter
-* [IIosLocalNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IIosLocalNotificationExtension.shared.cs), using UILocalNotification
+* [IIosNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IIosNotificationExtension.shared.cs),
+using [UNUserNotificationCenter](https://docs.microsoft.com/en-us/dotnet/api/usernotifications.unusernotificationcenterdelegate)
+* [IIosLocalNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IIosLocalNotificationExtension.shared.cs),
+using [UILocalNotification](https://docs.microsoft.com/en-us/dotnet/api/uikit.uilocalnotification)
 
 ### MonoAndroid90, MonoAndroid10.0, MonoAndroid11.0
-* [IDroidNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IDroidNotificationExtension.shared.cs), using AndroidX.Core.App.NotificationCompat
-* [ISnackbarExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/ISnackbarExtension.shared.cs), using Google.Android.Material.Snackbar.Snackbar
+* [IDroidNotificationExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IDroidNotificationExtension.shared.cs),
+using [AndroidX.Core.App.NotificationCompat](https://developer.android.com/reference/androidx/core/app/NotificationCompat)
+* [ISnackbarExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/ISnackbarExtension.shared.cs),
+using [Google.Android.Material.Snackbar.Snackbar](https://developer.android.com/reference/com/google/android/material/snackbar/Snackbar)
 
 ### uap10.0.16299
-* [IUwpExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IUwpExtension.shared.cs), using Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder
+* [IUwpExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IUwpExtension.shared.cs),
+using [Microsoft.Toolkit.Uwp.Notifications.ToastContentBuilder](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.uwp.notifications.toastcontentbuilder)
 
 ## Usage
 
@@ -24,16 +29,16 @@ Available implementations:
 
 * Available on NuGet:
 * Basic support https://www.nuget.org/packages/Xamarin.Plugin.Toast/
-* Images support https://www.nuget.org/packages/Xamarin.Plugin.Toast.Images/ (IoC required)
+* Images support https://www.nuget.org/packages/Xamarin.Plugin.Toast.Images/ (Dependency Injection is required)
 * Ensure that you install Plugin.Toast into all your projects.
 
 ### Initialization
 
 Initialize plugin using NotificationManager.Init()
 
-You can also use Microsoft Dependency Injection and add a notification manager
-in you service collection using ServiceCollectionExtensions.AddNotificationManager().
-If you want a image support, you must add call ServiceCollectionImagesExtensions.AddNotificationManagerImagesSupport()
+You can also use [Microsoft Dependency Injection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection)
+and add a notification manager to your service collection using ServiceCollectionExtensions.AddNotificationManager().
+If you want a images support, you must add call ServiceCollectionImagesExtensions.AddNotificationManagerImagesSupport()
 to add it to your service collection.
 
 If you are using Android you must pass activity to the notification manager. 
@@ -72,7 +77,7 @@ serviceCollection.AddNotificationManager();
 serviceCollection.AddNotificationManagerImagesSupport();
 
 // using DI
-result = await serviceProvider.GetService<IBuilder>()
+result = await serviceProvider.GetService<INotificationBuilder>()
 	.AddDescription("description").AddTitle("title")
 	.Build().ShowAsync();
 	
@@ -82,7 +87,7 @@ var toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSour
 var fromFile = await toastImageSourceFactory.FromFileAsync(someFileName);
 var fromResource = await toastImageSourceFactory.FromResourceAsync(someResourcePath, typeof(SomeTypeInYourAssembly));
 var fromUri = await toastImageSourceFactory.FromUriAsync(new Uri("https://www.yoursite.com/yourimage.jpg"));
-result = await serviceProvider.GetService<IBuilder>()
+result = await serviceProvider.GetService<INotificationBuilder>()
 	.AddDescription("description").AddTitle("title")
 	.AddImage(fromFile)
 	.Build().ShowAsync();
@@ -100,7 +105,7 @@ result = await serviceProvider.GetService<IBuilder<ISnackbarExtension, IIosLocal
 	.Build().ShowAsync();
 
 // pass platform specific parameters to builder
-result = await serviceProvider.GetService<IBuilder>().AddTitle("title")
+result = await serviceProvider.GetService<INotificationBuilder>().AddTitle("title")
 	.WhenUsing<IDroidNotificationExtension>(_ => _.AddDescription("droid description").SetColor(droidColor))
 	.WhenUsing<IIosNotificationExtension>(_ => _.AddDescription("ios description"))
 	.WhenUsing<IUwpExtension>(_ => _.AddDescription("uwp description").AddHeroImage(fromUri))
@@ -129,13 +134,14 @@ await Task.Delay(someTime);
 cancellationToken.Dispose(); // remove from schedule
 
 // You can schedule a notification using DI container
-cancellationToken = serviceProvider.GetService<IBuilder>().AddDescription("description").AddTitle("title")
+cancellationToken = serviceProvider.GetService<INotificationBuilder>().AddDescription("description").AddTitle("title")
 	.Build().ScheduleTo(deliveryTime);
 await Task.Delay(someTime);
 cancellationToken.Dispose(); // remove from schedule
 
 ```
-See also: [Droid.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Droid/IPlatformSpecificExtension.android.cs), [IOS.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IOS/IPlatformSpecificExtension.ios.cs)
+See also: [Droid.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Droid/IPlatformSpecificExtension.android.cs),
+[IOS.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IOS/IPlatformSpecificExtension.ios.cs)
 
 ### Work with notification history
 
@@ -160,9 +166,10 @@ history.RemoveAllDelivered();
 ### Watch for notifications
 
 To capture notifications at application startup you must place call to Platform.OnActivated
-on you overrides: Activity.OnCreate @ android, UIApplicationDelegate.FinishedLaunching @ ios
-and Application.OnActivated override @ uwp. If the notification contains a valid identifier, you
-will receive it.
+on you overrides: [Activity.OnCreate](https://github.com/anton-yashin/Plugin.Toast/blob/master/tests/ManualTests.Android/MainActivity.cs)
+at android, [UIApplicationDelegate.FinishedLaunching](https://github.com/anton-yashin/Plugin.Toast/blob/master/tests/ManualTests.iOS/AppDelegate.cs)
+at ios and [Application.OnActivated](https://github.com/anton-yashin/Plugin.Toast/blob/master/tests/ManualTests.UWP/App.xaml.cs) override at uwp.
+If the notification contains a valid identifier, you will receive it.
 
 ```csharp
 // get event source instance
@@ -180,9 +187,15 @@ See also: [ISystemEventSource](https://github.com/anton-yashin/Plugin.Toast/blob
 [INotificationEventObserver](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/INotificationEventObserver.shared.cs).
 
 ### Advanced usage
-You can encapsulate common configurations using [IExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IExtensionConfiguration.shared.cs) or [ISpecificExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/ISpecificExtensionConfiguration.shared.cs) and add
-to your service collection or use with specific extensions.
+You can encapsulate common configurations using [IExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/IExtensionConfiguration.shared.cs)
+or [ISpecificExtensionConfiguration](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/ISpecificExtensionConfiguration.shared.cs)
+and add to your service collection or use with specific extensions.
 
-You can create a plugin to route your data into a platform specific implementation using [IExtensionPlugin](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IExtensionPlugin.shared.cs). Create implementations, add to your service collection, then use [IBuilder.Add<T, ...>(T data, ...)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IBuilder.shared.cs). You can see the [Images](https://github.com/anton-yashin/Plugin.Toast/tree/master/src/Plugin.Toast.Images) plugin code as a working example.
+You can create a plugin to route your data into a platform specific implementation using
+[IExtensionPlugin](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/IExtensionPlugin.shared.cs).
+Create implementations, add to your service collection, then use [IBuilder.Add<T, ...>(T data, ...)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/IBuilder.shared.cs).
+You can see the [Images](https://github.com/anton-yashin/Plugin.Toast/tree/master/src/Plugin.Toast.Images)
+plugin code as a working example.
 
-See also: [IBuilder.UseConfiguration<T>(T)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IBuilder.shared.cs), [IBuilderExtension<T>.Use(IExtensionConfiguration<T>)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/IBuilderExtension.shared.cs)
+See also: [IBuilder.UseConfiguration<T>(T)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/IBuilder.shared.cs),
+[IBuilderExtension<T>.Use(IExtensionConfiguration<T>)](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Abstractions/IBuilderExtension.shared.cs)
