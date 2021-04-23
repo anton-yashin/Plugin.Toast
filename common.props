@@ -45,4 +45,10 @@
     <None Include="..\..\README.md" PackagePath="" Pack="true" Visible="false"/>
     <!-- <None Include="..\..\some_icon_128x128.png" PackagePath="icon.png" Pack="true" /> -->
   </ItemGroup>
+
+  <!-- Copy package to folder set by NuGetFolder environment variable if present -->
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(NuGetFolder)' != '' ">
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(NuGetFolder)" />
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(NuGetFolder)" />
+  </Target>
 </Project>
