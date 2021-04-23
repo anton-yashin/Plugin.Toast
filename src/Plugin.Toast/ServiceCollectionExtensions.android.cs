@@ -25,7 +25,13 @@ namespace Plugin.Toast
         /// <seealso cref="IHistory"/><br/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="activity">Activity that used to show a snackbar notification.</param>
+        /// <param name="activity">
+        /// Activity that:
+        /// <list type="bullet">
+        /// <item>will be activated in response to user interaction with the Android notification;</item>
+        /// <item>used to show a snackbar notification.</item>
+        /// </list>
+        /// </param>
         /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity)
             => @this.AddNotificationManager(new ToastOptions(activity));
@@ -109,7 +115,13 @@ namespace Plugin.Toast
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="activity">Activity that used to show a snackbar notification.</param>
+        /// <param name="activity">
+        /// Activity that:
+        /// <list type="bullet">
+        /// <item>will be activated in response to user interaction with the Android notification;</item>
+        /// <item>used to show a snackbar notification.</item>
+        /// </list>
+        /// </param>
         /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
         /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
@@ -160,7 +172,13 @@ namespace Plugin.Toast
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="activity">Activity that used to show a snackbar notification.</param>
+        /// <param name="activity">
+        /// Activity that:
+        /// <list type="bullet">
+        /// <item>will be activated in response to user interaction with the Android notification;</item>
+        /// <item>used to show a snackbar notification.</item>
+        /// </list>
+        /// </param>
         /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
@@ -207,9 +225,15 @@ namespace Plugin.Toast
         /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="IExtensionConfiguration{T}"/>
-        /// </summary>
+        /// </summary>z
         /// <param name="this">Service collection</param>
-        /// <param name="activity">Activity that used to show a snackbar notification.</param>
+        /// <param name="activity">
+        /// Activity that:
+        /// <list type="bullet">
+        /// <item>will be activated in response to user interaction with the Android notification;</item>
+        /// <item>used to show a snackbar notification.</item>
+        /// </list>
+        /// </param>
         /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
         public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,

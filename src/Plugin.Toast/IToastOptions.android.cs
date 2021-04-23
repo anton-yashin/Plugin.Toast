@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using AndroidX.Core.App;
 using System;
 
 namespace Plugin.Toast
@@ -9,7 +10,11 @@ namespace Plugin.Toast
     public interface IToastOptions
     {
         /// <summary>
-        /// Activity that used to show a snackbar notification.
+        /// Activity that:
+        /// <list type="bullet">
+        /// <item>will be activated in response to user interaction with the Android notification;</item>
+        /// <item>used to show a snackbar notification.</item>
+        /// </list>
         /// </summary>
         public Activity Activity { get; }
         /// <summary>
