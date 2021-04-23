@@ -4,9 +4,9 @@
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
 
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>0.90.0.0</AssemblyVersion>
-    <AssemblyFileVersion>0.90.0.0</AssemblyFileVersion>
-    <Version>0.90.0</Version>
+    <AssemblyVersion>0.91.0.0</AssemblyVersion>
+    <AssemblyFileVersion>0.91.0.0</AssemblyFileVersion>
+    <Version>0.91.0</Version>
     <VersionSuffix>-beta</VersionSuffix>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
     <Authors>Anton Yashin</Authors>
