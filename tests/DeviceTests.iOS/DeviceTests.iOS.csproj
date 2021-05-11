@@ -141,7 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="LightMock.Generator">
-      <Version>1.0.0</Version>
+      <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>5.0.1</Version>
