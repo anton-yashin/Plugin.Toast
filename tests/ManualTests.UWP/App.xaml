@@ -4,4 +4,46 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ManualTests.UWP">
 
+    <Application.Resources>
+        <DataTemplate x:Key="ItemsViewDefaultTemplate">
+            <local:ItemContentControl 
+                x:Name="ItemContentControl" 
+			    FormsDataTemplate="{Binding FormsDataTemplate}" FormsDataContext="{Binding Item}"
+                FormsContainer="{Binding Container}">
+            </local:ItemContentControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GroupHeaderTemplate">
+            <local:ItemContentControl 
+                x:Name="ItemContentControl" DataContext="{Binding HeaderItemTemplateContext}"
+			    FormsDataTemplate="{Binding FormsDataTemplate}" FormsDataContext="{Binding Item}"
+                FormsContainer="{Binding Container}">
+            </local:ItemContentControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CarouselItemsViewDefaultTemplate">
+            <local:ItemContentControl
+                x:Name="ItemContentControl" 
+			    FormsDataTemplate="{Binding FormsDataTemplate}" 
+                FormsDataContext="{Binding Item}"
+                FormsContainer="{Binding Container}"
+                ItemHeight="{Binding ItemHeight}"
+                ItemWidth="{Binding ItemWidth}"
+                ItemSpacing="{Binding ItemSpacing}">
+            </local:ItemContentControl>
+        </DataTemplate>
+
+        <Style TargetType="local:ItemContentControl" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:ItemContentControl">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </Application.Resources>
+
 </Application>
