@@ -17,7 +17,7 @@ namespace DeviceTests
 #elif __IOS__
         static ToastOptions options = new ToastOptions();
 
-        static Plugin.Toast.IOS.IPermission permission = new Plugin.Toast.IOS.Permission(options);
+        static Plugin.Toast.IOS.IPermission permission = new Plugin.Toast.IOS.Permission();
 #elif NETFX_CORE
 #endif
 

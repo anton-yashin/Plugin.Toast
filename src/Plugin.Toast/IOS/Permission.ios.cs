@@ -8,11 +8,10 @@ namespace Plugin.Toast.IOS
 {
     sealed class Permission : IPermission, IInitialization
     {
-        private readonly IToastOptions toastOptions;
         bool? approved;
         IDictionary<string, string>? lastError;
 
-        public Permission(IToastOptions toastOptions) => this.toastOptions = toastOptions;
+        public Permission() { }
 
         public Task InitializeAsync() => RequestAuthorizationAsync();
         public bool IsApproved => approved == true;

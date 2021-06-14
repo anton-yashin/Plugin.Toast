@@ -18,7 +18,7 @@ namespace Plugin.Toast
 
         internal NotificationManager() : this(new ToastOptions()) { }
         internal NotificationManager(IToastOptions options)
-            : this(options, new Permission(options))
+            : this(options, new Permission())
         { }
 
         internal NotificationManager(IToastOptions options, IPermission permission) 
