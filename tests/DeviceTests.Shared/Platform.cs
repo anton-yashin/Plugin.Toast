@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 
 namespace DeviceTests
@@ -32,6 +33,20 @@ namespace DeviceTests
 #else
             throw new PlatformNotSupportedException();
 #endif
+        }
+
+        public static ServiceCollection CreateServiceCollection()
+        {
+            var sc = new ServiceCollection();
+#if __IOS__
+            sc.AddSingleton(permission);
+#endif
+#if __ANDROID__
+            sc.AddNotificationManager(Activity);
+#else
+            sc.AddNotificationManager();
+#endif
+            return sc;
         }
 
         public static Task iOS_InvokeOnMainThreadAsync(Action action)

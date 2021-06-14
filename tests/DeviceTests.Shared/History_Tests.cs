@@ -130,15 +130,7 @@ namespace DeviceTests
             });
 
         static ServiceProvider CreateServices()
-        {
-            var sc = new ServiceCollection();
-#if __ANDROID__
-            sc.AddNotificationManager(Platform.Activity);
-#else
-            sc.AddNotificationManager();
-#endif
-            return sc.BuildServiceProvider();
-        }
+            => Platform.CreateServiceCollection().BuildServiceProvider();
 
         static ToastId GetRandomScheduledToastId()
         {
