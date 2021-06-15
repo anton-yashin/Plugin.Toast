@@ -9,7 +9,7 @@ namespace Plugin.Toast
     /// </summary>
     public static partial class Platform
     {
-        static object @lock = new object();
+        internal static object Lock { get; } = new object();
 
         static List<NotificationEvent>? pendingEvents;
 
@@ -20,7 +20,7 @@ namespace Plugin.Toast
         { 
             get
             {
-                lock (@lock)
+                lock (Lock)
                 {
                     return pendingEvents == null ? Enumerable.Empty<NotificationEvent>() : new List<NotificationEvent>(pendingEvents);
                 }
@@ -36,14 +36,14 @@ namespace Plugin.Toast
             get => _systemEventRouter;
             set
             {
-                lock (@lock) { _systemEventRouter = value; }
+                lock (Lock) { _systemEventRouter = value; }
             }
         }
         static ISystemEventSource? _systemEventRouter;
 
         internal static void AddPendingEvent(NotificationEvent @event)
         {
-            lock (@lock)
+            lock (Lock)
             {
                 List<NotificationEvent> events;
                 if (pendingEvents == null)
@@ -58,7 +58,7 @@ namespace Plugin.Toast
         /// </summary>
         public static void ClearPendingEvents()
         {
-            lock (@lock)
+            lock (Lock)
             {
                 pendingEvents = null;
             }
