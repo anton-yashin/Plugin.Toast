@@ -61,7 +61,6 @@ namespace DeviceTests
         public Task ShowWithDelay()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
                 using (var token = nm.GetBuilder().AddTitle(nameof(ShowWithDelay)).AddDescription(KRunningTest)
@@ -75,7 +74,6 @@ namespace DeviceTests
         public  Task ShowWithDelayAlternative()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
                 using (var token = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
