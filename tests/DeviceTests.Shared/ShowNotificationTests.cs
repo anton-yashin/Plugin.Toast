@@ -83,6 +83,22 @@ namespace DeviceTests
                     await Task.Delay(TimeSpan.FromSeconds(3));
                 }
             });
+
+        [Fact]
+        public Task ShowMultipleNotificationsAtOnceWithoutInitialization()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var notifications = new Task<NotificationResult>[4];
+                for (int i = 0; i < notifications.Length; i++)
+                {
+                    notifications[i] = nm.GetBuilder()
+                        .AddTitle(nameof(ShowMultipleNotificationsAtOnceWithoutInitialization)).AddDescription(KRunningTest)
+                        .Build().ShowAsync();
+                }
+                await Task.WhenAll(notifications);
+            });
+
     }
 }
 
