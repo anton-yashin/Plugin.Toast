@@ -1,7 +1,1 @@
-* WARNING: breaking changes;
-* refactor: removed Xamarin Forms dependency;
-! refactor: changed AddNotificationManagerImagesSupport on Android.
-  You must provide a function that convert the name of android resource to Android.Graphics.Bitmap
-  it may be Context.Resources.GetBitmapAsync;
-! refactor: changed AddNotificationManagerImagesSupport on UWP.
-  You must provide reference to Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory function.
+* bump version
