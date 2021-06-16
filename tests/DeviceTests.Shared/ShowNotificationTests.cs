@@ -8,9 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Plugin.Toast;
 using Xunit;
+using Xunit.Priority;
 
 namespace DeviceTests
 {
+    [DefaultPriority(0)]
     public class ShowNotificationTests
     {
         const string KRunningTest = "running test please ignore";
@@ -84,7 +86,7 @@ namespace DeviceTests
                 }
             });
 
-        [Fact]
+        [Fact, Priority(-1000)]
         public Task ShowMultipleNotificationsAtOnceWithoutInitialization()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {

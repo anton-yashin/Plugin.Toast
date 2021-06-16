@@ -165,6 +165,9 @@
       <Version>5.0.0.2012</Version>
     </PackageReference>
     <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="Xunit.Priority">
+      <Version>1.1.6</Version>
+    </PackageReference>
     <PackageReference Include="xunit.runner.devices" Version="2.5.25" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
