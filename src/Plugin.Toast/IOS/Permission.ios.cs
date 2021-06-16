@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UserNotifications;
 
@@ -15,6 +16,9 @@ namespace Plugin.Toast.IOS
 
         public Task InitializeAsync() => RequestAuthorizationAsync();
         public bool IsApproved => approved == true;
+        Lazy<Task<Tuple<bool, NSError>>> authorizationRequest = new(()
+           => UNUserNotificationCenter.Current.RequestAuthorizationAsync(UNAuthorizationOptions.Alert),
+            LazyThreadSafetyMode.ExecutionAndPublication);
 
         public async Task RequestAuthorizationAsync()
         {
@@ -22,7 +26,7 @@ namespace Plugin.Toast.IOS
                 return;
             if (this.approved == false)
                 throw new Exceptions.NotificationException("not authorized", lastError ?? new Dictionary<string, string>());
-            var (approved, err) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(UNAuthorizationOptions.Alert);
+            var (approved, err) = await authorizationRequest.Value;
             this.approved = approved;
             if (approved == false)
             {

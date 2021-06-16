@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>Apple Development: Anton Iashin (5TPGMCSW7H)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
@@ -160,6 +160,9 @@
     </PackageReference>
     <PackageReference Include="xunit">
       <Version>2.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xunit.Priority">
+      <Version>1.1.6</Version>
     </PackageReference>
     <PackageReference Include="xunit.runner.devices">
       <Version>2.5.25</Version>

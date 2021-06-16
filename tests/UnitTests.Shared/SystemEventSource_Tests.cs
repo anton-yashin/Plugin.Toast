@@ -14,37 +14,43 @@ namespace UnitTests
         [Fact]
         public void SubscribeAndSendEvent()
         {
-            // prepare
-            var expected = new NotificationEvent(null!);
-            var mock = new Mock<INotificationEventObserver>();
-            var ses = new SystemEventSource(null);
+            lock (Platform.Lock)
+            {
+                // prepare
+                var expected = new NotificationEvent(null!);
+                var mock = new Mock<INotificationEventObserver>();
+                var ses = new SystemEventSource(null);
 
-            // act
-            ses.Subscribe(mock.Object);
-            ses.SendEvent(expected);
+                // act
+                ses.Subscribe(mock.Object);
+                ses.SendEvent(expected);
 
-            // verify
-            Assert.Equal(1, ses.GetObserversCount());
-            mock.Assert(f => f.OnNotificationReceived(
-                The<NotificationEvent>.Is(ne => ReferenceEquals(expected, ne))));
+                // verify
+                Assert.Equal(1, ses.GetObserversCount());
+                mock.Assert(f => f.OnNotificationReceived(
+                    The<NotificationEvent>.Is(ne => ReferenceEquals(expected, ne))));
+            }
         }
 
         [Fact]
         public void SusbscribeAndUnsubscribve()
         {
-            // prepare
-            var expected = new NotificationEvent(null!);
-            var mock = new Mock<INotificationEventObserver>();
-            var ses = new SystemEventSource(null);
+            lock (Platform.Lock)
+            {
+                // prepare
+                var expected = new NotificationEvent(null!);
+                var mock = new Mock<INotificationEventObserver>();
+                var ses = new SystemEventSource(null);
 
-            // act
-            ses.Subscribe(mock.Object);
-            ses.Unsubscribe(mock.Object);
-            ses.SendEvent(expected);
+                // act
+                ses.Subscribe(mock.Object);
+                ses.Unsubscribe(mock.Object);
+                ses.SendEvent(expected);
 
-            // verify
-            mock.AssertNoOtherCalls();
-            Assert.Equal(0, ses.GetObserversCount());
+                // verify
+                mock.AssertNoOtherCalls();
+                Assert.Equal(0, ses.GetObserversCount());
+            }
         }
 
 #if (DEBUG && __IPHONE__) == false
@@ -52,38 +58,44 @@ namespace UnitTests
         [Fact]
         public void SusbscribeAndGC()
         {
-            // prepare
-            var expected = new NotificationEvent(null!);
-            var ses = new SystemEventSource(null);
-            var wr = RegisterSomeWeak(ses);
-            Assert.Equal(1, ses.GetObserversCount());
+            lock (Platform.Lock)
+            {
+                // prepare
+                var expected = new NotificationEvent(null!);
+                var ses = new SystemEventSource(null);
+                var wr = RegisterSomeWeak(ses);
+                Assert.Equal(1, ses.GetObserversCount());
 
-            // act
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            ses.SendEvent(expected);
+                // act
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                ses.SendEvent(expected);
 
-            // verify
-            Assert.Equal(0, ses.GetObserversCount());
-            Assert.Null(wr.Target);
+                // verify
+                Assert.Equal(0, ses.GetObserversCount());
+                Assert.Null(wr.Target);
+            }
         }
 
         [Fact]
         public void UnsubscribeAndGC()
         {
-            // prepare
-            var ses = new SystemEventSource(null);
-            var wr = RegisterSomeWeak(ses);
-            Assert.Equal(1, ses.GetObserversCount());
+            lock (Platform.Lock)
+            {
+                // prepare
+                var ses = new SystemEventSource(null);
+                var wr = RegisterSomeWeak(ses);
+                Assert.Equal(1, ses.GetObserversCount());
 
-            // act
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            ses.Unsubscribe(null!);
+                // act
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                ses.Unsubscribe(null!);
 
-            // verify
-            Assert.Equal(0, ses.GetObserversCount());
-            Assert.Null(wr.Target);
+                // verify
+                Assert.Equal(0, ses.GetObserversCount());
+                Assert.Null(wr.Target);
+            }
         }
 
         static WeakReference RegisterSomeWeak(SystemEventSource ses)
@@ -99,37 +111,46 @@ namespace UnitTests
         public void PlatformSendPendingEvents()
         {
             // prepare
-            var expected = new NotificationEvent(null!);
-            Platform.AddPendingEvent(expected);
-            var ses = new SystemEventSource(null);
-            var mock = new Mock<INotificationEventObserver>();
-            ses.Subscribe(mock.Object);
+            lock (Platform.Lock)
+            {
+                var expected = new NotificationEvent(null!);
+                Platform.AddPendingEvent(expected);
+                var ses = new SystemEventSource(null);
+                var mock = new Mock<INotificationEventObserver>();
+                ses.Subscribe(mock.Object);
 
-            // act
-            ses.SendPendingEvents();
+                // act
+                ses.SendPendingEvents();
 
-            Assert.Same(expected: ses, Platform.SystemEventSource);
-            mock.Assert(f => f.OnNotificationReceived(
-                The<NotificationEvent>.Is(result => ReferenceEquals(expected, result))), Invoked.Once);
+                Assert.Same(expected: ses, Platform.SystemEventSource);
+                mock.Assert(f => f.OnNotificationReceived(
+                    The<NotificationEvent>.Is(result => ReferenceEquals(expected, result))), Invoked.Once);
+            }
         }
 
         [Fact]
         public void NoPendingEvents()
         {
-            Assert.Empty(Platform.PendingEvents);
+            lock (Platform.Lock)
+            {
+                Assert.Empty(Platform.PendingEvents);
+            }
         }
 
         [Fact]
         public void AddPendingEventThenClear()
         {
-            // prepare
-            var expected = new NotificationEvent(null!);
+            lock (Platform.Lock)
+            {
+                // prepare
+                var expected = new NotificationEvent(null!);
 
-            // act & verify
-            Platform.AddPendingEvent(expected);
-            Assert.Contains(expected, Platform.PendingEvents);
-            Platform.ClearPendingEvents();
-            Assert.Empty(Platform.PendingEvents);
+                // act & verify
+                Platform.AddPendingEvent(expected);
+                Assert.Contains(expected, Platform.PendingEvents);
+                Platform.ClearPendingEvents();
+                Assert.Empty(Platform.PendingEvents);
+            }
         }
     }
 }

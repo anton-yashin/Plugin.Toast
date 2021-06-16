@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionExtensions_Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ServiceCollectionImagesExtensions_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ShowNotificationTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToastImageSource_Tests_Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\EnumUtils.cs" />

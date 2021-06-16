@@ -8,9 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Plugin.Toast;
 using Xunit;
+using Xunit.Priority;
 
 namespace DeviceTests
 {
+    [DefaultPriority(0)]
     public class ShowNotificationTests
     {
         const string KRunningTest = "running test please ignore";
@@ -61,7 +63,6 @@ namespace DeviceTests
         public Task ShowWithDelay()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
                 using (var token = nm.GetBuilder().AddTitle(nameof(ShowWithDelay)).AddDescription(KRunningTest)
@@ -75,7 +76,6 @@ namespace DeviceTests
         public  Task ShowWithDelayAlternative()
             => Platform.iOS_InvokeOnMainThreadAsync(async () =>
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
                 var nm = Platform.CreateNotificationManager();
                 await nm.InitializeAsync();
                 using (var token = nm.GetBuilder<ISnackbarExtension, IIosLocalNotificationExtension>()
@@ -85,6 +85,22 @@ namespace DeviceTests
                     await Task.Delay(TimeSpan.FromSeconds(3));
                 }
             });
+
+        [Fact, Priority(-1000)]
+        public Task ShowMultipleNotificationsAtOnceWithoutInitialization()
+            => Platform.iOS_InvokeOnMainThreadAsync(async () =>
+            {
+                var nm = Platform.CreateNotificationManager();
+                var notifications = new Task<NotificationResult>[4];
+                for (int i = 0; i < notifications.Length; i++)
+                {
+                    notifications[i] = nm.GetBuilder()
+                        .AddTitle(nameof(ShowMultipleNotificationsAtOnceWithoutInitialization)).AddDescription(KRunningTest)
+                        .Build().ShowAsync();
+                }
+                await Task.WhenAll(notifications);
+            });
+
     }
 }
 
