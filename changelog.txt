@@ -1,3 +1,38 @@
+﻿0.92.0-beta:
+* fix: multiple notifications can cause NotificationException on iOS if the user allows notifications to be shown.
+0.91.0-beta:
+⚠ WARNING: breaking changes. ⚠
+☛ On Plugin.Toast:
+! refactor: INotificationBuilder was extracted from IBuilder.
+* Extracted methods: AddTitle, AddDescription.
+! refactor: INotificationBuilderExtension was extracted from IBuilderExtension.
+* Extracted methods: AddTitle, AddDescription.
+! You must change all IBuilder references to INotificationBuilder,
+* and IBuilderExtension to INotificationBuilderExtension
+* fix: ToastId serialization at iOS;
+* feat: added documentation;
+* refactor: added Android 11 target;
+* refactor: removed Android 8.0 and 8.1 targets
+* refactor: platform specific INotificationBuilder's was renamed into IPlatformNotificationBuilder's
+* refactor: IBuilder was moved into namespace Plugin.Toast.Abstractions
+* refactor: android support now using Xamarin.AndroidX.AppCompat and Xamarin.Google.Android.Material
+* feat: DroidBadgeIcon now to use with IDroidNotificationExtension.SetBadgeIconType
+* feat: DroidNotificationCategory now to use with IDroidNotificationExtension.SetCategory
+* refactor: NotificationImportance was renamed to DroidNotificationImportance
+* feat: DroidNotificationDefaults now to use with IDroidNotificationExtension.SetDefaults
+* feat: DroidGroupAlert now to use with IDroidNotificationExtension.SetGroupAlertBehavior
+* feat: DroidPriority now to use with IDroidNotificationExtension.SetPriority
+* removed at iOS: obsolete IPlatformSpecificExtension.AddAttachments(UNNotificationAttachment[] attachments)
+* removed at iOS: obsolete IToastOptions.MultipleAuthorizationRequests, ToastOptions.MultipleAuthorizationRequests
+* refactor: removed Xamarin Forms dependency;
+☛ On Plugin.Toast.Images:
+! refactor: changed AddNotificationManagerImagesSupport on Android.
+* You must provide a function that convert the name of android resource to Android.Graphics.Bitmap
+* it may be Context.Resources.GetBitmapAsync;
+! refactor: changed AddNotificationManagerImagesSupport on UWP.
+* You must provide reference to Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory function.
+* refactor: added Android 11 target;
+* refactor: removed Android 8.0 and 8.1 targets
 0.90.0-beta:
 * added support of platform activation: android, ios, uwp.
 * added support of activation of notifications INotificationEventSource
