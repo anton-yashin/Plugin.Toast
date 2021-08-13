@@ -1,1 +1,1 @@
-* fix: multiple notifications can cause NotificationException on iOS if the user allows notifications to be shown.
+* fix: compatibility with XF 5.0.0.2083 @ Android
