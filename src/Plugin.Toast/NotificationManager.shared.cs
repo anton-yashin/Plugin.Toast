@@ -8,6 +8,7 @@ namespace Plugin.Toast
     /// <summary>
     /// Non DI implementation of <see cref="INotificationManager"/>
     /// </summary>
+    [Obsolete("Please use Dependency Injection.")]
     public sealed partial class NotificationManager : INotificationManager
     {
         private static NotificationManager? instance = null;
