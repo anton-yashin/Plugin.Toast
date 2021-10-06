@@ -159,22 +159,6 @@ namespace DeviceTests
 #endif
             });
 
-        [Fact]
-        public void NotificationManagerInit()
-        {
-            Assert.Throws<InvalidOperationException>(() => NotificationManager.Instance);
-#if __ANDROID__
-            var to = new ToastOptions(Platform.Activity);
-#else
-            var to = new ToastOptions();
-#endif
-            NotificationManager.Init(to);
-
-            Assert.NotNull(NotificationManager.Instance);
-            Assert.NotNull(NotificationManager.History);
-            Assert.NotNull(NotificationManager.GetNotificationEventSource());
-        }
-
     }
 }
 
