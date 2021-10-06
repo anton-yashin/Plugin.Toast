@@ -514,6 +514,11 @@ namespace Plugin.Toast
         /// Creates channel if it don't exists &amp; uses it
         /// </summary>
         IDroidNotificationExtension SetChannel(Action<IDroidNotifcationChannelBuilder> buildAction);
+
+        /// <summary>
+        /// Applies a notification style to the notification
+        /// </summary>
+        IDroidNotificationExtension SetStyle<T>(Action<T> styleBuilder) where T : IDroidStyleBuilder;
     }
 #if __ANDROID__ == false
 #pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved

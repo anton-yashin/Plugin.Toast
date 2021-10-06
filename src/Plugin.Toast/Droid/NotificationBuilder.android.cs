@@ -17,7 +17,7 @@ namespace Plugin.Toast.Droid
         private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
         private readonly IAndroidNotificationManager androidNotificationManager;
-        private readonly IServiceProvider? serviceProvider;
+        private readonly IServiceProvider serviceProvider;
         private readonly ILogger<NotificationBuilder>? logger;
         private readonly NotificationCompat.Builder builder;
         private readonly Dictionary<string, string> customArgs;
@@ -32,7 +32,7 @@ namespace Plugin.Toast.Droid
             IToastOptions options,
             IIntentManager intentManager,
             IAndroidNotificationManager androidNotificationManager,
-            IServiceProvider? serviceProvider)
+            IServiceProvider serviceProvider)
         {
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.intentManager = intentManager ?? throw new ArgumentNullException(nameof(intentManager));
@@ -40,11 +40,7 @@ namespace Plugin.Toast.Droid
             this.serviceProvider = serviceProvider;
             this.UseConfigurationFrom<IDroidNotificationExtension>(serviceProvider);
             this.UseConfigurationFrom<IPlatformSpecificExtension>(serviceProvider);
-            if (serviceProvider != null)
-            {
-                this.logger = serviceProvider.GetService<ILogger<NotificationBuilder>>();
-            }
-
+            this.logger = serviceProvider.GetService<ILogger<NotificationBuilder>>();
             this.Timeout = TimeSpan.FromSeconds(7);
             builder = new NotificationCompat.Builder(Application.Context, options.ChannelOptions.Id);
             customArgs = new Dictionary<string, string>();
@@ -391,6 +387,14 @@ namespace Plugin.Toast.Droid
         public IDroidNotificationExtension Use(IExtensionConfiguration<IDroidNotificationExtension> visitor)
         {
             visitor.Configure(this);
+            return this;
+        }
+
+        public IDroidNotificationExtension SetStyle<T>(Action<T> styleBuilder) where T : IDroidStyleBuilder
+        {
+            var builder = serviceProvider.GetRequiredService<T>();
+            styleBuilder(builder);
+            this.builder.SetStyle(builder.Build());
             return this;
         }
 
