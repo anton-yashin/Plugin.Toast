@@ -23,17 +23,9 @@ namespace DeviceTests
 #endif
 
         public static INotificationManager CreateNotificationManager()
-        {
-#if __ANDROID__
-            return new NotificationManager(new ToastOptions(Activity));
-#elif NETFX_CORE
-            return new NotificationManager(new ToastOptions());
-#elif __IOS__
-            return new NotificationManager(options, permission);
-#else
-            throw new PlatformNotSupportedException();
-#endif
-        }
+            => CreateServiceCollection()
+            .BuildServiceProvider()
+            .GetRequiredService<INotificationManager>();
 
         public static ServiceCollection CreateServiceCollection()
         {

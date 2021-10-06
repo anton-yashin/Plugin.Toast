@@ -56,7 +56,6 @@ namespace ManualTests.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
-                Plugin.Toast.NotificationManager.Init();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
