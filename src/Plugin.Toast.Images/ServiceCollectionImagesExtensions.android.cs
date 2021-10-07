@@ -45,6 +45,8 @@ namespace Plugin.Toast
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
             services.TryAddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(resourceNameToBitmap));
+            services.TryAddTransient<IBigPictureStyle, BigPictureStyleBuilder>();
+            services.TryAddTransient<IMessagingStyle, MessagingStyleBuilder>();
             services.AddHttpClient();
             return services;
         }
