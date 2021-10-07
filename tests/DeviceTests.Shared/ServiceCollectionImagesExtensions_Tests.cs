@@ -35,6 +35,8 @@ namespace DeviceTests
             Assert.NotNull(sp.GetService<IImageCacher>());
             Assert.NotNull(sp.GetService<IToastImageSourceFactory>());
             Assert.NotNull(sp.GetService<IHttpClientFactory>());
+            Assert.NotNull(sp.GetService<IBigPictureStyle>());
+            Assert.NotNull(sp.GetService<IMessagingStyle>());
         }
 #elif __IOS__
         [Fact]

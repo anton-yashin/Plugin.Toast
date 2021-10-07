@@ -123,6 +123,8 @@ namespace DeviceTests
             Assert.NotNull(sp.GetService<ISnackbarExtension>());
             Assert.NotNull(sp.GetService<IDroidNotificationExtension>());
             Assert.NotNull(sp.GetService<Plugin.Toast.Droid.IAndroidNotificationManager>());
+            Assert.NotNull(sp.GetService<IBigTextStyle>());
+            Assert.NotNull(sp.GetService<IInboxStyle>());
 
             if (configurationExists)
                 Assert.NotNull(sp.GetService<IExtensionConfiguration<Plugin.Toast.Droid.IPlatformSpecificExtension>>());
