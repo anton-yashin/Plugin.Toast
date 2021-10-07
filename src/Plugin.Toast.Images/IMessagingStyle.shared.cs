@@ -46,7 +46,7 @@ namespace Plugin.Toast.Images
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IMessagingStyle AddMessage(string text, long timestamp, Action<IDroidPersonBuilder> personBuilder);
+        IMessagingStyleStep2 AddMessage(string text, long timestamp, Action<IDroidPersonBuilder> personBuilder);
         /// <summary>
         /// Sets the title to be displayed on this conversation. 
         /// </summary>
@@ -55,7 +55,7 @@ namespace Plugin.Toast.Images
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IMessagingStyle SetConversationTitle(string conversationTitle);
+        IMessagingStyleStep2 SetConversationTitle(string conversationTitle);
         /// <summary>
         /// Sets whether this conversation notification represents a group. 
         /// </summary>
@@ -64,7 +64,7 @@ namespace Plugin.Toast.Images
         /// the Android Open Source Project and used according to terms described
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
-        IMessagingStyle SetGroupConversation(bool isGroupConversation);
+        IMessagingStyleStep2 SetGroupConversation(bool isGroupConversation);
     }
 
 }

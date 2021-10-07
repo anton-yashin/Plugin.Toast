@@ -51,5 +51,12 @@ namespace Plugin.Toast.Images
             builder.SetUri(uri);
             return this;
         }
+
+        public static Person Build(Action<IDroidPersonBuilder> buildAction)
+        {
+            var pb = new DroidPersonBuilder();
+            buildAction(pb);
+            return pb.Build();
+        }
     }
 }
