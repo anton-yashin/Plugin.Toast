@@ -7,7 +7,7 @@ namespace Plugin.Toast.Images
     /// <summary>
     /// Abstracton layer for android person builder.
     /// </summary>
-    public interface IDroidPersonBuilder : IDroidStyleBuilder
+    public interface IDroidPersonBuilder
     {
         /// <summary>
         /// Sets whether or not this Person represents a machine rather than a human. 
@@ -77,5 +77,12 @@ namespace Plugin.Toast.Images
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IDroidPersonBuilder SetUri(string uri);
+
+#if __ANDROID__
+        /// <summary>
+        /// Build android <see cref="AndroidX.Core.App.Person"/>
+        /// </summary>
+        AndroidX.Core.App.Person Build();
+#endif 
     }
 }
