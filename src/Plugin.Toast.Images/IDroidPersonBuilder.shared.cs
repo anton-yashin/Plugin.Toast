@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.Toast.Images
+namespace Plugin.Toast
 {
     /// <summary>
     /// Abstracton layer for android person builder.

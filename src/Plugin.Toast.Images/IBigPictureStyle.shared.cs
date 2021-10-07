@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plugin.Toast.Images
+namespace Plugin.Toast
 {
     /// <summary>
     /// Style for generating large-format notifications that include a large image attachment.
