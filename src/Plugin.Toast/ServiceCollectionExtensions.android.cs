@@ -67,6 +67,8 @@ namespace Plugin.Toast
             else
                 @this.TryAddSingleton<IAndroidNotificationManager, AndroidNotificationManager>();
             @this.TryAddSingleton<IHistory, History>();
+            @this.TryAddTransient<IBigTextStyle, BigTextStyleBuilder>();
+            @this.TryAddTransient<IInboxStyle, InboxStyleBuilder>();
             return @this.AddBase();
         }
 
