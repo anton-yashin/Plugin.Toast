@@ -186,6 +186,11 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
+#if NETSTANDARD1_4 == false
+        public IDroidNotificationExtension SetColor(System.Drawing.Color argb)
+            => SetColor(argb.ToArgb());
+#endif
+
         public IDroidNotificationExtension SetColorized(bool colorize)
         {
             builder.SetColorized(colorize);
@@ -240,6 +245,17 @@ namespace Plugin.Toast.Droid
             builder.SetLights(argb, onMs, offMs);
             return this;
         }
+
+#if NETSTANDARD1_4 == false
+
+        public IDroidNotificationExtension SetLights(System.Drawing.Color argb, TimeSpan on, TimeSpan off)
+        {
+            return SetLights(argb.ToArgb(), ToMilliseconds(on), ToMilliseconds(off));
+            static int ToMilliseconds(TimeSpan ts)
+                => checked((int)(ts.Ticks / TimeSpan.TicksPerMillisecond));
+        }
+
+#endif
 
         public IDroidNotificationExtension SetLocalOnly(bool b)
         {
@@ -333,6 +349,10 @@ namespace Plugin.Toast.Droid
             builder.SetTimeoutAfter(durationMs);
             return this;
         }
+
+        public IDroidNotificationExtension SetTimeoutAfter(TimeSpan duration)
+            => SetTimeoutAfter(duration.Ticks / TimeSpan.TicksPerMillisecond);
+
         public IDroidNotificationExtension SetUsesChronometer(bool b)
         {
             builder.SetUsesChronometer(b);
