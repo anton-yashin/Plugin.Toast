@@ -2,6 +2,7 @@
 using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Plugin.Toast.UWP
@@ -81,6 +82,13 @@ namespace Plugin.Toast.UWP
         {
             if (this is T t)
                 buildAction(t);
+            return this;
+        }
+
+        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        {
+            if (this is T t)
+                await buildAction(t);
             return this;
         }
 

@@ -2,6 +2,7 @@
 using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace Plugin.Toast.IOS
@@ -53,6 +54,14 @@ namespace Plugin.Toast.IOS
                 buildAction(t);
             return this;
         }
+
+        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        {
+            if (this is T t)
+                await buildAction(t);
+            return this;
+        }
+
 
         public IBuilder UseConfiguration<T>(T token)
         {

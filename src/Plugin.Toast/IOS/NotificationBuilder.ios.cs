@@ -3,6 +3,7 @@ using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using UserNotifications;
 
 namespace Plugin.Toast.IOS
@@ -65,6 +66,13 @@ namespace Plugin.Toast.IOS
         {
             if (this is T t)
                 buildAction(t);
+            return this;
+        }
+
+        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        {
+            if (this is T t)
+                await buildAction(t);
             return this;
         }
 

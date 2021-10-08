@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast.Abstractions
 {
@@ -228,6 +229,16 @@ namespace Plugin.Toast.Abstractions
         IBuilder WhenUsing<T>(Action<T> buildAction) where T : IBuilderExtension<T>;
 
         /// <summary>
+        /// add platform specific options
+        /// <seealso cref="IDroidNotificationExtension"/>,
+        /// <seealso cref="ISnackbarExtension"/>,
+        /// <seealso cref="IIosLocalNotificationExtension"/>,
+        /// <seealso cref="IIosNotificationExtension"/>
+        /// <seealso cref="IUwpExtension"/>
+        /// </summary>
+        Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>;
+
+        /// <summary>
         /// Builds a notification.
         /// </summary>
         /// <returns>notification</returns>
@@ -291,4 +302,5 @@ namespace Plugin.Toast.Abstractions
         where T3 : IBuilderExtension<T3>
         where T4 : IBuilderExtension<T4>
     { }
+
 }
