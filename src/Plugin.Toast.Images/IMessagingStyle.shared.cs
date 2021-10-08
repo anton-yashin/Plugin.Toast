@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Plugin.Toast
@@ -36,11 +37,20 @@ namespace Plugin.Toast
     /// <summary>
     /// Optional fields for <see cref="IMessagingStyle"/>
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IMessagingStyleStep2
     {
         /// <summary>
         /// Adds a message for display by this notification.
         /// </summary>
+        /// <param name="text">A <see cref="string"/> to be displayed as the message content</param>
+        /// <param name="timestamp">Time at which the message arrived in ms since Unix epoch</param>
+        /// <param name="personBuilder">A Person whose <seealso cref="IDroidPersonBuilder.SetName(string)"/>
+        /// value is used as the display name for the sender. You should use <seealso cref="AddMessage(string, long)"/>
+        /// for messages by the current user, in which case, the platform will insert
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.MessagingStyle#getUserDisplayName()">NotificationCompat.MessagingStyle.getUserDisplayName()</see>.
+        /// A Person's key should be consistent during re-posts of the notification.
+        /// </param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
@@ -50,6 +60,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Sets the title to be displayed on this conversation. 
         /// </summary>
+        /// <param name="conversationTitle">Title displayed for this conversation</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
@@ -59,6 +70,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Sets whether this conversation notification represents a group. 
         /// </summary>
+        /// <param name="isGroupConversation"><b>true</b> if the conversation represents a group, <b>false</b> otherwise.</param>
         /// <remarks>
         /// Portions of this page are reproduced from work created and shared by
         /// the Android Open Source Project and used according to terms described
