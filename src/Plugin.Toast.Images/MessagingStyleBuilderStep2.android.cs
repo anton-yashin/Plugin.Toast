@@ -24,6 +24,12 @@ namespace Plugin.Toast.Images
             return this;
         }
 
+        public IMessagingStyleStep2 AddMessage(string text, DateTime timestamp)
+            => AddMessage(text, timestamp.ToAndroidTimeStamp());
+
+        public IMessagingStyleStep2 AddMessage(string text, DateTime timestamp, Action<IDroidPersonBuilder> personBuilder)
+            => AddMessage(text, timestamp.ToAndroidTimeStamp(), personBuilder);
+
         public IMessagingStyleStep2 SetConversationTitle(string conversationTitle)
         {
             builder.SetConversationTitle(conversationTitle);

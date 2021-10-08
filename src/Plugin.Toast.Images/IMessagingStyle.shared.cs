@@ -54,6 +54,19 @@ namespace Plugin.Toast
         /// </remarks>
         IMessagingStyleStep2 AddMessage(string text, long timestamp);
         /// <summary>
+        /// Adds a message for display by this notification. Use this method 
+        /// for messages by the current user, in which case, the platform will insert
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.MessagingStyle#getUserDisplayName()">NotificationCompat.MessagingStyle.getUserDisplayName()</see>.
+        /// </summary>
+        /// <param name="text">A <see cref="string"/> to be displayed as the message content</param>
+        /// <param name="timestamp">Time at which the message arrived in ms since Unix epoch</param>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IMessagingStyleStep2 AddMessage(string text, DateTime timestamp);
+        /// <summary>
         /// Adds a message for display by this notification.
         /// </summary>
         /// <param name="text">A <see cref="string"/> to be displayed as the message content</param>
@@ -70,6 +83,23 @@ namespace Plugin.Toast
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IMessagingStyleStep2 AddMessage(string text, long timestamp, Action<IDroidPersonBuilder> personBuilder);
+        /// <summary>
+        /// Adds a message for display by this notification.
+        /// </summary>
+        /// <param name="text">A <see cref="string"/> to be displayed as the message content</param>
+        /// <param name="timestamp">Time at which the message arrived in ms since Unix epoch</param>
+        /// <param name="personBuilder">A Person whose <seealso cref="IDroidPersonBuilder.SetName(string)"/>
+        /// value is used as the display name for the sender. You should use <seealso cref="AddMessage(string, long)"/>
+        /// for messages by the current user, in which case, the platform will insert
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.MessagingStyle#getUserDisplayName()">NotificationCompat.MessagingStyle.getUserDisplayName()</see>.
+        /// A Person's key should be consistent during re-posts of the notification.
+        /// </param>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IMessagingStyleStep2 AddMessage(string text, DateTime timestamp, Action<IDroidPersonBuilder> personBuilder);
         /// <summary>
         /// Sets the title to be displayed on this conversation. 
         /// </summary>

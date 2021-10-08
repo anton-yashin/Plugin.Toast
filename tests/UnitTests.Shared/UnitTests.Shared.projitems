@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BundleToFileNameStrategy_Tests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DateTimeExtensions_Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DefaultConfiguration_Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ImageCacher_Tests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MimeDetector_Tests.cs" />
