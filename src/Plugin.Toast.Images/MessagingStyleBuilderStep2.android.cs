@@ -12,6 +12,12 @@ namespace Plugin.Toast.Images
             builder = new NotificationCompat.MessagingStyle(person);
         }
 
+        public IMessagingStyleStep2 AddMessage(string text, long timestamp)
+        {
+            builder.AddMessage(text, timestamp, (Person)null!);
+            return this;
+        }
+
         public IMessagingStyleStep2 AddMessage(string text, long timestamp, Action<IDroidPersonBuilder> personBuilder)
         {
             builder.AddMessage(text, timestamp, DroidPersonBuilder.Build(personBuilder));
