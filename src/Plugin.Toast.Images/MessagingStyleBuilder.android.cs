@@ -21,6 +21,6 @@ namespace Plugin.Toast.Images
         }
 
         public IMessagingStyleStep2 With(Action<IDroidPersonBuilder> personBuilder)
-            => new MessagingStyleBuilderStep2(DroidPersonBuilder.Build(personBuilder));
+            => builder = new MessagingStyleBuilderStep2(DroidPersonBuilder.Build(personBuilder));
     }
 }
