@@ -13,7 +13,7 @@ namespace Plugin.Toast
     /// needs to use the v7 version of the notification builder
     /// together with this style, otherwise the user will see the
     /// normal notification view.
-    /// Use <see cref="SetConversationTitle(string)"/> to set a
+    /// Use <see cref="IMessagingStyleStep2.SetConversationTitle(string)"/> to set a
     /// conversation title for group chats with more than two people.
     /// This could be the user-created name of the group or, if it
     /// doesn't have a specific name, a list of the participants in
@@ -28,10 +28,16 @@ namespace Plugin.Toast
     /// </remarks>
     public interface IMessagingStyle : IDroidStyleBuilder
     {
+#if __ANDROID__ == false
+#pragma warning disable CS1574 // XML comment has cref attribute that could not be resolved
+#endif
         /// <summary>
         /// Creates a new <see cref="AndroidX.Core.App.NotificationCompat.MessagingStyle"/>  object. 
         /// </summary>
         IMessagingStyleStep2 With(Action<IDroidPersonBuilder> personBuilder);
+#if __ANDROID__ == false
+#pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved
+#endif
     }
 
     /// <summary>
