@@ -36,7 +36,7 @@ namespace ManualTests.Tests
                             .SetImportant(true)
                             .SetKey("some key 1")
                             .SetName("person name 1"))
-                        .AddMessage("some text", 100000000, pb => pb
+                        .AddMessage("some text", DateTime.UtcNow - TimeSpan.FromSeconds(10), pb => pb
                             .SetBot(false)
                             .SetIcon(bli)
                             .SetImportant(false)

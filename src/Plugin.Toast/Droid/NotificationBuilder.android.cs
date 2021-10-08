@@ -354,6 +354,12 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
+        public IDroidNotificationExtension SetWhen(DateTime when)
+        {
+            builder.SetWhen(when.ToAndroidTimeStamp());
+            return this;
+        }
+
         public IDroidNotificationExtension WithCustomArg(string key, string value)
         {
             customArgs[key] = value;
