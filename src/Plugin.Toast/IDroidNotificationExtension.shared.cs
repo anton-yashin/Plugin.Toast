@@ -109,6 +109,18 @@ namespace Plugin.Toast
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IDroidNotificationExtension SetColor(int argb);
+#if NETSTANDARD1_4 == false
+        /// <summary>
+        /// Sets color.
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setColor(int)"/>
+        /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IDroidNotificationExtension SetColor(System.Drawing.Color color);
+#endif
         /// <summary>
         /// Set whether this notification should be colorized. When set, the color set with <see cref="SetColor(int)"/>
         /// will be used as the background color of this notification. 
@@ -229,6 +241,20 @@ namespace Plugin.Toast
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IDroidNotificationExtension SetLights(int argb, int onMs, int offMs);
+#if NETSTANDARD1_4 == false
+        /// <summary>
+        /// Set the argb value that you would like the LED on the device to blink, as well
+        /// as the rate. The rate is specified in terms of the number of milliseconds to
+        /// be on and then the number of milliseconds to be off. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setLights(int,%20int,%20int)"/>
+        /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IDroidNotificationExtension SetLights(System.Drawing.Color color, TimeSpan on, TimeSpan off);
+#endif
         /// <summary>
         /// Set whether or not this notification is only relevant to the current device.
         /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setLocalOnly(boolean)"/>
@@ -445,6 +471,17 @@ namespace Plugin.Toast
         /// in the Creative Commons 2.5 Attribution License. 
         /// </remarks>
         IDroidNotificationExtension SetTimeoutAfter(long durationMs);
+        /// <summary>
+        /// Specifies the time at which this notification should be canceled, if it
+        /// is not already canceled. No-op on versions prior to Build.VERSION_CODES.O. 
+        /// <see href="https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setTimeoutAfter(long)"/>
+        /// </summary>
+        /// <remarks>
+        /// Portions of this page are reproduced from work created and shared by
+        /// the Android Open Source Project and used according to terms described
+        /// in the Creative Commons 2.5 Attribution License. 
+        /// </remarks>
+        IDroidNotificationExtension SetTimeoutAfter(TimeSpan duration);
         /// <summary>
         /// Show the <see cref="SetWhen(long)"/> field as a stopwatch. Instead of
         /// presenting <c>when</c> as a timestamp, the notification will show an

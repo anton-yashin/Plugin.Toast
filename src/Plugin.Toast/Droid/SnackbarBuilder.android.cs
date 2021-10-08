@@ -93,6 +93,12 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
+        public ISnackbarExtension WithDuration(TimeSpan duration)
+        {
+            this.SnackbarDuration = checked((int)(duration.Ticks / TimeSpan.TicksPerMillisecond));
+            return this;
+        }
+
         public ISnackbarExtension WithDuration(SnackbarDuration duration) => WithDuration((int)duration);
 
         public ISnackbarExtension Use(IExtensionConfiguration<ISnackbarExtension> visitor)
