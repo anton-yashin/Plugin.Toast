@@ -1,4 +1,11 @@
-﻿0.93.0-beta:
+﻿0.95.0-beta:
+* refactor!: NotificationManager is now deleted
+* feat: added android notification styles.
+* feat: added async notification builder support
+* refactor: DateTime, TimeStamp, Color support @ android
+0.94.0-beta
+* refactor!: NotificationManager is now deprecated
+0.93.0-beta:
 * fix: compatibility with XF 5.0.0.2083 @ Android
 0.92.0-beta:
 * fix: multiple notifications can cause NotificationException on iOS if the user allows notifications to be shown.

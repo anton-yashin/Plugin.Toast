@@ -1,1 +1,4 @@
-* refactor!:  NotificationManager is now obsolete
+* refactor!: NotificationManager is now deleted;
+* feat: added android notification styles;
+* feat: added async notification builder support;
+* refactor: DateTime, TimeStamp, Color support @ android.
