@@ -24,17 +24,16 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var bli = await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType());
             var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                 .AddTitle(Localization.R_SOME_TITLE)
                 .AddDescription(Localization.R_PLEASE_IGNORE)
-                .WhenUsing<IDroidNotificationExtension>(
-                    dne => dne.SetStyle<IBigPictureStyle>(
-                        bps => bps.BigLargeIcon(bli)
-                        .BigPicture(bli)
+                .WhenUsingAsync<IDroidNotificationExtension>(
+                    dne => dne.SetStyleAsync<IBigPictureStyle>(
+                        async bps => bps.BigLargeIcon(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType()))
+                        .BigPicture(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType()))
                         .SetBigContentTitle("Big content title")
                         .SetSummaryText("Summary text")))
-                .Build().ShowAsync();
+                .BuildAsync().ShowAsync();
             Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
         }
     }

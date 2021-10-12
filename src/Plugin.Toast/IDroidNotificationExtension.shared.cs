@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
@@ -567,6 +568,11 @@ namespace Plugin.Toast
         /// Applies a notification style to the notification
         /// </summary>
         IDroidNotificationExtension SetStyle<T>(Action<T> styleBuilder) where T : IDroidStyleBuilder;
+
+        /// <summary>
+        /// Applies a notification style to the notification
+        /// </summary>
+        Task<IDroidNotificationExtension> SetStyleAsync<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder;
     }
 #if __ANDROID__ == false
 #pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved

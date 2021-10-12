@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Android.Content;
 using Plugin.Toast.Abstractions;
 using AndroidX.Core.App;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast.Droid
 {
@@ -121,6 +122,13 @@ namespace Plugin.Toast.Droid
         {
             if (this is T t)
                 buildAction(t);
+            return this;
+        }
+
+        public async Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        {
+            if (this is T t)
+                await buildAction(t);
             return this;
         }
 
@@ -420,6 +428,14 @@ namespace Plugin.Toast.Droid
         {
             var builder = serviceProvider.GetRequiredService<T>();
             styleBuilder(builder);
+            this.builder.SetStyle(builder.Build());
+            return this;
+        }
+
+        public async Task<IDroidNotificationExtension> SetStyleAsync<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder
+        {
+            var builder = serviceProvider.GetRequiredService<T>();
+            await styleBuilder(builder);
             this.builder.SetStyle(builder.Build());
             return this;
         }

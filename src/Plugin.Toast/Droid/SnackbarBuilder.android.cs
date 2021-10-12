@@ -1,6 +1,7 @@
 ﻿using Google.Android.Material.Snackbar;
 using Plugin.Toast.Abstractions;
 using System;
+using System.Threading.Tasks;
 
 namespace Plugin.Toast.Droid
 {
@@ -60,6 +61,13 @@ namespace Plugin.Toast.Droid
         {
             if (this is T tb)
                 buildAction(tb);
+            return this;
+        }
+
+        public async Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        {
+            if (this is T tb)
+                await buildAction(tb);
             return this;
         }
 
