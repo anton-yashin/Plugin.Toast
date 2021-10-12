@@ -1,14 +1,18 @@
 ﻿using Plugin.Toast.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Plugin.Toast
 {
+    /// <summary>
+    /// Extensions for <see cref="IBuilder"/>
+    /// </summary>
     public static class BuilderExtensions
     {
-        public static async Task<INotification> Build(this Task<IBuilder> @this)
+        /// <summary>
+        /// Builds a notification.
+        /// </summary>
+        public static async Task<INotification> BuildAsync(this Task<IBuilder> @this)
         {
             var builder = await @this;
             return builder.Build();

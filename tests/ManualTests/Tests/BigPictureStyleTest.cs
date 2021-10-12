@@ -27,13 +27,13 @@ namespace ManualTests.Tests
             var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
                 .AddTitle(Localization.R_SOME_TITLE)
                 .AddDescription(Localization.R_PLEASE_IGNORE)
-                .WhenUsing<IDroidNotificationExtension>(
-                    dne => dne.SetStyle<IBigPictureStyle>(
+                .WhenUsingAsync<IDroidNotificationExtension>(
+                    dne => dne.SetStyleAsync<IBigPictureStyle>(
                         async bps => bps.BigLargeIcon(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType()))
                         .BigPicture(await toastImageSourceFactory.FromResourceAsync(TestData.KEmbeddedImage, this.GetType()))
                         .SetBigContentTitle("Big content title")
                         .SetSummaryText("Summary text")))
-                .Build().ShowAsync();
+                .BuildAsync().ShowAsync();
             Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
         }
     }

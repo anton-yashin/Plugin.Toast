@@ -64,7 +64,7 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        public async Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
         {
             if (this is T tb)
                 await buildAction(tb);

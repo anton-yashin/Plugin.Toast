@@ -572,7 +572,7 @@ namespace Plugin.Toast
         /// <summary>
         /// Applies a notification style to the notification
         /// </summary>
-        Task<IDroidNotificationExtension> SetStyle<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder;
+        Task<IDroidNotificationExtension> SetStyleAsync<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder;
     }
 #if __ANDROID__ == false
 #pragma warning restore CS1574 // XML comment has cref attribute that could not be resolved

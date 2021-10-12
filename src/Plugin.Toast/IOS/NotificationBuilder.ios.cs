@@ -69,7 +69,7 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
-        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        public async Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
         {
             if (this is T t)
                 await buildAction(t);

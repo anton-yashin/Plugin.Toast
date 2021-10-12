@@ -125,7 +125,7 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public async Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
+        public async Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>
         {
             if (this is T t)
                 await buildAction(t);
@@ -432,7 +432,7 @@ namespace Plugin.Toast.Droid
             return this;
         }
 
-        public async Task<IDroidNotificationExtension> SetStyle<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder
+        public async Task<IDroidNotificationExtension> SetStyleAsync<T>(Func<T, Task> styleBuilder) where T : IDroidStyleBuilder
         {
             var builder = serviceProvider.GetRequiredService<T>();
             await styleBuilder(builder);

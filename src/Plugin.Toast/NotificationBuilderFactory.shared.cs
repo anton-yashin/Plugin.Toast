@@ -38,7 +38,7 @@ namespace Plugin.Toast
         INotificationBuilder INotificationBuilder.AddTitle(string title) => builder.AddTitle(title);
         INotification IBuilder.Build() => builder.Build();
         IBuilder IBuilder.WhenUsing<T>(Action<T> buildAction) => builder.WhenUsing(buildAction);
-        Task<IBuilder> IBuilder.WhenUsing<T>(Func<T, Task> buildAction) => builder.WhenUsing(buildAction);
+        Task<IBuilder> IBuilder.WhenUsingAsync<T>(Func<T, Task> buildAction) => builder.WhenUsingAsync(buildAction);
         IBuilder IBuilder.UseConfiguration<T>(T token) => builder.UseConfiguration(token);
         IBuilder IBuilder.Add<T1>(T1 a1)
             => builder.Add(a1);

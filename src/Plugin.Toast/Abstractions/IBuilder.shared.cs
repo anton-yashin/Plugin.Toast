@@ -236,7 +236,7 @@ namespace Plugin.Toast.Abstractions
         /// <seealso cref="IIosNotificationExtension"/>
         /// <seealso cref="IUwpExtension"/>
         /// </summary>
-        Task<IBuilder> WhenUsing<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>;
+        Task<IBuilder> WhenUsingAsync<T>(Func<T, Task> buildAction) where T : IBuilderExtension<T>;
 
         /// <summary>
         /// Builds a notification.
