@@ -13,13 +13,13 @@
   <Import Project="../../common.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
-    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true"/>
+    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
   </ItemGroup>
