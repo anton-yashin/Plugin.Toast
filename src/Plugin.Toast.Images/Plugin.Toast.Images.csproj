@@ -13,10 +13,10 @@
   <Import Project="../../common.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true"/>
+    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
     <ProjectReference Include="..\Plugin.Toast\Plugin.Toast.csproj" />
     <Compile Include="**\*.shared.cs" />
     <Compile Include="**\*.shared.*.cs" />
