@@ -20,8 +20,22 @@ namespace Plugin.Toast.UWP
         }
 
         public Notification(ToastContent toastContent, IPlatformNotificationBuilder notificationBuilder)
+#if __UAP__
             : this(toastContent.GetXml(), notificationBuilder)
         { }
+#elif WINDOWS
+            : this(ToXmlDocument(toastContent.GetContent()), notificationBuilder)
+        { }
+
+        static XmlDocument ToXmlDocument(string content)
+        {
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(content);
+            return xmlDocument;
+        }
+#else
+#error platform is not supported
+#endif
 
         public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {

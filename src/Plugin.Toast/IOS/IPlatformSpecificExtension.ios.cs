@@ -3,6 +3,7 @@ using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Versioning;
 using UserNotifications;
 
 namespace Plugin.Toast.IOS
@@ -65,6 +66,10 @@ namespace Plugin.Toast.IOS
         /// Project and used according to terms described in the Creative Commons
         /// 4.0 Attribution International License. 
         /// </remarks>
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         IPlatformSpecificExtension AddSummaryArgumentCount(nuint SummaryArgumentCount);
     }
 }

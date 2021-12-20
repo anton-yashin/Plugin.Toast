@@ -36,7 +36,7 @@ namespace Plugin.Toast
         /// </summary>
         /// <param name="tag">Tag part of notificaition identifier</param>
         /// <param name="group">Group part of notificaition identifier</param>
-        public ToastId(string tag, string group)
+        public ToastId(string? tag, string? group)
         {
             this.tag = tag ?? "";
             this.group = group ?? "";

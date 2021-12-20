@@ -12,19 +12,19 @@ namespace Plugin.Toast
 
         public DiNm(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
 
-        public Task InitializeAsync() => ((IInitialization)serviceProvider.GetService(typeof(IInitialization))).InitializeAsync();
+        public Task InitializeAsync() => ((IInitialization)serviceProvider.GetRequiredService(typeof(IInitialization))).InitializeAsync();
 
         public INotificationBuilder GetBuilder() => (INotificationBuilder)serviceProvider.GetRequiredService(typeof(INotificationBuilder));
 
         public INotificationBuilder GetBuilder<T>()
             where T : INotificationBuilderExtension<T>
-            => (INotificationBuilder)serviceProvider.GetService(typeof(T)) 
+            => (INotificationBuilder?)serviceProvider.GetService(typeof(T)) 
             ?? GetBuilder();
 
         public INotificationBuilder GetBuilder<T1, T2>()
             where T1 : INotificationBuilderExtension<T1>
             where T2 : INotificationBuilderExtension<T2>
-            => (INotificationBuilder)(serviceProvider.GetService(typeof(T1))
+            => (INotificationBuilder?)(serviceProvider.GetService(typeof(T1))
             ?? serviceProvider.GetService(typeof(T2))) 
             ?? GetBuilder();
 

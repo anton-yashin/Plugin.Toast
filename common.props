@@ -1,12 +1,17 @@
 <Project>
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;net6.0;net6.0-ios;net6.0-android;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
+	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+	  
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">10.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">9.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.16299.0</SupportedOSPlatformVersion>
 
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>0.95.0.0</AssemblyVersion>
-    <AssemblyFileVersion>0.95.0.0</AssemblyFileVersion>
-    <Version>0.95.0</Version>
+	<Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <AssemblyVersion>0.95.1.0</AssemblyVersion>
+    <AssemblyFileVersion>0.95.1.0</AssemblyFileVersion>
+    <Version>0.95.1</Version>
     <VersionSuffix>-beta</VersionSuffix>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
     <Authors>Anton Yashin</Authors>
@@ -23,7 +28,7 @@
     <DebugType>portable</DebugType>
     <Configurations>Debug;Release</Configurations>
 
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
 
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -38,6 +43,10 @@
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) And '$(OS)' != 'Windows_NT' ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
   </PropertyGroup>
+
+    <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+	    <DefineConstants>$(DefineConstants);__UAP__</DefineConstants>
+    </PropertyGroup>
 
     
   <ItemGroup>

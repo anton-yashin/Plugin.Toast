@@ -51,7 +51,8 @@ namespace Plugin.Toast
             var asn = assembly.GetName();
             var fullFn = await imageCacher.CacheAsync(
                 resourceToFileNameStrategy.Convert(resourcePath, assembly),
-                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath));
+                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath)
+                ?? throw new ArgumentException($"Can't read a resource with path: [{resourcePath}]", nameof(resourcePath)));
             var result = await FromFileAsync(fullFn, cancellationToken);
             return result;
         }

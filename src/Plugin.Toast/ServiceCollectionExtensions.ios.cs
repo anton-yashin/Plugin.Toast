@@ -51,7 +51,9 @@ namespace Plugin.Toast
             @this.TryAddTransient(typeof(INotificationBuilder), UIDevice.CurrentDevice.CheckSystemVersion(10, 0)
                 ? typeof(NotificationBuilder) : typeof(LocalNotificationBuilder));
             @this.TryAddTransient<IIosNotificationExtension, NotificationBuilder>();
+#pragma warning disable CA1416 // Validate platform compatibility
             @this.TryAddTransient<IIosLocalNotificationExtension, LocalNotificationBuilder>();
+#pragma warning restore CA1416 // Validate platform compatibility
             @this.TryAddSingleton<IPermission, Permission>();
             @this.TryAddSingleton(typeof(IInitialization), _ => _.GetService(typeof(IPermission)));
             @this.TryAddSingleton<IHistory, History>();
@@ -82,11 +84,13 @@ namespace Plugin.Toast
         {
             _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
             _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+#pragma warning disable CA1416 // Validate platform compatibility
             return @this.AddNotificationManager(options)
                 .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration))
                 .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+#pragma warning restore CA1416 // Validate platform compatibility
         }
 
         /// <summary>
@@ -111,11 +115,13 @@ namespace Plugin.Toast
         {
             _ = defaultConfiguration ?? throw new ArgumentNullException(nameof(defaultConfiguration));
             _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+#pragma warning disable CA1416 // Validate platform compatibility
             return @this.AddNotificationManager(new ToastOptions())
                 .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultConfiguration))
                 .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+#pragma warning restore CA1416 // Validate platform compatibility
         }
 
         /// <summary>
@@ -189,9 +195,11 @@ namespace Plugin.Toast
             Action<IIosLocalNotificationExtension> localNotificationConiguration)
         {
             _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+#pragma warning disable CA1416 // Validate platform compatibility
             return @this.AddNotificationManager(options)
                 .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+#pragma warning restore CA1416 // Validate platform compatibility
         }
 
         /// <summary>
@@ -213,9 +221,11 @@ namespace Plugin.Toast
             Action<IIosLocalNotificationExtension> localNotificationConiguration)
         {
             _ = localNotificationConiguration ?? throw new ArgumentNullException(nameof(localNotificationConiguration));
+#pragma warning disable CA1416 // Validate platform compatibility
             return @this.AddNotificationManager(new ToastOptions())
                 .AddSingleton<IExtensionConfiguration<IIosLocalNotificationExtension>>(
                 sp => new DefaultConfiguration<IIosLocalNotificationExtension>(localNotificationConiguration));
+#pragma warning restore CA1416 // Validate platform compatibility
         }
     }
 }

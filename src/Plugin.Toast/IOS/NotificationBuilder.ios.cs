@@ -3,6 +3,7 @@ using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using UserNotifications;
 
@@ -99,18 +100,29 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
+        [SupportedOSPlatform("ios13.0")]
+        [SupportedOSPlatform("tvos13.0")]
+        [SupportedOSPlatform("macos10.15")]
         public IIosNotificationExtension AddTargetContentIdentifier(string targetContentIdentifier)
         {
             Notification.TargetContentIdentifier = targetContentIdentifier;
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IIosNotificationExtension AddSummaryArgumentCount(ulong SummaryArgumentCount)
         {
             Notification.SummaryArgumentCount = (nuint)SummaryArgumentCount;
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IIosNotificationExtension AddSummaryArgument(string summaryArgument)
         {
             Notification.SummaryArgument = summaryArgument;
@@ -180,6 +192,10 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IPlatformSpecificExtension AddSummaryArgumentCount(nuint SummaryArgumentCount)
         {
             Notification.SummaryArgumentCount = SummaryArgumentCount;

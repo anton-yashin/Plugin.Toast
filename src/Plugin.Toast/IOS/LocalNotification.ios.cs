@@ -1,14 +1,14 @@
 ﻿using Foundation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
 
 namespace Plugin.Toast.IOS
 {
+    [UnsupportedOSPlatform("tvos")]
+    [UnsupportedOSPlatform("ios10.0")]
     sealed class LocalNotification : INotification
     {
         private readonly ILocalNotificationBuilder builder;
