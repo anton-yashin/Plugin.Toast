@@ -1,24 +1,25 @@
-﻿using Microsoft.Maui.Controls;
-using Microsoft.Maui.Essentials;
+﻿using ManualTests.Tests.Base;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ManualTests.Maui
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
-        public MainPage()
+        public MainPage(ILogger<MainPage> logger, IEnumerable<IAbstractTest> tests)
         {
             InitializeComponent();
+
+            foreach (var i in tests.Where(t => t.IsAvailable == false))
+                logger.LogInformation("test {i} is not available on current platform", i);
+
+            testCollectionView.ItemsSource = tests.Where(t => t.IsAvailable).ToArray();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-            CounterLabel.Text = $"Current count: {count}";
-
-            SemanticScreenReader.Announce(CounterLabel.Text);
-        }
     }
 }

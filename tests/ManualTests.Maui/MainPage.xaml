@@ -1,50 +1,66 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ManualTests.Maui"
+             xmlns:tb="clr-namespace:ManualTests.Tests.Base;assembly=ManualTests"
+             xmlns:resx="clr-namespace:ManualTests.ResX;assembly=ManualTests"
+             mc:Ignorable="d"
              x:Class="ManualTests.Maui.MainPage"
              BackgroundColor="{DynamicResource SecondaryColor}">
 
-    <ScrollView>
-        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,*"
-              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+    <ContentPage.Resources>
+        <local:TestResultToBoolConverter x:Key="tr2bc"/>
+    </ContentPage.Resources>
 
-            <Label 
-                Text="Hello, World!"
-                Grid.Row="0"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label 
-                Text="Welcome to .NET Multi-platform App UI"
-                Grid.Row="1"
-                SemanticProperties.HeadingLevel="Level1"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Label 
-                Text="Current count: 0"
-                Grid.Row="2"
-                FontSize="18"
-                FontAttributes="Bold"
-                x:Name="CounterLabel"
-                HorizontalOptions="Center" />
-
-            <Button 
-                Text="Click me"
-                FontAttributes="Bold"
-                Grid.Row="3"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-            <Image Grid.Row="4"
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                WidthRequest="250"
-                HeightRequest="310"
-                HorizontalOptions="Center" />
-
-        </Grid>
-    </ScrollView>
+    <CollectionView
+        x:Name="testCollectionView"
+        Footer="{OnPlatform iOS=available, Default={x:Null}}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="tb:IAbstractTest">
+                <StackLayout Padding="5,0,5,0">
+                    <Label Text="{x:Binding ShortDescription}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Button
+                            Text="{x:Static resx:Localization.R_RUN}"
+                            Command="{x:Binding RunTestCommand}"
+                            CommandParameter="{x:Binding}"/>
+                        <Label
+                            Text="{x:Static resx:Localization.R_PENDING}"
+                            TextColor="DarkGray" VerticalOptions="Center"
+                            IsVisible="{x:Binding Result, Converter={StaticResource tr2bc}, ConverterParameter=Pending}"/>
+                        <Label
+                            Text="{x:Static resx:Localization.R_RUNNING}"
+                            TextColor="DarkOrange" VerticalOptions="Center"
+                            IsVisible="{x:Binding Result, Converter={StaticResource tr2bc}, ConverterParameter=Running}"/>
+                        <Label
+                            Text="{x:Static resx:Localization.R_PASSED}"
+                            TextColor="DarkGreen" VerticalOptions="Center"
+                            IsVisible="{x:Binding Result, Converter={StaticResource tr2bc}, ConverterParameter=Passed}"/>
+                        <Label
+                            Text="{x:Static resx:Localization.R_FAILED}"
+                            TextColor="Red" VerticalOptions="Center"
+                            IsVisible="{x:Binding Result, Converter={StaticResource tr2bc}, ConverterParameter=Failed}"/>
+                    </StackLayout>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="{x:Static resx:Localization.R_REQUIRED_ACTION}"/>
+                                    <Span Text=": "/>
+                                    <Span Text="{x:Binding RequiredAction}"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <BoxView HeightRequest="1" BackgroundColor="Gray"/>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <AbsoluteLayout HeightRequest="30"/>
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
+    </CollectionView>
 </ContentPage>

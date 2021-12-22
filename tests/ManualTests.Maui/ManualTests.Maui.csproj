@@ -8,6 +8,7 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
 		<ApplicationTitle>ManualTests.Maui</ApplicationTitle>
@@ -30,9 +31,11 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
+		<!--<MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="#512BD4" />-->
 		<MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
+		<!--<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />-->
 		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Images -->
@@ -44,13 +47,46 @@
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-preview3" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.29-preview3" />
+		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.619-beta">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\platform_image.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="NativeMethods.txt" />
+	  <None Remove="Resources\drawable\platform_image.jpg" />
+	  <None Remove="Resources\Images\platform_image.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Include="NativeMethods.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Include="Resources\drawable\platform_image.jpg">
+	    <SubType>Designer</SubType>
+	    <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+	  </AndroidResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Images\platform_image.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\ManualTests\ManualTests.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<OutputType>WinExe</OutputType>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
-	
+
 </Project>

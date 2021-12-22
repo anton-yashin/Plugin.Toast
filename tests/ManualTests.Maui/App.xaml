@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:ManualTests.Maui"
              x:Class="ManualTests.Maui.App"
              windows:Application.ImageDirectory="Assets">
-    <Application.Resources>
+    <!--<Application.Resources>
         <ResourceDictionary>
 
             <Color x:Key="PrimaryColor">#512bdf</Color>
@@ -23,5 +23,5 @@
             </Style>
 
         </ResourceDictionary>
-    </Application.Resources>
+    </Application.Resources>-->
 </Application>

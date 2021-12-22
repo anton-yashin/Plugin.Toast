@@ -1,5 +1,13 @@
 {
   "msbuild-sdks": {
     "MSBuild.Sdk.Extras": "3.0.44"
-  }
+  }//,
+
+  // begin .net issue workaround https://github.com/xamarin/xamarin-macios/issues/13611
+  // "sdk": {
+  //   "version": "6.0.100",
+  //   "allowPrerelease": false,
+  //   "rollForward": "disable"
+  // }
+  // end .net issue workaround https://github.com/xamarin/xamarin-macios/issues/13611
 }

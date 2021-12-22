@@ -24,20 +24,29 @@ namespace ManualTests.Tests
 
         protected override async Task DoRunAsync()
         {
-            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "file.png");
-            var src = Assembly.GetExecutingAssembly().GetManifestResourceStream(TestData.KEmbeddedImage);
-            using (var file = File.OpenWrite(fileName))
+            string? fileName = null;
+            try
             {
-                await src.CopyToAsync(file);
-                await file.FlushAsync();
-            }
+                fileName = Path.GetTempFileName();
+                var src = Assembly.GetExecutingAssembly().GetManifestResourceStream(TestData.KEmbeddedImage);
+                using (var file = File.OpenWrite(fileName))
+                {
+                    await src.CopyToAsync(file);
+                    await file.FlushAsync();
+                }
 
-            var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
-                        .AddTitle(Localization.R_SOME_TITLE)
-                        .AddDescription(Localization.R_LOREM_IPSUM)
-                        .AddImage(await toastImageSourceFactory.FromFileAsync(fileName))
-                        .Build().ShowAsync();
-            Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
+                var result = await serviceProvider.GetRequiredService<INotificationBuilder>()
+                            .AddTitle(Localization.R_SOME_TITLE)
+                            .AddDescription(Localization.R_LOREM_IPSUM)
+                            .AddImage(await toastImageSourceFactory.FromFileAsync(fileName))
+                            .Build().ShowAsync();
+                Assert(result == NotificationResult.Activated || result == NotificationResult.TimedOut);
+            }
+            finally
+            {
+                if (fileName != null)
+                    File.Delete(fileName);
+            }
         }
     }
 }
