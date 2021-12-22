@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.Toast", "src\Plugin.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0C66CB37-4C5B-4101-8D4F-9E0089C03F85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManualTests", "tests\ManualTests\ManualTests.csproj", "{D60391E9-5F26-4D49-8FC5-BD7B741F23A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManualTests.Xamarin", "tests\ManualTests.Xamarin\ManualTests.Xamarin.csproj", "{D60391E9-5F26-4D49-8FC5-BD7B741F23A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests.Android", "tests\ManualTests.Android\ManualTests.Android.csproj", "{6C538FF9-0C63-4989-8E19-AD234CB08161}"
 EndProject
@@ -39,7 +39,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests.Maui", "tests\ManualTests.Maui\ManualTests.Maui.csproj", "{BA4384A4-2C92-47B6-A800-7401149856F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManualTests.Maui", "tests\ManualTests.Maui\ManualTests.Maui.csproj", "{BA4384A4-2C92-47B6-A800-7401149856F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests", "tests\ManualTests\ManualTests.csproj", "{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -397,6 +399,34 @@ Global
 		{BA4384A4-2C92-47B6-A800-7401149856F9}.Release|x64.Build.0 = Release|Any CPU
 		{BA4384A4-2C92-47B6-A800-7401149856F9}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA4384A4-2C92-47B6-A800-7401149856F9}.Release|x86.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|ARM.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|ARM64.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|iPhone.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|x64.Build.0 = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -415,6 +445,7 @@ Global
 		{3D0A0512-7B44-4942-A19B-EDD74DD7594A} = {0C66CB37-4C5B-4101-8D4F-9E0089C03F85}
 		{02E3EFBB-F72A-47F2-BC84-58E9E343DB18} = {0C66CB37-4C5B-4101-8D4F-9E0089C03F85}
 		{BA4384A4-2C92-47B6-A800-7401149856F9} = {0C66CB37-4C5B-4101-8D4F-9E0089C03F85}
+		{1C2B8EC9-5864-433F-9B5B-1C35E573C8F6} = {0C66CB37-4C5B-4101-8D4F-9E0089C03F85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A0A31D8-E266-4B7E-9615-D4A7B66CD8C4}

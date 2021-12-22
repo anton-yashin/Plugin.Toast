@@ -3,21 +3,21 @@ using ManualTests.Tests.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace ManualTests.Tests
 {
     sealed class BigTextStyleTest : AbstractTest<BigTextStyleTest>
     {
+        private readonly IRuntimePlatform runtimePlatform;
+
         public BigTextStyleTest(IServiceProvider serviceProvider)
             : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Big text style notification")
         {
+            this.runtimePlatform = serviceProvider.GetRequiredService<IRuntimePlatform>();
         }
 
-        public override bool IsAvailable => Device.RuntimePlatform == Device.Android;
+        public override bool IsAvailable => runtimePlatform.IsAndroid;
 
         protected override async Task DoRunAsync()
         {

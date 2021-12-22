@@ -6,18 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace ManualTests.Tests
 {
     sealed class InboxStyleTest : AbstractTest<InboxStyleTest>
     {
+        private readonly IRuntimePlatform runtimePlatform;
+
         public InboxStyleTest(IServiceProvider serviceProvider)
             : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Inbox style notification")
         {
+            this.runtimePlatform = serviceProvider.GetRequiredService<IRuntimePlatform>();
         }
 
-        public override bool IsAvailable => Device.RuntimePlatform == Device.Android;
+        public override bool IsAvailable => runtimePlatform.IsWindows;
 
         protected override async Task DoRunAsync()
         {

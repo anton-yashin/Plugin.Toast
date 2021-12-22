@@ -4,32 +4,33 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace ManualTests.Tests.Base
 {
     public abstract class AbstractTest<T> : INotifyPropertyChanged, IAbstractTest
         where T : AbstractTest<T>
     {
-        private readonly Command<AbstractTest<T>> runTestCommand = new Command<AbstractTest<T>>(
-            async _ => await _.RunAsync(), _ => _?.Result != TestResult.Running);
-
+        private readonly ICommandUpdater commandUpdater;
         protected readonly ILogger<T> logger;
         protected readonly IServiceProvider serviceProvider;
 
         protected AbstractTest(IServiceProvider serviceProvider, string requiredAction, string shortDescription)
         {
+            this.commandUpdater = serviceProvider.GetRequiredService<ICommandUpdater>();
             this.logger = serviceProvider.GetRequiredService<ILogger<T>>();
             this.serviceProvider = serviceProvider;
             RequiredAction = requiredAction;
             ShortDescription = shortDescription;
+            RunTestCommand = serviceProvider.GetRequiredService<ICommandFactory>().Create<AbstractTest<T>>(
+                async _ => await _.RunAsync(),
+                _ => _?.Result != TestResult.Running);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public string RequiredAction { get; }
         public string ShortDescription { get; }
         public TestResult Result { get; private set; }
-        public ICommand RunTestCommand => runTestCommand;
+        public ICommand RunTestCommand { get; }
         public virtual bool IsAvailable => true;
 
         protected void Assert(bool condition) => SetResult(condition ? TestResult.Passed : TestResult.Failed);
@@ -38,7 +39,7 @@ namespace ManualTests.Tests.Base
         {
             Result = result;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Result)));
-            runTestCommand.ChangeCanExecute();
+            commandUpdater.CanExecuteChanged(RunTestCommand);
         }
 
         protected abstract Task DoRunAsync();
