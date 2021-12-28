@@ -32,13 +32,7 @@ namespace ManualTests.Maui
                 b => b.WithActivity(sp => GetActivity(sp))
 #endif
                 )
-                .AddNotificationManagerImagesSupport(
-#if __ANDROID__
-#elif __IOS__
-#else
-                () => ""
-#endif
-                )
+                .AddNotificationManagerImagesSupport()
                 .AddLogging(_ => _.AddDebug())
                 .AddTests()
                 .AddTransient<MainPage>()
