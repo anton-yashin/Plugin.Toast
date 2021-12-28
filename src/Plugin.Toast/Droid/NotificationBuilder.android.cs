@@ -10,15 +10,21 @@ using Android.Content;
 using Plugin.Toast.Abstractions;
 using AndroidX.Core.App;
 using System.Threading.Tasks;
+using Plugin.Toast.Droid.Configuration;
 
 namespace Plugin.Toast.Droid
 {
     sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, INotificationBuilder, IPlatformNotificationBuilder
     {
-        private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
         private readonly IAndroidNotificationManager androidNotificationManager;
         private readonly IServiceProvider serviceProvider;
+        private readonly IDefaultIconConfiguration defaultIconConfiguration;
+        private readonly IChannelNameConfiguration channelNameConfiguration;
+        private readonly IChannelIdConfiguration channelIdConfiguration;
+        private readonly IChannelNotificationImportanceConfiguration channelNotificationImportanceConfiguration;
+        private readonly IShowBadgeConfiguration showBadgeConfiguration;
+        private readonly IEnableVibrationConfiguration enableVibrationConfiguration;
         private readonly ILogger<NotificationBuilder>? logger;
         private readonly NotificationCompat.Builder builder;
         private readonly Dictionary<string, string> customArgs;
@@ -30,20 +36,30 @@ namespace Plugin.Toast.Droid
         bool buildCompleted;
 
         public NotificationBuilder(
-            IToastOptions options,
             IIntentManager intentManager,
             IAndroidNotificationManager androidNotificationManager,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            IDefaultIconConfiguration defaultIconConfiguration,
+            IChannelNameConfiguration channelNameConfiguration,
+            IChannelIdConfiguration channelIdConfiguration,
+            IChannelNotificationImportanceConfiguration channelNotificationImportanceConfiguration,
+            IShowBadgeConfiguration showBadgeConfiguration,
+            IEnableVibrationConfiguration enableVibrationConfiguration)
         {
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.intentManager = intentManager ?? throw new ArgumentNullException(nameof(intentManager));
             this.androidNotificationManager = androidNotificationManager;
             this.serviceProvider = serviceProvider;
+            this.defaultIconConfiguration = defaultIconConfiguration;
+            this.channelNameConfiguration = channelNameConfiguration;
+            this.channelIdConfiguration = channelIdConfiguration;
+            this.channelNotificationImportanceConfiguration = channelNotificationImportanceConfiguration;
+            this.showBadgeConfiguration = showBadgeConfiguration;
+            this.enableVibrationConfiguration = enableVibrationConfiguration;
             this.UseConfigurationFrom<IDroidNotificationExtension>(serviceProvider);
             this.UseConfigurationFrom<IPlatformSpecificExtension>(serviceProvider);
             this.logger = serviceProvider.GetService<ILogger<NotificationBuilder>>();
             this.Timeout = TimeSpan.FromSeconds(7);
-            builder = new NotificationCompat.Builder(Application.Context, options.ChannelOptions.Id);
+            builder = new NotificationCompat.Builder(Application.Context, channelIdConfiguration.Id);
             customArgs = new Dictionary<string, string>();
         }
 
@@ -62,7 +78,7 @@ namespace Plugin.Toast.Droid
         void BuilderSetDefaults()
         {
             if (iconSet == false)
-                builder.SetSmallIcon(options.DefaultIconId);
+                builder.SetSmallIcon(defaultIconConfiguration.DefaultIconId);
             if (prioritySet == false)
                 builder.SetPriority((int)NotificationPriority.High);
             if (defaultsSet == false)
@@ -79,11 +95,11 @@ namespace Plugin.Toast.Droid
 
         void DefaultChannelBuild(IDroidNotifcationChannelBuilder builder)
         {
-            builder.EnableVibration(options.ChannelOptions.EnableVibration)
-                .SetShowBadge(options.ChannelOptions.ShowBadge)
-                .SetName(options.ChannelOptions.Name)
-                .SetImportance(options.ChannelOptions.NotificationImportance)
-                .SetId(options.ChannelOptions.Id);
+            builder.EnableVibration(enableVibrationConfiguration.EnableVibration)
+                .SetShowBadge(showBadgeConfiguration.ShowBadge)
+                .SetName(channelNameConfiguration.Name)
+                .SetImportance(channelNotificationImportanceConfiguration.NotificationImportance)
+                .SetId(channelIdConfiguration.Id);
         }
 
         #region INotificationBuilder implmentation

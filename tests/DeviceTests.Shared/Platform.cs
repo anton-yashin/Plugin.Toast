@@ -34,7 +34,7 @@ namespace DeviceTests
             sc.AddSingleton(permission);
 #endif
 #if __ANDROID__
-            sc.AddNotificationManager(Activity);
+            sc.AddNotificationManager(b => b.WithActivity(Activity));
 #else
             sc.AddNotificationManager();
 #endif

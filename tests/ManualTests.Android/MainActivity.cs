@@ -28,7 +28,7 @@ namespace ManualTests.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Plugin.Toast.Platform.OnActivated(this);
             LoadApplication(new App(_
-                => _.AddNotificationManager(this)
+                => _.AddNotificationManager(b => b.WithActivity(this))
                 .AddNotificationManagerImagesSupport(fn => Resources.GetBitmapAsync(fn))));
         }
 

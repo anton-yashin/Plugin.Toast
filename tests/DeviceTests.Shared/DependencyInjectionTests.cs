@@ -367,7 +367,7 @@ namespace DeviceTests
             var sc = new ServiceCollection();
             configuration?.Invoke(sc);
 #if __ANDROID__
-            sc.AddNotificationManager(new ToastOptions(Platform.Activity));
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity));
 #else
             sc.AddNotificationManager(new ToastOptions());
 #endif
