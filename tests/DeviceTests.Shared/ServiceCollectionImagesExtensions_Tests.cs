@@ -27,7 +27,7 @@ namespace DeviceTests
         {
             // prepare & act
             var sc = new ServiceCollection();
-            sc.AddNotificationManagerImagesSupport(fn => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn));
+            sc.AddNotificationManagerImagesSupport();
             using var sp = sc.BuildServiceProvider();
 
             // verify

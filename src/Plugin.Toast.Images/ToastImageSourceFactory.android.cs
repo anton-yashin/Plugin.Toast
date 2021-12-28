@@ -1,4 +1,5 @@
 ﻿using Android.Graphics;
+using Plugin.Toast.Droid.Configuration;
 using Plugin.Toast.Images;
 using System;
 using System.IO;
@@ -12,12 +13,17 @@ namespace Plugin.Toast
     sealed partial class ToastImageSourceFactory : IToastImageSourceFactory
     {
         private readonly IHttpClientFactory httpClientFactory;
-        private readonly IResourceToBitmap resourceToBitmap;
+        private readonly IActivityConfiguration activityConfiguration;
+        private readonly IPackageNameConfiguration packageNameConfiguration;
 
-        public ToastImageSourceFactory(IHttpClientFactory httpClientFactory, IResourceToBitmap resourceToBitmap)
+        public ToastImageSourceFactory(
+            IHttpClientFactory httpClientFactory,
+            IActivityConfiguration activityConfiguration,
+            IPackageNameConfiguration packageNameConfiguration)
         {
             this.httpClientFactory = httpClientFactory;
-            this.resourceToBitmap = resourceToBitmap;
+            this.activityConfiguration = activityConfiguration;
+            this.packageNameConfiguration = packageNameConfiguration;
         }
 
         public async Task<ToastImageSource> FromUriAsync(Uri uri, CancellationToken cancellationToken = default)
@@ -36,11 +42,20 @@ namespace Plugin.Toast
 
         public async Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            var bitmap = (File.Exists(filePath) 
-                ? await BitmapFactory.DecodeFileAsync(filePath).ConfigureAwait(false)
-                : await resourceToBitmap.GetBitmapAsync(filePath))
+            var bitmap = await GetBitmapAsync(filePath).ConfigureAwait(false)
+                ?? await GetBitmapAsync(filePath).ConfigureAwait(false)
                 ?? throw new ArgumentException("Image data was invalid", nameof(filePath));
             return new SealedToastImageSource(bitmap);
+        }
+
+        Task<Bitmap?> GetBitmapAsync(string fileName)
+        {
+            var context = activityConfiguration.Activity;
+            var title = System.IO.Path.GetFileNameWithoutExtension(fileName).ToLowerInvariant();
+            var resId = context.Resources?.GetIdentifier(title, "drawable", packageNameConfiguration.PackageName) ?? 0;
+            return resId > 0
+                ? BitmapFactory.DecodeResourceAsync(context.Resources, resId)
+                : Task.FromResult<Bitmap?>(null);
         }
 
         public async Task<ToastImageSource> FromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken = default)

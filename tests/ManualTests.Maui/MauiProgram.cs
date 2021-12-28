@@ -34,7 +34,6 @@ namespace ManualTests.Maui
                 )
                 .AddNotificationManagerImagesSupport(
 #if __ANDROID__
-                (sp, fn) => GetActivity(sp).Resources.GetBitmapAsync(fn)
 #elif __IOS__
 #else
                 () => ""

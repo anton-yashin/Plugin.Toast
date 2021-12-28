@@ -29,7 +29,7 @@ namespace ManualTests.Droid
             Plugin.Toast.Platform.OnActivated(this);
             LoadApplication(new App(_
                 => _.AddNotificationManager(b => b.WithActivity(this))
-                .AddNotificationManagerImagesSupport(fn => Resources.GetBitmapAsync(fn))));
+                .AddNotificationManagerImagesSupport()));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

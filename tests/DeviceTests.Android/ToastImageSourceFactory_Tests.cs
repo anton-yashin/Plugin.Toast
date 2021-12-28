@@ -100,8 +100,6 @@ namespace DeviceTests.Android
         {
             var sc = new ServiceCollection();
             sc.AddMock<IHttpClientFactory>();
-            sc.AddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(fn
-                => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn)));
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }
