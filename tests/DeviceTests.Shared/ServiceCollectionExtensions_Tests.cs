@@ -86,12 +86,6 @@ namespace DeviceTests
 
             Assert.NotNull(sp.GetService<IActivityConfiguration>());
             Assert.NotNull(sp.GetService<INotificationStyleConfiguration>());
-            Assert.NotNull(sp.GetService<IDefaultIconConfiguration>());
-            Assert.NotNull(sp.GetService<IChannelNameConfiguration>());
-            Assert.NotNull(sp.GetService<IChannelIdConfiguration>());
-            Assert.NotNull(sp.GetService<IChannelNotificationImportanceConfiguration>());
-            Assert.NotNull(sp.GetService<IShowBadgeConfiguration>());
-            Assert.NotNull(sp.GetService<IEnableVibrationConfiguration>());
             Assert.NotNull(sp.GetService<Plugin.Toast.Droid.IIntentManager>());
             Assert.NotNull(sp.GetService<ISnackbarExtension>());
             Assert.NotNull(sp.GetService<IDroidNotificationExtension>());
