@@ -4,7 +4,7 @@ using Plugin.Toast.Droid;
 namespace Plugin.Toast
 {
     /// <summary>
-    /// Notification style used by <see cref="IToastOptions.NotificationStyle"/>
+    /// Notification style used by <see cref="ConfigurationBuilderExtensions.NotificationStyleConfiguration"/>
     /// </summary>
     public enum NotificationStyle
     {

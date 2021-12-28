@@ -21,7 +21,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -75,7 +74,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -114,7 +112,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -147,7 +144,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>

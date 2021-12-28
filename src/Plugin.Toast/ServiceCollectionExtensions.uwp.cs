@@ -14,7 +14,6 @@ namespace Plugin.Toast
         /// <summary>
         /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -34,7 +33,6 @@ namespace Plugin.Toast
         /// <summary>
         /// Add the notification manager and other services to the service collection. 
         /// Services to be added to the collection:
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IHistory"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>

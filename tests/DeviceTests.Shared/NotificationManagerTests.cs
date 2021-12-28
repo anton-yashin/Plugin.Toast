@@ -19,25 +19,6 @@ namespace DeviceTests
     public class NotificationManagerTests
     {
         [Fact]
-        public void ConstructOptions()
-        {
-#if __ANDROID__
-            var to = new ToastOptions(Platform.Activity);
-#else
-            var to = new ToastOptions();
-#endif
-            Assert.NotNull(to);
-        }
-
-#if __ANDROID__
-        [Fact]
-        public void CreateOptionsFailed()
-        {
-            Assert.Throws<ArgumentNullException>(() => new ToastOptions(null!));
-        }
-#endif
-
-        [Fact]
         public void CreateNotificationManager()
         {
             var nm = Platform.CreateNotificationManager();
