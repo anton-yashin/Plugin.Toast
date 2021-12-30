@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 #if __ANDROID__
+using Plugin.Toast.Droid.Configuration;
 using Xamarin.Forms.Platform.Android;
 #endif
 #if NETFX_CORE
@@ -27,6 +28,7 @@ namespace DeviceTests
         {
             // prepare & act
             var sc = new ServiceCollection();
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity));
             sc.AddNotificationManagerImagesSupport();
             using var sp = sc.BuildServiceProvider();
 
