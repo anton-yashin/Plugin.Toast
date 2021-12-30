@@ -43,7 +43,7 @@ namespace Plugin.Toast
         public async Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
             var bitmap = await GetBitmapAsync(filePath).ConfigureAwait(false)
-                ?? await GetBitmapAsync(filePath).ConfigureAwait(false)
+                ?? await BitmapFactory.DecodeFileAsync(filePath).ConfigureAwait(false)
                 ?? throw new ArgumentException("Image data was invalid", nameof(filePath));
             return new SealedToastImageSource(bitmap);
         }
