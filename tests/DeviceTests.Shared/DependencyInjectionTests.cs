@@ -369,7 +369,7 @@ namespace DeviceTests
 #if __ANDROID__
             sc.AddNotificationManager(b => b.WithActivity(Platform.Activity));
 #else
-            sc.AddNotificationManager(new ToastOptions());
+            sc.AddNotificationManager();
 #endif
             return sc.BuildServiceProvider();
         }

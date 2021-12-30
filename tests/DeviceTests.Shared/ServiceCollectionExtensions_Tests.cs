@@ -120,32 +120,6 @@ namespace DeviceTests
         });
 
         [Fact]
-        public void AddNotificationManager_WithOptions()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions());
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration_WithLegacyConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), PlatformConfiguration, LegacyConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
         public void AddNotificationManager_WithPlatformConfiguration_WithLegacyConfiguration()
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
@@ -159,38 +133,12 @@ namespace DeviceTests
         });
 
         [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), PlatformConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
         public void AddNotificationManager_WithPlatformConfiguration()
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
             // prepare && act
             var sc = new ServiceCollection();
             sc.AddNotificationManager(PlatformConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithLegacyConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), LegacyConfiguration);
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -216,7 +164,6 @@ namespace DeviceTests
         static void CheckPlatform(IServiceProvider sp, bool configurationExists, bool legacyConfigurationExists)
         {
             CheckBase(sp);
-            Assert.NotNull(sp.GetService<IToastOptions>());
             Assert.NotNull(sp.GetService<Plugin.Toast.IOS.INotificationReceiver>());
             Assert.NotNull(sp.GetService<IIosNotificationExtension>());
             Assert.NotNull(sp.GetService<IIosLocalNotificationExtension>());
@@ -245,30 +192,6 @@ namespace DeviceTests
             
             // verify
             CheckPlatform(sp, exists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions());
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, exists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithConfiguration()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), ex => { });
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, exists: true);
         }
 
         [Fact]
