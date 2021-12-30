@@ -14,6 +14,7 @@ using UnitTests.Mocks;
 using Xunit;
 using Xamarin.Forms.Platform.Android;
 using Plugin.Toast.Images;
+using Plugin.Toast.Droid.Configuration;
 
 namespace DeviceTests.Android
 {
@@ -100,6 +101,10 @@ namespace DeviceTests.Android
         {
             var sc = new ServiceCollection();
             sc.AddMock<IHttpClientFactory>();
+            sc.AddSingleton<IActivityConfiguration>(sp
+                => new ConfigurationBuilderExtensions.ActivityConfiguration(Platform.Activity));
+            sc.AddSingleton<IPackageNameConfiguration>(sp
+                => new ConfigurationBuilderExtensions.PackageNameConfiguration(Platform.Activity.PackageName ?? ""));
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }
