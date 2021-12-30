@@ -66,14 +66,22 @@ namespace Plugin.Toast.Droid
             var intent = new Intent(IntentConstants.KScheduled);
             toastId.ToIntent(intent);
             intent.PutExtra(IntentConstants.KNotification, notification);
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.CancelCurrent)
+            var pendingIntent = PendingIntent.GetBroadcast(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                intent,
+                PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingIntent;
         }
 
 
         public PendingIntent? GetPendingIntentById(ToastId toastId)
-            => PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), new Intent(IntentConstants.KScheduled), PendingIntentFlags.NoCreate);
+            => PendingIntent.GetBroadcast(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                new Intent(IntentConstants.KScheduled),
+                PendingIntentFlags.NoCreate | PendingIntentFlags.Immutable);
 
         public bool IsPendingIntentExists(ToastId toastId) => GetPendingIntentById(toastId) != null;
 
@@ -107,7 +115,7 @@ namespace Plugin.Toast.Droid
             toastId.ToIntent(intent);
             builder.AddCustomArgsTo(intent);
 
-            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, 0)
+            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }
@@ -121,7 +129,11 @@ namespace Plugin.Toast.Droid
             intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop);
             toastId.ToIntent(intent);
             builder.AddCustomArgsTo(intent);
-            var result = PendingIntent.GetActivity(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.UpdateCurrent)
+            var result = PendingIntent.GetActivity(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                intent,
+                PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }
