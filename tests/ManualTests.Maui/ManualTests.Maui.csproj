@@ -56,13 +56,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\platform_image.jpg" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="NativeMethods.txt" />
 	  <None Remove="Resources\drawable\platform_image.jpg" />
-	  <None Remove="Resources\Images\platform_image.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -70,14 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Include="Resources\drawable\platform_image.jpg">
-	    <SubType>Designer</SubType>
-	    <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-	  </AndroidResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Resources\Images\platform_image.jpg" />
+	  <AndroidResource Include="Resources\drawable\platform_image.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
