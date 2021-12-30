@@ -42,6 +42,7 @@ namespace Plugin.Toast
             configureAction(cb);
             if (@this.Any(c => c.ServiceType == typeof(IActivityConfiguration)) == false)
                 throw new InvalidOperationException($"You should provide an activity by calling {nameof(ConfigurationBuilderExtensions)}.{nameof(ConfigurationBuilderExtensions.WithActivity)}");
+            @this.TryAddSingleton<IPackageNameConfiguration, ConfigurationBuilderExtensions.PackageNameConfiguration>();
             @this.TryAddSingleton<INotificationStyleConfiguration, ConfigurationBuilderExtensions.NotificationStyleConfiguration>();
             @this.TryAddSingleton<IIntentManager, IntentManager>();
             @this.TryAddTransient(typeof(INotificationBuilder),  sp
