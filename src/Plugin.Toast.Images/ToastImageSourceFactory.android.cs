@@ -34,7 +34,7 @@ namespace Plugin.Toast
                 using (var src = await response.Content.ReadAsStreamAsync())
                 {
                     var bitmap = await BitmapFactory.DecodeStreamAsync(src).ConfigureAwait(false)
-                        ?? throw new ArgumentException("Image data was invalid", nameof(uri));
+                        ?? throw new ArgumentException($"Image data was invalid: [{uri}]", nameof(uri));
                     return new SealedToastImageSource(bitmap);
                 }
             }
@@ -44,7 +44,7 @@ namespace Plugin.Toast
         {
             var bitmap = await GetBitmapAsync(filePath).ConfigureAwait(false)
                 ?? await BitmapFactory.DecodeFileAsync(filePath).ConfigureAwait(false)
-                ?? throw new ArgumentException("Image data was invalid", nameof(filePath));
+                ?? throw new ArgumentException($"Image data was invalid: [{filePath}]", nameof(filePath));
             return new SealedToastImageSource(bitmap);
         }
 
@@ -63,7 +63,7 @@ namespace Plugin.Toast
             using (var src = assembly.GetManifestResourceStream(resourcePath))
             {
                 var bitmap = await BitmapFactory.DecodeStreamAsync(src).ConfigureAwait(false)
-                    ?? throw new ArgumentException("Image data was invalid", nameof(assembly));
+                    ?? throw new ArgumentException($"Image data was invalid [{assembly}/{resourcePath}]", nameof(assembly));
                 return new SealedToastImageSource(bitmap);
             }
         }
