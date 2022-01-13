@@ -8,7 +8,11 @@ namespace Plugin.Toast
     /// <summary/>
     public static partial class ConfigurationBuilderExtensions
     {
-        internal sealed record class ActivityConfiguration(Activity Activity) : IActivityConfiguration;
+        internal sealed record class ActivityConfiguration(Func<Activity> getActivity) : IActivityConfiguration
+        {
+            public Activity Activity => getActivity();
+        }
+
 
         /// <summary>
         /// Set an activity that:
@@ -22,7 +26,7 @@ namespace Plugin.Toast
             Activity activity)
         {
             @this.Services.TryAddSingleton<IActivityConfiguration>(
-                sp => new ActivityConfiguration(activity));
+                sp => new ActivityConfiguration(() => activity));
             return @this;
         }
 
@@ -38,7 +42,7 @@ namespace Plugin.Toast
             Func<IServiceProvider, Activity> getActivity)
         {
             @this.Services.TryAddSingleton<IActivityConfiguration>(
-                sp => new ActivityConfiguration(getActivity(sp)));
+                sp => new ActivityConfiguration(() => getActivity(sp)));
             return @this;
         }
 

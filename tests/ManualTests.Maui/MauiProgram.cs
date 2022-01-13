@@ -3,15 +3,11 @@ using ManualTests.Tests.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui;
-using Microsoft.Maui.Controls.Compatibility;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Plugin.Toast;
 using System;
-
-#if __ANDROID__
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-#endif
+using System.Linq;
 
 namespace ManualTests.Maui
 {
@@ -45,8 +41,9 @@ namespace ManualTests.Maui
 
 #if __ANDROID__
         static global::Android.App.Activity GetActivity(IServiceProvider sp)
-            => (global::Android.App.Activity)(sp.GetRequiredService<IMauiContext>().Context
-                ?? throw new InvalidOperationException("activity not found"));
+            => (global::Android.App.Activity)(sp.GetRequiredService<IApplication>()
+            .Windows.FirstOrDefault()?.Handler?.NativeView
+            ?? throw new InvalidOperationException("activity not found"));
 
 #endif
     }
