@@ -44,7 +44,7 @@
     <Compile Include="**\*.android.*.cs" />
     <AndroidResource Include="Resources\xml\*.xml" />
   </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) OR $(TargetFramework.StartsWith('net6.0-ios')) ">
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) OR $(TargetFramework.StartsWith('net6.0-ios')) OR $(TargetFramework.StartsWith('net6.0-maccatalyst'))">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.0" />

@@ -1,11 +1,12 @@
 <Project>
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;net6.0;net6.0-ios;net6.0-android;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;net6.0;net6.0-ios;net6.0-android;net6.0-maccatalyst;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
 	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
 	  
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">10.0</SupportedOSPlatformVersion>
-    <TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">9.0</TargetPlatformMinVersion>
+	  <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+	  <TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">9.0</TargetPlatformMinVersion>
     <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.16299.0</SupportedOSPlatformVersion>
 
 	<Product>$(AssemblyName) ($(TargetFramework))</Product>
@@ -22,6 +23,12 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/anton-yashin/Plugin.Toast</PackageProjectUrl>
+
+	  <!-- BEGIN: Workaround for bad dependencies: 
+	  * Microsoft.Toolkit.Uwp.Notifications ― no net 6 support and has System.ValueTuple 4.5.0 dependency
+	  -->
+	  <!--<NoWarn>NU1703</NoWarn>-->
+	  <!-- END: Workaround for bad dependencies:  -->
 
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 
