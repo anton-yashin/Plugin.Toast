@@ -27,7 +27,7 @@
 	  <!-- BEGIN: Workaround for bad dependencies: 
 	  * Microsoft.Toolkit.Uwp.Notifications ― no net 6 support and has System.ValueTuple 4.5.0 dependency
 	  -->
-	  <!--<NoWarn>NU1703</NoWarn>-->
+	  <NoWarn>NU1703</NoWarn>
 	  <!-- END: Workaround for bad dependencies:  -->
 
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
