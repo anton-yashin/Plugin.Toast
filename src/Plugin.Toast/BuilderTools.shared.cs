@@ -14,7 +14,7 @@ namespace Plugin.Toast
             if (serviceProvider != null)
             {
                 var ec = EqualityComparer<TToken>.Default;
-                foreach (var i in serviceProvider.GetService<IEnumerable<ISpecificExtensionConfiguration<TSelf, TToken>>>())
+                foreach (var i in serviceProvider.GetServices<ISpecificExtensionConfiguration<TSelf, TToken>>())
                 {
                     if (ec.Equals(i.Token, token))
                     {
@@ -30,7 +30,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionConfiguration<TSelf>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionConfiguration<TSelf>>())
                 {
                     i.Configure(builder);
                 }
@@ -43,7 +43,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1>>())
                 {
                     i.Configure(builder, a1);
                 }
@@ -57,7 +57,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2>>())
                 {
                     i.Configure(builder, a1, a2);
                 }
@@ -71,7 +71,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3>>())
                 {
                     i.Configure(builder, a1, a2, a3);
                 }
@@ -85,7 +85,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4);
                 }
@@ -99,7 +99,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4, a5);
                 }
@@ -113,7 +113,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4, a5, a6);
                 }
@@ -127,7 +127,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4, a5, a6, a7);
                 }
@@ -141,7 +141,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7, T8>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7, T8>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4, a5, a6, a7, a8);
                 }
@@ -155,7 +155,7 @@ namespace Plugin.Toast
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
             if (serviceProvider != null)
             {
-                foreach (var i in serviceProvider.GetService<IEnumerable<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7, T8, T9>>>())
+                foreach (var i in serviceProvider.GetServices<IExtensionPlugin<TSelf, T1, T2, T3, T4, T5, T6, T7, T8, T9>>())
                 {
                     i.Configure(builder, a1, a2, a3, a4, a5, a6, a7, a8, a9);
                 }
