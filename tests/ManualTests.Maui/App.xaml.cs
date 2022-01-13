@@ -11,7 +11,7 @@ namespace ManualTests.Maui
         {
             InitializeComponent();
 
-            MainPage = mainPage;
+            MainPage = new NavigationPage(mainPage);
         }
     }
 }
