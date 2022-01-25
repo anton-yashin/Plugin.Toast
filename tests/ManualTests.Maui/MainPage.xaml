@@ -7,7 +7,8 @@
              xmlns:resx="clr-namespace:ManualTests.ResX;assembly=ManualTests"
              mc:Ignorable="d"
              x:Class="ManualTests.Maui.MainPage"
-             BackgroundColor="{DynamicResource SecondaryColor}">
+             BackgroundColor="{DynamicResource SecondaryColor}"
+             Title="{x:Static resx:Localization.R_MANUAL_TESTS}">
 
     <ContentPage.Resources>
         <local:TestResultToBoolConverter x:Key="tr2bc"/>
