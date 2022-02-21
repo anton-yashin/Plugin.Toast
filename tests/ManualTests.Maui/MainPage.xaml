@@ -19,7 +19,7 @@
         Footer="{OnPlatform iOS=available, Default={x:Null}}">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="tb:IAbstractTest">
-                <StackLayout Padding="5,0,5,0">
+                <StackLayout Padding="{x:OnPlatform UWP='5,5,5,5', Default='5,0,5,0'}">
                     <Label Text="{x:Binding ShortDescription}"/>
                     <StackLayout Orientation="Horizontal">
                         <Button

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using IXPlatformSpecificExtension = Plugin.Toast.Droid.IPlatformSpecificExtension;
 #elif __IOS__
 using IXPlatformSpecificExtension = Plugin.Toast.IOS.IPlatformSpecificExtension;
-#elif NETFX_CORE
+#elif NETFX_CORE || MAUI_WINDOWS
 using IXPlatformSpecificExtension = Plugin.Toast.UWP.IPlatformSpecificExtension;
 #endif
 

@@ -10,7 +10,11 @@ using System.Net.Http;
 using System.Text;
 #if __ANDROID__
 using Plugin.Toast.Droid.Configuration;
+#if NET6_0_OR_GREATER
+using Microsoft.Maui.Platform;
+#else
 using Xamarin.Forms.Platform.Android;
+#endif
 #endif
 #if NETFX_CORE
 using Xamarin.Forms.Platform.UWP;
