@@ -66,7 +66,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="LightMock.Generator" Version="1.1.0-preview.3" />
-	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1028" />
+	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1033" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	  <PackageReference Include="xunit" Version="2.4.1" />
 	  <PackageReference Include="Xunit.Priority" Version="1.1.6" />
