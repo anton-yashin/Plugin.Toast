@@ -4,10 +4,17 @@
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
 	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
 	  
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">10.0</SupportedOSPlatformVersion>
-	  <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
-	  <TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">9.0</TargetPlatformMinVersion>
-    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.16299.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">15.0</SupportedOSPlatformVersion>
+	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-ios'">10.0</TargetPlatformMinVersion>
+	  
+	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">15.0</SupportedOSPlatformVersion>
+	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">10.13</TargetPlatformMinVersion>
+
+	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">31.0</SupportedOSPlatformVersion>
+	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</TargetPlatformMinVersion>
+	  
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+	<TargetPlatformMinVersion   Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
 
 	<Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>0.95.1.0</AssemblyVersion>
