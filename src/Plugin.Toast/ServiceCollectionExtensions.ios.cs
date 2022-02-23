@@ -35,7 +35,7 @@ namespace Plugin.Toast
             @this.TryAddTransient<IIosLocalNotificationExtension, LocalNotificationBuilder>();
 #pragma warning restore CA1416 // Validate platform compatibility
             @this.TryAddSingleton<IPermission, Permission>();
-            @this.TryAddSingleton(typeof(IInitialization), _ => _.GetService(typeof(IPermission)));
+            @this.TryAddSingleton(typeof(IInitialization), _ => _.GetRequiredService(typeof(IPermission)));
             @this.TryAddSingleton<IHistory, History>();
             return @this.AddBase();
         }
