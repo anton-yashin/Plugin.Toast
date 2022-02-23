@@ -96,9 +96,6 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
-        [SupportedOSPlatform("ios13.0")]
-        [SupportedOSPlatform("tvos13.0")]
-        [SupportedOSPlatform("macos10.15")]
         public IIosNotificationExtension AddTargetContentIdentifier(string targetContentIdentifier)
         {
             Notification.TargetContentIdentifier = targetContentIdentifier;

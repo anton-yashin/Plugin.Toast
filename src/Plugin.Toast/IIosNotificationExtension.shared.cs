@@ -85,9 +85,6 @@ namespace Plugin.Toast
         /// <summary>
         /// Sets application-defined content identifier.
         /// </summary>
-        [SupportedOSPlatform("ios13.0")]
-        [SupportedOSPlatform("tvos13.0")]
-        [SupportedOSPlatform("macos10.15")]
         IIosNotificationExtension AddTargetContentIdentifier(string targetContentIdentifier);
         /// <summary>
         /// Sets an application-specific identifier that is used to group notifications.
