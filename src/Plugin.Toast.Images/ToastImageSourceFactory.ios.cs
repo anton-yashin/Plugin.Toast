@@ -51,15 +51,21 @@ namespace Plugin.Toast
                 }
             });
             if (string.IsNullOrEmpty(contentType))
-            {
-                using (var fs = File.OpenRead(fullFn))
-                    contentType = await mimeDetector.DetectAsync(fs);
-            }
+                contentType = await GetMimeType(fullFn);
 
             return new SealedToastImageSource(CreateAttachment(
                 uri.ToString(),
                 NSUrl.FromFilename(fullFn),
                 GetTypeHintByMime(contentType)));
+        }
+
+        async Task<string> GetMimeType(string fullFileName)
+        {
+            using (var fs = File.OpenRead(fullFileName))
+            {
+                var contentType = await mimeDetector.DetectAsync(fs);
+                return contentType;
+            }
         }
 
         string GetTypeHintByMime(string mime)
@@ -93,11 +99,16 @@ namespace Plugin.Toast
         }
 
 
-        public Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
+        public async Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            return File.Exists(filePath)
-                ? Task.FromResult<ToastImageSource>(new SealedToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(filePath))))
-                : FromBundleAsync(filePath, cancellationToken);
+            if (File.Exists(filePath))
+            {
+                var contentType = await GetMimeType(filePath);
+                return new SealedToastImageSource(
+                    CreateAttachment(filePath, NSUrl.FromFilename(filePath), GetTypeHintByMime(contentType)));
+            }
+            else
+                return await FromBundleAsync(filePath, cancellationToken);
         }
 
         async Task<ToastImageSource> FromBundleAsync(string bundlePath, CancellationToken cancellationToken)
