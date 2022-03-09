@@ -86,7 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Entitlements.plist" />
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
-    <Compile Include="ToastId_Tests.ios.cs" />
+    <Compile Include="ToastId_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

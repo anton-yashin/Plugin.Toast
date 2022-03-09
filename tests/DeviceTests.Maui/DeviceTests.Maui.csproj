@@ -57,6 +57,24 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-android'">
+		<Compile Include="../DeviceTests.Android/*_Tests.cs">
+			<Link>Platforms/Android/%(Filename)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-ios'">
+		<Compile Include="../DeviceTests.iOS/*_Tests.cs">
+			<Link>Platforms/iOS/%(Filename)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
+		<Compile Include="../DeviceTests.UWP/*_Tests.cs">
+			<Link>Platforms/Windows/%(Filename)%(Extension)</Link>
+		</Compile>
+	</ItemGroup>
+
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<!-- Required - WinUI does not yet have buildTransitive for everything -->
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />

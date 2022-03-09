@@ -12,7 +12,6 @@ using Plugin.Toast;
 using UnitTests;
 using UnitTests.Mocks;
 using Xunit;
-using Xamarin.Forms.Platform.Android;
 using Plugin.Toast.Images;
 using Plugin.Toast.Droid.Configuration;
 
