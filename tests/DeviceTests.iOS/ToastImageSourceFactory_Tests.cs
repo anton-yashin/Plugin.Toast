@@ -56,6 +56,7 @@ namespace DeviceTests.iOS
         public async Task FromResourceAsync()
         {
             // arrange
+            const string KMime = "image/png";
             const string KStrategyResult = "resources/image.png";
             var expectedAssembly = Assembly.GetExecutingAssembly();
             using var sp = CreateServices();
@@ -66,6 +67,9 @@ namespace DeviceTests.iOS
             mockStrategy.Arrange(f => f.Convert(The<string>.IsAnyValue, The<Assembly>.IsAnyValue))
                 .Returns(() => KStrategyResult);
             var factory = sp.GetRequiredService<ToastImageSourceFactory>();
+            var mockMimeDetector = sp.GetRequiredService<Mock<IMimeDetector>>();
+            mockMimeDetector.Arrange(f => f.DetectAsync(The<Stream>.IsAnyValue, The<CancellationToken>.IsAnyValue))
+                .ReturnsAsync(() => KMime);
 
             // act
             var result = await factory.FromResourceAsync(KResource, this.GetType());
@@ -83,8 +87,12 @@ namespace DeviceTests.iOS
         public async Task FromFileAsync()
         {
             // prepare
+            const string KMime = "image/png";
             using var sp = CreateServices();
             var factory = sp.GetRequiredService<ToastImageSourceFactory>();
+            var mockMimeDetector = sp.GetRequiredService<Mock<IMimeDetector>>();
+            mockMimeDetector.Arrange(f => f.DetectAsync(The<Stream>.IsAnyValue, The<CancellationToken>.IsAnyValue))
+                .ReturnsAsync(() => KMime);
 
             // act
             var result = await factory.FromFileAsync(FullFileName);
