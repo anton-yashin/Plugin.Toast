@@ -75,11 +75,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Include="Resources\drawable\platform_image.jpg" />
+	  <ProjectReference Include="..\ManualTests\ManualTests.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ManualTests\ManualTests.csproj" />
+	  <Folder Include="Resources\drawable\" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

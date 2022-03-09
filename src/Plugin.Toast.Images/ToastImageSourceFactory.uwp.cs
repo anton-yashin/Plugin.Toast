@@ -12,6 +12,7 @@ namespace Plugin.Toast
         private readonly IImageCacher imageCacher;
         private readonly IResourceToFileNameStrategy resourceToFileNameStrategy;
         private readonly IImageDirectoryResolver imageDirectoryResolver;
+        private static readonly Lazy<bool> _isPackagedLazy = new Lazy<bool>(IsPackaged);
 
         public ToastImageSourceFactory(
             IImageCacher imageCacher,
@@ -30,8 +31,8 @@ namespace Plugin.Toast
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             filePath = CombineWithImageDirectory(imageDirectoryResolver.GetImageDirectory(), filePath);
-            var fullPath = Path.GetFullPath(filePath);
-            var uri = "file:///" + fullPath.Replace("\\", "/");
+            var rootedPath = Path.Combine(GetRoot(), filePath);
+            var uri = "file:///" + rootedPath.Replace("\\", "/");
             return Task.FromResult<ToastImageSource>(new SealedToastImageSource(new Uri(uri)));
         }
 
@@ -44,6 +45,24 @@ namespace Plugin.Toast
                     return Path.Combine(imageDirectory, filePath);
             }
             return filePath;
+        }
+
+        static string GetRoot()
+        {
+            return _isPackagedLazy.Value
+                ? Windows.ApplicationModel.Package.Current.InstalledLocation.Path
+                : AppContext.BaseDirectory;
+        }
+
+        static bool IsPackaged()
+        {
+            try
+            {
+                if (Windows.ApplicationModel.Package.Current != null)
+                    return true;
+            }
+            catch { }
+            return false;
         }
 
         public async Task<ToastImageSource> FromResourceAsync(string resourcePath, Assembly assembly, CancellationToken cancellationToken = default)
