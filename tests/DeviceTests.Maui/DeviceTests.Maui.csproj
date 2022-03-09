@@ -37,7 +37,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Images\embedded_image.jpg" />
 	  <None Remove="NativeMethods.txt" />
+	  <None Remove="Resources\**\*" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,6 +54,9 @@
 		<!-- Splash Screen -->
 		<!-- <MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" /> -->
 		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
@@ -83,6 +88,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Images\embedded_image.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>

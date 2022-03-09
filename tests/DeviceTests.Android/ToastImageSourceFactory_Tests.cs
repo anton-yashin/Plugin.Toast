@@ -19,7 +19,11 @@ namespace DeviceTests.Android
 {
     public class ToastImageSourceFactory_Tests
     {
+#if NET6_0_OR_GREATER
+        const string KResource = "DeviceTests.Maui.Images.embedded_image.jpg";
+#else
         const string KResource = "DeviceTests.Android.Images.embedded_image.jpg";
+#endif
 
         [Fact]
         public async Task FromResourceAsync()
