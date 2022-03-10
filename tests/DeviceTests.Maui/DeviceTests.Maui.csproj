@@ -39,6 +39,7 @@
 	<ItemGroup>
 	  <None Remove="Images\embedded_image.jpg" />
 	  <None Remove="NativeMethods.txt" />
+	  <None Remove="Platforms\iOS\Entitlements.plist" />
 	  <None Remove="Resources\**\*" />
 	</ItemGroup>
 
@@ -88,6 +89,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Platforms\iOS\Entitlements.plist" />
 	</ItemGroup>
 
 	<ItemGroup>
