@@ -5,8 +5,6 @@ using Microsoft.Windows.AppLifecycle;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.System;
 using LAppInstance = Microsoft.Windows.AppLifecycle.AppInstance;
 using MauiWindow = Microsoft.Maui.Controls.Window;
 using NativeWindow = Microsoft.UI.Xaml.Window;

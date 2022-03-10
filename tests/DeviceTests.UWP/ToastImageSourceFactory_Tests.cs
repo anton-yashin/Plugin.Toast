@@ -10,11 +10,16 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using UnitTests;
-using Xamarin.Forms.Platform.UWP;
-using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Xunit;
 using System.Threading;
 using Plugin.Toast.Images;
+#if NET6_0_OR_GREATER
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
+#else
+using Xamarin.Forms.Platform.UWP;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
+#endif
 
 namespace DeviceTests.UWP
 {
@@ -42,7 +47,11 @@ namespace DeviceTests.UWP
             // prepare
             using var sp = CreateServices();
             var factory = sp.GetRequiredService<ToastImageSourceFactory>();
+#if NET6_0_OR_GREATER
+            Microsoft.Maui.Controls.Application.Current.OnThisPlatform().SetImageDirectory(imageDir);
+#else
             Xamarin.Forms.Application.Current?.OnThisPlatform().SetImageDirectory(imageDir);
+#endif
 
             // act
             var result = await factory.FromFileAsync(arg);
@@ -54,9 +63,18 @@ namespace DeviceTests.UWP
         public static IEnumerable<object[]> FormFileAsyncData()
         {
             yield return new object[] { "file:///c:/image.png", "c:\\image.png", "" };
-            yield return new object[] { "file:///" + Path.GetFullPath("image.png").Replace('\\', '/'), "image.png", "" };
+            yield return new object[] { "file:///" + GetFullPath("image.png").Replace('\\', '/'), "image.png", "" };
             yield return new object[] { "file:///c:/image.png", "c:\\image.png", "ImageDir" };
-            yield return new object[] { "file:///" + Path.GetFullPath("ImageDir\\image.png").Replace('\\', '/'), "image.png", "ImageDir" };
+            yield return new object[] { "file:///" + GetFullPath("ImageDir\\image.png").Replace('\\', '/'), "image.png", "ImageDir" };
+        }
+
+        static string GetFullPath(string path)
+        {
+#if NET6_0_OR_GREATER
+            return Path.Combine(PackageInfo.GetRoot(), path);
+#else
+            return Path.GetFullPath(path);
+#endif
         }
 
         [Fact]
@@ -94,8 +112,13 @@ namespace DeviceTests.UWP
         {
             var sc = new ServiceCollection();
             sc.AddMock<IImageCacher, IResourceToFileNameStrategy>();
-            sc.AddSingleton<IImageDirectoryResolver>(sc => new ImageDirectoryResolver(()
-                => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory()));
+            sc.AddSingleton<IImageDirectoryResolver>(sc => new ImageDirectoryResolver(
+#if NET6_0_OR_GREATER
+                () => Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory()
+#else
+                () => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory()
+#endif
+            ));
 
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();

@@ -4,6 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Controls.Platform;
+#if WINDOWS
+using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
+#endif
 using Microsoft.Maui.Hosting;
 using Plugin.Toast;
 using System;
@@ -28,7 +32,11 @@ namespace ManualTests.Maui
                 b => b.WithActivity(sp => GetActivity(sp))
 #endif
                 )
-                .AddNotificationManagerImagesSupport()
+                .AddNotificationManagerImagesSupport(
+#if WINDOWS
+                GetImageDirectory
+#endif
+                )
                 .AddLogging(_ => _.AddDebug())
                 .AddTests()
                 .AddTransient<MainPage>()
@@ -45,6 +53,11 @@ namespace ManualTests.Maui
             .Windows.FirstOrDefault()?.Handler?.NativeView
             ?? throw new InvalidOperationException("activity not found"));
 
+#endif
+
+#if WINDOWS
+        static string GetImageDirectory()
+            => Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory();
 #endif
     }
 }
