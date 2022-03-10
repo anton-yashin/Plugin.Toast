@@ -18,7 +18,11 @@ namespace DeviceTests.iOS
 {
     public class ToastImageSourceFactory_Tests : IClassFixture<ToastImageSourceFactory_Tests.Fixture>
     {
+#if NET6_0_OR_GREATER
+        const string KResource = "DeviceTests.Maui.Images.embedded_image.jpg";
+#else
         const string KResource = "DeviceTests.iOS.Images.embedded_image.jpg";
+#endif
         const string KFile = "ToastImageSourceFactory_Tests.png";
 
         [Fact]
