@@ -122,7 +122,13 @@
     <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\embedded_image.jpg">
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\platform_image.jpg">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\platform_image@2x.jpg">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\platform_image.jpg.imageset\platform_image@3x.jpg">
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
@@ -152,8 +158,5 @@
       <Project>{d60391e9-5f26-4d49-8fc5-bd7b741f23a3}</Project>
       <Name>ManualTests.Xamarin</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets.xcassets\platform_image.jpg.imageset\" />
   </ItemGroup>
 </Project>
