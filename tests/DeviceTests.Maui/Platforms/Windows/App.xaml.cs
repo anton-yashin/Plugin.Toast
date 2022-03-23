@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -77,7 +78,7 @@ namespace DeviceTests.Maui.WinUI
             => (from i in Application.Windows
                 let mw = i as MauiWindow
                 where mw != null
-                let nw = mw.Handler.NativeView as NativeWindow
+                let nw = mw.Handler.MauiContext?.Services.GetService<NativeWindow>()
                 where nw != null
                 select nw).FirstOrDefault();
 

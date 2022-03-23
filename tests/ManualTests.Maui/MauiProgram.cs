@@ -49,9 +49,13 @@ namespace ManualTests.Maui
 
 #if __ANDROID__
         static global::Android.App.Activity GetActivity(IServiceProvider sp)
-            => (global::Android.App.Activity)(sp.GetRequiredService<IApplication>()
-            .Windows.FirstOrDefault()?.Handler?.NativeView
-            ?? throw new InvalidOperationException("activity not found"));
+            => (from i in sp.GetRequiredService<IApplication>().Windows
+                let mw = i as Microsoft.Maui.Controls.Window
+                where mw != null
+                let nw = mw.Handler.MauiContext?.Services.GetService<global::Android.App.Activity>()
+                where nw != null
+                select nw).FirstOrDefault()
+            ?? throw new InvalidOperationException("activity not found");
 
 #endif
 

@@ -14,7 +14,12 @@ namespace ManualTests.Maui.Services
 
         public bool IsDispatchRequired => dispatcher.IsDispatchRequired;
 
+        public IDispatcherTimer CreateTimer() => dispatcher.CreateTimer();
+
         public bool Dispatch(Action action) => dispatcher.Dispatch(action);
+
+        public bool DispatchDelayed(TimeSpan delay, Action action)
+            => dispatcher.DispatchDelayed(delay, action);
 
         public void Initialize(IServiceProvider services)
         {
