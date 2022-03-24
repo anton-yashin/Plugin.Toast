@@ -17,14 +17,14 @@
 	<TargetPlatformMinVersion   Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
 
 	<Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>0.95.1.0</AssemblyVersion>
-    <AssemblyFileVersion>0.95.1.0</AssemblyFileVersion>
-    <Version>0.95.1</Version>
+    <AssemblyVersion>0.96.0.0</AssemblyVersion>
+    <AssemblyFileVersion>0.96.0.0</AssemblyFileVersion>
+    <Version>0.96.0</Version>
     <VersionSuffix>-beta</VersionSuffix>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
     <Authors>Anton Yashin</Authors>
     <NeutralLanguage>en</NeutralLanguage>
-    <Copyright>Copyright © Anton Yashin 2021</Copyright>
+    <Copyright>Copyright © Anton Yashin 2022</Copyright>
     <RepositoryUrl>https://github.com/anton-yashin/Plugin.Toast</RepositoryUrl>
     <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/release-notes.txt"))</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
