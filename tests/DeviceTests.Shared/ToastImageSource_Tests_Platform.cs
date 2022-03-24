@@ -29,7 +29,7 @@ namespace DeviceTests
                 }, out var _);
             var tis = new SealedToastImageSource(expected);
             Assert.Equal(expected, tis.Attachment);
-#elif NETFX_CORE
+#elif NETFX_CORE || MAUI_WINDOWS
             var expected = new Uri("https://picsum.photos/200", UriKind.Absolute);
             var tis = new SealedToastImageSource(expected);
             Assert.Equal(expected, tis.ImageUri);

@@ -30,8 +30,8 @@ namespace Plugin.Toast
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             filePath = CombineWithImageDirectory(imageDirectoryResolver.GetImageDirectory(), filePath);
-            var fullPath = Path.GetFullPath(filePath);
-            var uri = "file:///" + fullPath.Replace("\\", "/");
+            var rootedPath = Path.Combine(PackageInfo.GetRoot(), filePath);
+            var uri = "file:///" + rootedPath.Replace("\\", "/");
             return Task.FromResult<ToastImageSource>(new SealedToastImageSource(new Uri(uri)));
         }
 
@@ -51,7 +51,8 @@ namespace Plugin.Toast
             var asn = assembly.GetName();
             var fullFn = await imageCacher.CacheAsync(
                 resourceToFileNameStrategy.Convert(resourcePath, assembly),
-                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath));
+                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath)
+                ?? throw new ArgumentException($"Can't read a resource with path: [{resourcePath}]", nameof(resourcePath)));
             var result = await FromFileAsync(fullFn, cancellationToken);
             return result;
         }

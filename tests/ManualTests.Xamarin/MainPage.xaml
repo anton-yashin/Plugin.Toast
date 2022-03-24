@@ -4,8 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:ManualTests"
-             xmlns:tb="clr-namespace:ManualTests.Tests.Base"
-             xmlns:resx="clr-namespace:ManualTests.ResX"
+             xmlns:tb="clr-namespace:ManualTests.Tests.Base;assembly=ManualTests"
+             xmlns:resx="clr-namespace:ManualTests.ResX;assembly=ManualTests"
              mc:Ignorable="d"
              x:Class="ManualTests.MainPage"
              Title="{x:Static resx:Localization.R_MANUAL_TESTS}">

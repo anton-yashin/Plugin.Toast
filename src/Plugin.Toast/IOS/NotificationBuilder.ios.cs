@@ -3,6 +3,7 @@ using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using UserNotifications;
 
@@ -12,22 +13,18 @@ namespace Plugin.Toast.IOS
     {
         NSMutableDictionary? customArgs;
         bool build;
-        private readonly IToastOptions options;
         private readonly INotificationReceiver notificationReceiver;
         private readonly IPermission permission;
         private readonly IServiceProvider? serviceProvider;
         private readonly List<UNNotificationAttachment> attachments;
 
-        public NotificationBuilder(IToastOptions options, INotificationReceiver notificationReceiver, IPermission permission, IServiceProvider? serviceProvider)
+        public NotificationBuilder(INotificationReceiver notificationReceiver, IPermission permission, IServiceProvider? serviceProvider)
         {
-            this.options = options;
             this.notificationReceiver = notificationReceiver;
             this.permission = permission;
             this.serviceProvider = serviceProvider;
             this.Notification = new UNMutableNotificationContent();
             this.attachments = new List<UNNotificationAttachment>();
-            if (options.Sound != null)
-                Notification.Sound = options.Sound;
 
             this.UseConfigurationFrom<IIosNotificationExtension>(serviceProvider);
             this.UseConfigurationFrom<IPlatformSpecificExtension>(serviceProvider);
@@ -105,12 +102,20 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IIosNotificationExtension AddSummaryArgumentCount(ulong SummaryArgumentCount)
         {
             Notification.SummaryArgumentCount = (nuint)SummaryArgumentCount;
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IIosNotificationExtension AddSummaryArgument(string summaryArgument)
         {
             Notification.SummaryArgument = summaryArgument;
@@ -180,6 +185,10 @@ namespace Plugin.Toast.IOS
             return this;
         }
 
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         public IPlatformSpecificExtension AddSummaryArgumentCount(nuint SummaryArgumentCount)
         {
             Notification.SummaryArgumentCount = SummaryArgumentCount;

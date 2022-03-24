@@ -10,12 +10,12 @@ using Android.Content;
 using Plugin.Toast.Abstractions;
 using AndroidX.Core.App;
 using System.Threading.Tasks;
+using Plugin.Toast.Droid.Configuration;
 
 namespace Plugin.Toast.Droid
 {
     sealed class NotificationBuilder : IPlatformSpecificExtension, IDroidNotificationExtension, INotificationBuilder, IPlatformNotificationBuilder
     {
-        private readonly IToastOptions options;
         private readonly IIntentManager intentManager;
         private readonly IAndroidNotificationManager androidNotificationManager;
         private readonly IServiceProvider serviceProvider;
@@ -29,13 +29,14 @@ namespace Plugin.Toast.Droid
         bool forceOpenAppOnNotificationTap;
         bool buildCompleted;
 
+        const string DEFAULT_CHANNEL_NAME = "default";
+        const string DEFAULT_CHANNEL_ID = "default";
+
         public NotificationBuilder(
-            IToastOptions options,
             IIntentManager intentManager,
             IAndroidNotificationManager androidNotificationManager,
             IServiceProvider serviceProvider)
         {
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.intentManager = intentManager ?? throw new ArgumentNullException(nameof(intentManager));
             this.androidNotificationManager = androidNotificationManager;
             this.serviceProvider = serviceProvider;
@@ -43,7 +44,7 @@ namespace Plugin.Toast.Droid
             this.UseConfigurationFrom<IPlatformSpecificExtension>(serviceProvider);
             this.logger = serviceProvider.GetService<ILogger<NotificationBuilder>>();
             this.Timeout = TimeSpan.FromSeconds(7);
-            builder = new NotificationCompat.Builder(Application.Context, options.ChannelOptions.Id);
+            builder = new NotificationCompat.Builder(Application.Context, DEFAULT_CHANNEL_ID);
             customArgs = new Dictionary<string, string>();
         }
 
@@ -62,7 +63,7 @@ namespace Plugin.Toast.Droid
         void BuilderSetDefaults()
         {
             if (iconSet == false)
-                builder.SetSmallIcon(options.DefaultIconId);
+                builder.SetSmallIcon(global::Android.Resource.Drawable.IcDialogInfo);
             if (prioritySet == false)
                 builder.SetPriority((int)NotificationPriority.High);
             if (defaultsSet == false)
@@ -79,11 +80,11 @@ namespace Plugin.Toast.Droid
 
         void DefaultChannelBuild(IDroidNotifcationChannelBuilder builder)
         {
-            builder.EnableVibration(options.ChannelOptions.EnableVibration)
-                .SetShowBadge(options.ChannelOptions.ShowBadge)
-                .SetName(options.ChannelOptions.Name)
-                .SetImportance(options.ChannelOptions.NotificationImportance)
-                .SetId(options.ChannelOptions.Id);
+            builder.EnableVibration(true)
+                .SetShowBadge(true)
+                .SetName(DEFAULT_CHANNEL_NAME)
+                .SetImportance(DroidNotificationImportance.High)
+                .SetId(DEFAULT_CHANNEL_ID);
         }
 
         #region INotificationBuilder implmentation

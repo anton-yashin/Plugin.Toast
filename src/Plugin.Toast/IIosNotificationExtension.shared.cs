@@ -1,6 +1,7 @@
 ﻿using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace Plugin.Toast
@@ -62,6 +63,10 @@ namespace Plugin.Toast
         /// Project and used according to terms described in the Creative Commons
         /// 4.0 Attribution International License. 
         /// </remarks>
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         IIosNotificationExtension AddSummaryArgument(string summaryArgument);
         /// <summary>
         /// Sets the number of arguments that the notification adds to the category summary string.
@@ -72,6 +77,10 @@ namespace Plugin.Toast
         /// Project and used according to terms described in the Creative Commons
         /// 4.0 Attribution International License. 
         /// </remarks>
+        [UnsupportedOSPlatform("watchos")]
+        [UnsupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("ios12.0")]
+        [UnsupportedOSPlatform("ios15.0")]
         IIosNotificationExtension AddSummaryArgumentCount(ulong SummaryArgumentCount);
         /// <summary>
         /// Sets application-defined content identifier.

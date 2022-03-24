@@ -1,14 +1,14 @@
 ﻿using Foundation;
-using MobileCoreServices;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
 using UserNotifications;
+using MUTType = MobileCoreServices.UTType;
+using UUTType = UniformTypeIdentifiers.UTType;
 
 namespace Plugin.Toast
 {
@@ -45,18 +45,45 @@ namespace Plugin.Toast
                 var hc = httpClientFactory.CreateClient(nameof(IToastImageSourceFactory));
                 using (var response = await hc.GetAsync(uri))
                 {
-                    contentType = response.Content.Headers.ContentType.MediaType;
+                    contentType = response.Content.Headers.ContentType?.MediaType ?? "";
                     using (var src = await response.Content.ReadAsStreamAsync())
                         await src.CopyToAsync(stream, 1024 * 80, cancellationToken);
                 }
             });
             if (string.IsNullOrEmpty(contentType))
+                contentType = await GetMimeType(fullFn);
+
+            return new SealedToastImageSource(CreateAttachment(
+                uri.ToString(),
+                NSUrl.FromFilename(fullFn),
+                GetTypeHintByMime(contentType)));
+        }
+
+        async Task<string> GetMimeType(string fullFileName)
+        {
+            using (var fs = File.OpenRead(fullFileName))
             {
-                using (var fs = File.OpenRead(fullFn))
-                    contentType = await mimeDetector.DetectAsync(fs);
+                var contentType = await mimeDetector.DetectAsync(fs);
+                return contentType;
             }
-            return new SealedToastImageSource(CreateAttachment(uri.ToString(), NSUrl.FromFilename(fullFn),
-                UTType.CreatePreferredIdentifier(UTType.TagClassMIMEType, contentType, null)));
+        }
+
+        string GetTypeHintByMime(string mime)
+        {
+#if NET6_0_OR_GREATER
+            if (OperatingSystem.IsIOSVersionAtLeast(14, 0))
+#else
+            if (UIDevice.CurrentDevice.CheckSystemVersion(14, 0))
+#endif
+            {
+                var utt = UUTType.CreateFromMimeType(mime)
+                    ?? throw new InvalidOperationException($"can't create UTType by mime: [{mime}]");
+                return utt.Identifier;
+            }
+            else
+            {
+                return MUTType.CreatePreferredIdentifier(MUTType.TagClassMIMEType, mime, null);
+            }
         }
 
         UNNotificationAttachment CreateAttachment(string id, NSUrl url, string? typeHint = null)
@@ -72,11 +99,16 @@ namespace Plugin.Toast
         }
 
 
-        public Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
+        public async Task<ToastImageSource> FromFileAsync(string filePath, CancellationToken cancellationToken = default)
         {
-            return File.Exists(filePath)
-                ? Task.FromResult<ToastImageSource>(new SealedToastImageSource(CreateAttachment(filePath, NSUrl.FromFilename(filePath))))
-                : FromBundleAsync(filePath, cancellationToken);
+            if (File.Exists(filePath))
+            {
+                var contentType = await GetMimeType(filePath);
+                return new SealedToastImageSource(
+                    CreateAttachment(filePath, NSUrl.FromFilename(filePath), GetTypeHintByMime(contentType)));
+            }
+            else
+                return await FromBundleAsync(filePath, cancellationToken);
         }
 
         async Task<ToastImageSource> FromBundleAsync(string bundlePath, CancellationToken cancellationToken)
@@ -94,7 +126,8 @@ namespace Plugin.Toast
             var asn = assembly.GetName();
             var fullFn = await imageCacher.CacheAsync(
                 resourceToFileNameStrategy.Convert(resourcePath, assembly),
-                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath));
+                cancellationToken, () => assembly.GetManifestResourceStream(resourcePath)
+                ?? throw new ArgumentException($"Can't read the resource: [{resourcePath}]", nameof(resourcePath)));
             return await FromFileAsync(fullFn, cancellationToken);
         }
     }

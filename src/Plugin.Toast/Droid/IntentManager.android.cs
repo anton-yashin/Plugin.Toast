@@ -3,6 +3,7 @@ using Android.Content;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Org.Json;
+using Plugin.Toast.Droid.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,7 +15,8 @@ namespace Plugin.Toast.Droid
     {
         readonly object mutex;
         readonly Dictionary<ToastId, TaskCompletionSource<NotificationResult>> tasksByNotificationId;
-        readonly IToastOptions options;
+        private readonly IPackageNameConfiguration packageNameConfiguration;
+        private readonly IActivityConfiguration activityConfiguration;
         private readonly IAndroidNotificationManager androidNotificationManager;
         private readonly ISystemEventSource systemEventSource;
         private readonly ILogger<IntentManager>? logger;
@@ -22,14 +24,16 @@ namespace Plugin.Toast.Droid
         readonly IntentFilter intentFilter;
 
         public IntentManager(
-            IToastOptions options,
+            IPackageNameConfiguration packageNameConfiguration,
+            IActivityConfiguration activityConfiguration,
             IAndroidNotificationManager androidNotificationManager,
             ISystemEventSource systemEventSource,
             IServiceProvider? serviceProvider)
         {
             this.mutex = new object();
             this.tasksByNotificationId = new Dictionary<ToastId, TaskCompletionSource<NotificationResult>>();
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
+            this.packageNameConfiguration = packageNameConfiguration;
+            this.activityConfiguration = activityConfiguration;
             this.androidNotificationManager = androidNotificationManager;
             this.systemEventSource = systemEventSource;
             this.logger = serviceProvider?.GetService<ILogger<IntentManager>>();
@@ -62,14 +66,22 @@ namespace Plugin.Toast.Droid
             var intent = new Intent(IntentConstants.KScheduled);
             toastId.ToIntent(intent);
             intent.PutExtra(IntentConstants.KNotification, notification);
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.CancelCurrent)
+            var pendingIntent = PendingIntent.GetBroadcast(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                intent,
+                PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return pendingIntent;
         }
 
 
         public PendingIntent? GetPendingIntentById(ToastId toastId)
-            => PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), new Intent(IntentConstants.KScheduled), PendingIntentFlags.NoCreate);
+            => PendingIntent.GetBroadcast(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                new Intent(IntentConstants.KScheduled),
+                PendingIntentFlags.NoCreate | PendingIntentFlags.Immutable);
 
         public bool IsPendingIntentExists(ToastId toastId) => GetPendingIntentById(toastId) != null;
 
@@ -103,7 +115,7 @@ namespace Plugin.Toast.Droid
             toastId.ToIntent(intent);
             builder.AddCustomArgsTo(intent);
 
-            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, 0)
+            var result = PendingIntent.GetBroadcast(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }
@@ -111,13 +123,17 @@ namespace Plugin.Toast.Droid
         PendingIntent CreateLaunchIntent(IPlatformNotificationBuilder builder, ToastId toastId)
         {
             var packageManager = Application.Context.PackageManager;
-            var intent = packageManager?.GetLaunchIntentForPackage(options.PackageName);
+            var intent = packageManager?.GetLaunchIntentForPackage(packageNameConfiguration.PackageName);
             if (intent == null)
                 throw new InvalidOperationException("can't get launch intent");
             intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop);
             toastId.ToIntent(intent);
             builder.AddCustomArgsTo(intent);
-            var result = PendingIntent.GetActivity(Application.Context, toastId.GetPersistentHashCode(), intent, PendingIntentFlags.UpdateCurrent)
+            var result = PendingIntent.GetActivity(
+                Application.Context,
+                toastId.GetPersistentHashCode(),
+                intent,
+                PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable)
                 ?? throw new InvalidOperationException(ErrorStrings.KBroadcastError);
             return result;
         }
@@ -158,13 +174,13 @@ namespace Plugin.Toast.Droid
 
             private void OnTapped(ToastId toastId, TaskCompletionSource<NotificationResult>? tcs)
             {
-                var activity = hrIntentManager.Value.options.Activity;
+                var activity = hrIntentManager.Value.activityConfiguration.Activity;
                 if (activity.IsDestroyed)
                 {
                     try
                     {
                         var packageManager = Application.Context.PackageManager;
-                        var intent = packageManager?.GetLaunchIntentForPackage(hrIntentManager.Value.options.PackageName);
+                        var intent = packageManager?.GetLaunchIntentForPackage(hrIntentManager.Value.packageNameConfiguration.PackageName);
                         if (intent != null)
                         {
                             intent.AddCategory(Intent.CategoryLauncher);

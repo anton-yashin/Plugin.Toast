@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ManualTests.Tests.Base
 {
-    static class TestResolver
+    public static class TestResolver
     {
         static readonly Type KAbstractTestType = typeof(IAbstractTest);
 

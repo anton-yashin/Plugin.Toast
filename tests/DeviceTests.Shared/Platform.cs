@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 
+#if NET6_0_OR_GREATER
+using XDevice = Microsoft.Maui.Controls.Device;
+#else
+using XDevice = Xamarin.Forms.Device;
+#endif
+
 namespace DeviceTests
 {
     public static class Platform
@@ -16,8 +22,6 @@ namespace DeviceTests
 #if __ANDROID__
         public static global::Android.App.Activity Activity { get; set; } = null!;
 #elif __IOS__
-        static ToastOptions options = new ToastOptions();
-
         static Plugin.Toast.IOS.IPermission permission = new Plugin.Toast.IOS.Permission();
 #elif NETFX_CORE
 #endif
@@ -34,7 +38,7 @@ namespace DeviceTests
             sc.AddSingleton(permission);
 #endif
 #if __ANDROID__
-            sc.AddNotificationManager(Activity);
+            sc.AddNotificationManager(b => b.WithActivity(Activity));
 #else
             sc.AddNotificationManager();
 #endif
@@ -44,12 +48,12 @@ namespace DeviceTests
         public static Task iOS_InvokeOnMainThreadAsync(Action action)
         {
             _ = action ?? throw new ArgumentNullException(nameof(action));
-#if __ANDROID__ || NETFX_CORE
+#if __ANDROID__ || NETFX_CORE || MAUI_WINDOWS
             action();
             return Task.CompletedTask;
 #elif __IOS__
             var tcs = new TaskCompletionSource<object?>();
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            XDevice.BeginInvokeOnMainThread(() =>
             {
                 try
                 {
@@ -70,11 +74,11 @@ namespace DeviceTests
         public static Task iOS_InvokeOnMainThreadAsync(Func<Task> func)
         {
             _ = func ?? throw new ArgumentNullException(nameof(func));
-#if __ANDROID__ || NETFX_CORE
+#if __ANDROID__ || NETFX_CORE || MAUI_WINDOWS
             return func();
 #elif __IOS__
             var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+            XDevice.BeginInvokeOnMainThread(async () =>
             {
                 try
                 {

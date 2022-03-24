@@ -1,21 +1,23 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using Plugin.Toast;
 using ManualTests.ResX;
 using ManualTests.Tests.Base;
-using Plugin.Toast.Abstractions;
 
 namespace ManualTests.Tests
 {
     sealed class ShowAlternativeScheduled : AbstractTest<ShowAlternativeScheduled>
     {
+        private readonly IRuntimePlatform runtimePlatform;
+
         public ShowAlternativeScheduled(IServiceProvider serviceProvider)
             :base (serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, Localization.R_TEST_NAME_ALT_SCHEDULED)
-        { }
+        {
+            this.runtimePlatform = serviceProvider.GetRequiredService<IRuntimePlatform>();
+        }
 
-        public override bool IsAvailable => Device.RuntimePlatform != Device.UWP;
+        public override bool IsAvailable => runtimePlatform.IsWindows == false;
 
         protected override async Task DoRunAsync()
         {

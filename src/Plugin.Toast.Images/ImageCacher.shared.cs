@@ -18,6 +18,8 @@ namespace Plugin.Toast
                 try
                 {
                     var folder = Path.GetDirectoryName(fullFn);
+                    if (folder == null)
+                        throw new InvalidOperationException("Invalid cache folder name.");
                     if (Directory.Exists(folder) == false)
                         Directory.CreateDirectory(folder);
                     using (var file = File.Create(newFn))

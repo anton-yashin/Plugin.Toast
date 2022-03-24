@@ -18,7 +18,7 @@ namespace Plugin.Toast
         /// <summary>
         /// The identifier used on current platform.
         /// </summary>
-        [DataMember]
+        [DataMember, Preserve]
         public string Id 
         {
             get => id;

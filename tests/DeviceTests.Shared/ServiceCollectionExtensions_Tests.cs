@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
+#if __ANDROID__
+using Plugin.Toast.Droid.Configuration;
+#endif
+
+
 namespace DeviceTests
 {
     public class ServiceCollectionExtensions_Tests
@@ -20,7 +25,7 @@ namespace DeviceTests
         {
             // prepare && act
             var sc = new ServiceCollection();
-            sc.AddNotificationManager(Platform.Activity);
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity));
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -28,27 +33,12 @@ namespace DeviceTests
         }
 
         [Fact]
-        public void AddNotificationManager_WithOptions()
+        public void ShouldThrowException_WhenNoActivity()
         {
-            // prepare && act
+            // prepare 
             var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(Platform.Activity));
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, snackbarConfigurationExists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration_WithSnackbarConfiguration()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(Platform.Activity), ConfigurePlatform, ConfigureSnackbar);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: true, snackbarConfigurationExists: true);
+            // act && verify
+            Assert.Throws<InvalidOperationException>(() => sc.AddNotificationManager(b => { }));
         }
 
         [Fact]
@@ -56,7 +46,7 @@ namespace DeviceTests
         {
             // prepare && act
             var sc = new ServiceCollection();
-            sc.AddNotificationManager(Platform.Activity, ConfigurePlatform, ConfigureSnackbar);
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity), ConfigurePlatform, ConfigureSnackbar);
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -64,39 +54,15 @@ namespace DeviceTests
         }
 
         [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(Platform.Activity), ConfigurePlatform);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: true, snackbarConfigurationExists: false);
-        }
-
-        [Fact]
         public void AddNotificationManager_WithPlatformConfiguration()
         {
             // prepare && act
             var sc = new ServiceCollection();
-            sc.AddNotificationManager(Platform.Activity, ConfigurePlatform);
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity), ConfigurePlatform);
             using var sp = sc.BuildServiceProvider();
 
             // verify
             CheckPlatform(sp, configurationExists: true, snackbarConfigurationExists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithSnackbarConfiguration()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(Platform.Activity), ConfigureSnackbar);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, snackbarConfigurationExists: true);
         }
 
         [Fact]
@@ -104,7 +70,7 @@ namespace DeviceTests
         {
             // prepare && act
             var sc = new ServiceCollection();
-            sc.AddNotificationManager(Platform.Activity, ConfigureSnackbar);
+            sc.AddNotificationManager(b => b.WithActivity(Platform.Activity), ConfigureSnackbar);
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -118,7 +84,8 @@ namespace DeviceTests
         {
             CheckBase(sp);
 
-            Assert.NotNull(sp.GetService<IToastOptions>());
+            Assert.NotNull(sp.GetService<IActivityConfiguration>());
+            Assert.NotNull(sp.GetService<INotificationStyleConfiguration>());
             Assert.NotNull(sp.GetService<Plugin.Toast.Droid.IIntentManager>());
             Assert.NotNull(sp.GetService<ISnackbarExtension>());
             Assert.NotNull(sp.GetService<IDroidNotificationExtension>());
@@ -153,32 +120,6 @@ namespace DeviceTests
         });
 
         [Fact]
-        public void AddNotificationManager_WithOptions()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions());
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration_WithLegacyConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), PlatformConfiguration, LegacyConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
         public void AddNotificationManager_WithPlatformConfiguration_WithLegacyConfiguration()
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
@@ -192,38 +133,12 @@ namespace DeviceTests
         });
 
         [Fact]
-        public void AddNotificationManager_WithOptions_WithPlatformConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), PlatformConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
         public void AddNotificationManager_WithPlatformConfiguration()
             => Platform.iOS_InvokeOnMainThreadAsync(() =>
         {
             // prepare && act
             var sc = new ServiceCollection();
             sc.AddNotificationManager(PlatformConfiguration);
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, configurationExists: false, legacyConfigurationExists: false);
-        });
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithLegacyConfiguration()
-            => Platform.iOS_InvokeOnMainThreadAsync(() =>
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), LegacyConfiguration);
             using var sp = sc.BuildServiceProvider();
 
             // verify
@@ -249,7 +164,6 @@ namespace DeviceTests
         static void CheckPlatform(IServiceProvider sp, bool configurationExists, bool legacyConfigurationExists)
         {
             CheckBase(sp);
-            Assert.NotNull(sp.GetService<IToastOptions>());
             Assert.NotNull(sp.GetService<Plugin.Toast.IOS.INotificationReceiver>());
             Assert.NotNull(sp.GetService<IIosNotificationExtension>());
             Assert.NotNull(sp.GetService<IIosLocalNotificationExtension>());
@@ -278,30 +192,6 @@ namespace DeviceTests
             
             // verify
             CheckPlatform(sp, exists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions());
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, exists: false);
-        }
-
-        [Fact]
-        public void AddNotificationManager_WithOptions_WithConfiguration()
-        {
-            // prepare && act
-            var sc = new ServiceCollection();
-            sc.AddNotificationManager(new ToastOptions(), ex => { });
-            using var sp = sc.BuildServiceProvider();
-
-            // verify
-            CheckPlatform(sp, exists: true);
         }
 
         [Fact]

@@ -88,7 +88,8 @@ namespace UnitTests
                 Assert.Equal(1, ses.GetObserversCount());
 
                 // act
-                GC.Collect();
+                var generation = GC.GetGeneration(wr);
+                GC.Collect(generation, GCCollectionMode.Forced, blocking: true, compacting: true);
                 GC.WaitForPendingFinalizers();
                 ses.Unsubscribe(null!);
 

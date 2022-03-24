@@ -1,4 +1,5 @@
 ﻿using Google.Android.Material.Snackbar;
+using Plugin.Toast.Droid.Configuration;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,19 +8,19 @@ namespace Plugin.Toast.Droid
 {
     sealed class SnackbarNotification : INotification
     {
-        private readonly IToastOptions options;
+        private readonly IActivityConfiguration activityConfiguration;
         private readonly ISnackbarBuilder snackbarBuilder;
 
-        public SnackbarNotification(IToastOptions options, ISnackbarBuilder snackbarBuilder)
+        public SnackbarNotification(IActivityConfiguration activityConfiguration, ISnackbarBuilder snackbarBuilder)
         {
-            this.options = options;
+            this.activityConfiguration = activityConfiguration;
             this.snackbarBuilder = snackbarBuilder;
         }
 
         public Task<NotificationResult> ShowAsync(out ToastId toastId, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<NotificationResult>();
-            var view = options.Activity.FindViewById(global::Android.Resource.Id.Content);
+            var view = activityConfiguration.Activity.FindViewById(global::Android.Resource.Id.Content);
             var snackbar = Snackbar.Make(view, snackbarBuilder.Text, snackbarBuilder.SnackbarDuration);
             if (snackbarBuilder.ActionText != null)
                 snackbar.SetAction(snackbarBuilder.ActionText, v => tcs.TrySetResult(NotificationResult.Activated));
@@ -35,7 +36,7 @@ namespace Plugin.Toast.Droid
 
         public IScheduledToastCancellation ScheduleTo(DateTimeOffset deliveryTime)
         {
-            var view = options.Activity.FindViewById(global::Android.Resource.Id.Content);
+            var view = activityConfiguration.Activity.FindViewById(global::Android.Resource.Id.Content);
             var snackbar = Snackbar.Make(view, snackbarBuilder.Text, snackbarBuilder.SnackbarDuration);
             if (snackbarBuilder.ActionText != null)
                 snackbar.SetAction(snackbarBuilder.ActionText, v => { });

@@ -2,11 +2,14 @@
 using Plugin.Toast.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using UIKit;
 
 namespace Plugin.Toast.IOS
 {
+    [UnsupportedOSPlatform("tvos")]
+    [UnsupportedOSPlatform("ios10.0")]
     sealed class LocalNotificationBuilder : INotificationBuilder, ILocalNotificationBuilder, IIosLocalNotificationExtension
     {
         NSMutableDictionary? customArgs;

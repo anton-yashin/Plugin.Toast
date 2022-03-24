@@ -20,7 +20,6 @@ namespace Plugin.Toast
         /// Add the notification manager image support to a service collection
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="resourceNameToBitmap">The function that retrieves a bitmap by resource name.</param>
         /// <remarks>
         /// Usage:
         /// <code>
@@ -38,13 +37,11 @@ namespace Plugin.Toast
         /// <seealso cref="HttpClientFactoryServiceCollectionExtensions.AddHttpClient(IServiceCollection)"/>.
         /// </remarks>
         public static IServiceCollection AddNotificationManagerImagesSupport(
-            this IServiceCollection services,
-            Func<string, Task<Bitmap>> resourceNameToBitmap)
+            this IServiceCollection services)
         {
             services.TryAddSingleton<IExtensionPlugin<IPlatformSpecificExtension, ToastImageSource, Router.Route>, DroidImageRouter>();
             services.TryAddSingleton<IImageCacher, ImageCacher>();
             services.TryAddSingleton<IToastImageSourceFactory, ToastImageSourceFactory>();
-            services.TryAddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(resourceNameToBitmap));
             services.TryAddTransient<IBigPictureStyle, BigPictureStyleBuilder>();
             services.TryAddTransient<IMessagingStyle, MessagingStyleBuilder>();
             services.AddHttpClient();

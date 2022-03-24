@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 
 namespace Plugin.Toast
 {
     /// <summary>
     /// The interface allow to access to the legacy api using UIApplication
     /// </summary>
+    [UnsupportedOSPlatform("tvos")]
+    [UnsupportedOSPlatform("ios10.0")]
     public interface IIosLocalNotificationExtension : INotificationBuilderExtension<IIosLocalNotificationExtension>
     {
         /// <summary>

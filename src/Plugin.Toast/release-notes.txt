@@ -1,4 +1,1 @@
-* refactor!: NotificationManager is now deleted;
-* feat: added android notification styles;
-* feat: added async notification builder support;
-* refactor: DateTime, TimeStamp, Color support @ android.
+﻿* .NET 6 support (⚠WARNING: net6.0-ios & xamarin-ios tested on emulator, net6.0-maccatalyst isn't tested⚠)

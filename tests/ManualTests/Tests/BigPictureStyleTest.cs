@@ -6,21 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace ManualTests.Tests
 {
     sealed class BigPictureStyleTest : AbstractTest<BigPictureStyleTest>
     {
         private readonly IToastImageSourceFactory toastImageSourceFactory;
+        private readonly IRuntimePlatform runtimePlatform;
 
         public BigPictureStyleTest(IServiceProvider serviceProvider)
             : base(serviceProvider, Localization.R_REQUIRED_ACTION_IGNORE_NOTIFICATION, "Big picture style notification")
         {
             this.toastImageSourceFactory = serviceProvider.GetRequiredService<IToastImageSourceFactory>();
+            this.runtimePlatform = serviceProvider.GetRequiredService<IRuntimePlatform>();
         }
 
-        public override bool IsAvailable => Device.RuntimePlatform == Device.Android;
+        public override bool IsAvailable => runtimePlatform.IsAndroid;
 
         protected override async Task DoRunAsync()
         {

@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using Plugin.Toast.Droid;
 using Plugin.Toast.Abstractions;
+using System.Linq;
+using Plugin.Toast.Droid.Configuration;
 
 namespace Plugin.Toast
 {
@@ -12,29 +14,6 @@ namespace Plugin.Toast
     /// </summary>
     public static partial class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Add the notification manager and other services to the service collection. 
-        /// Services to be added to the collection:
-        /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
-        /// <seealso cref="INotificationManager"/>,<br/>
-        /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
-        /// <seealso cref="IAndroidNotificationManager"/>,<br/>
-        /// <seealso cref="ISystemEventSource"/>,<br/>
-        /// <seealso cref="INotificationEventSource"/>,<br/>
-        /// <seealso cref="IHistory"/><br/>
-        /// </summary>
-        /// <param name="this">Service collection</param>
-        /// <param name="activity">
-        /// Activity that:
-        /// <list type="bullet">
-        /// <item>will be activated in response to user interaction with the Android notification;</item>
-        /// <item>used to show a snackbar notification.</item>
-        /// </list>
-        /// </param>
-        /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity)
-            => @this.AddNotificationManager(new ToastOptions(activity));
 
         /// <summary>
         /// Add the notification manager and other services to the service collection. 
@@ -42,22 +21,34 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
         /// <seealso cref="IHistory"/><br/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="options">Additional options</param>
+        /// <param name="configureAction">The delegate for configuring <see cref="IConfigurationBuilder"/>
+        /// that provides additional information for notification manager</param>
         /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options)
+        /// <exception cref="InvalidOperationException">When
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Activity)"/> or
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Func{IServiceProvider, Activity})"/>
+        /// is not called.</exception>
+        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Action<IConfigurationBuilder> configureAction)
         {
             _ = @this ?? throw new ArgumentNullException(nameof(@this));
-            _ = options ?? throw new ArgumentNullException(nameof(@this));
-            @this.TryAddSingleton<IToastOptions>(_ => options);
+            _ = configureAction ?? throw new ArgumentNullException(nameof(configureAction));
+            var cb = new ConfigurationBuilder(@this);
+            configureAction(cb);
+            if (@this.Any(c => c.ServiceType == typeof(IActivityConfiguration)) == false)
+                throw new InvalidOperationException($"You should provide an activity by calling {nameof(ConfigurationBuilderExtensions)}.{nameof(ConfigurationBuilderExtensions.WithActivity)}");
+            @this.TryAddSingleton<IPackageNameConfiguration, ConfigurationBuilderExtensions.PackageNameConfiguration>();
+            @this.TryAddSingleton<INotificationStyleConfiguration, ConfigurationBuilderExtensions.NotificationStyleConfiguration>();
             @this.TryAddSingleton<IIntentManager, IntentManager>();
-            @this.TryAddTransient(typeof(INotificationBuilder), options.NotificationStyle.Resolve(typeof(SnackbarBuilder), typeof(NotificationBuilder)));
+            @this.TryAddTransient(typeof(INotificationBuilder),  sp
+                => sp.GetRequiredService<INotificationStyleConfiguration>().NotificationStyle.Resolve<Func<object>>(
+                    sp.GetRequiredService<ISnackbarExtension>,
+                    sp.GetRequiredService<IDroidNotificationExtension>)());
             @this.TryAddTransient<ISnackbarExtension, SnackbarBuilder>();
             @this.TryAddTransient<IDroidNotificationExtension, NotificationBuilder>();
             if (AndroidPlatform.IsM)
@@ -78,7 +69,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -86,53 +76,30 @@ namespace Plugin.Toast
         /// <seealso cref="IExtensionConfiguration{T}"/><br/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="options">Additional options</param>
+        /// <param name="configureAction">The delegate for configuring <see cref="IConfigurationBuilder"/>
+        /// that provides additional information for notification manager</param>
         /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
         /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+        /// <exception cref="InvalidOperationException">When
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Activity)"/> or
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Func{IServiceProvider, Activity})"/>
+        /// is not called.</exception>
+        public static IServiceCollection AddNotificationManager(
+            this IServiceCollection @this,
+            Action<IConfigurationBuilder> configureAction,
             Action<IPlatformSpecificExtension> defaultPlatformConfiguration,
             Action<ISnackbarExtension> defaultSnackbarConfiguration)
         {
             _ = defaultPlatformConfiguration ?? throw new ArgumentNullException(nameof(defaultPlatformConfiguration));
             _ = defaultSnackbarConfiguration ?? throw new ArgumentNullException(nameof(defaultSnackbarConfiguration));
-            return @this.AddNotificationManager(options)
+            return @this.AddNotificationManager(configureAction)
                 .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultPlatformConfiguration))
                 .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(
                 sp => new DefaultConfiguration<ISnackbarExtension>(defaultSnackbarConfiguration));
         }
 
-        /// <summary>
-        /// Add the notification manager and other services to the service collection. 
-        /// Services to be added to the collection:
-        /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
-        /// <seealso cref="INotificationManager"/>,<br/>
-        /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
-        /// <seealso cref="IAndroidNotificationManager"/>,<br/>
-        /// <seealso cref="ISystemEventSource"/>,<br/>
-        /// <seealso cref="INotificationEventSource"/>,<br/>
-        /// <seealso cref="IHistory"/>,<br/>
-        /// <seealso cref="IExtensionConfiguration{T}"/>
-        /// </summary>
-        /// <param name="this">Service collection</param>
-        /// <param name="activity">
-        /// Activity that:
-        /// <list type="bullet">
-        /// <item>will be activated in response to user interaction with the Android notification;</item>
-        /// <item>used to show a snackbar notification.</item>
-        /// </list>
-        /// </param>
-        /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
-        /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
-        /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
-            Action<IPlatformSpecificExtension> defaultPlatformConfiguration,
-            Action<ISnackbarExtension> defaultSnackbarConfiguration)
-        {
-            return @this.AddNotificationManager(new ToastOptions(activity), defaultPlatformConfiguration, defaultSnackbarConfiguration);
-        }
 
         /// <summary>
         /// Add the notification manager and other services to the service collection. 
@@ -140,7 +107,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -148,14 +114,21 @@ namespace Plugin.Toast
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="options">Additional options</param>
+        /// <param name="configureAction">The delegate for configuring <see cref="IConfigurationBuilder"/>
+        /// that provides additional information for notification manager</param>
         /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+        /// <exception cref="InvalidOperationException">When
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Activity)"/> or
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Func{IServiceProvider, Activity})"/>
+        /// is not called.</exception>
+        public static IServiceCollection AddNotificationManager(
+            this IServiceCollection @this,
+            Action<IConfigurationBuilder> configureAction,
             Action<IPlatformSpecificExtension> defaultPlatformConfiguration)
         {
             _ = defaultPlatformConfiguration ?? throw new ArgumentNullException(nameof(defaultPlatformConfiguration));
-            return @this.AddNotificationManager(options)
+            return @this.AddNotificationManager(configureAction)
                 .AddSingleton<IExtensionConfiguration<IPlatformSpecificExtension>>(
                 sp => new DefaultConfiguration<IPlatformSpecificExtension>(defaultPlatformConfiguration));
         }
@@ -166,7 +139,6 @@ namespace Plugin.Toast
         /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
         /// <seealso cref="INotificationManager"/>,<br/>
         /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
         /// <seealso cref="IAndroidNotificationManager"/>,<br/>
         /// <seealso cref="ISystemEventSource"/>,<br/>
         /// <seealso cref="INotificationEventSource"/>,<br/>
@@ -174,74 +146,23 @@ namespace Plugin.Toast
         /// <seealso cref="IExtensionConfiguration{T}"/>
         /// </summary>
         /// <param name="this">Service collection</param>
-        /// <param name="activity">
-        /// Activity that:
-        /// <list type="bullet">
-        /// <item>will be activated in response to user interaction with the Android notification;</item>
-        /// <item>used to show a snackbar notification.</item>
-        /// </list>
-        /// </param>
-        /// <param name="defaultPlatformConfiguration">Default configuration for <see cref="IPlatformSpecificExtension"/></param>
-        /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
-            Action<IPlatformSpecificExtension> defaultPlatformConfiguration)
-        {
-            return @this.AddNotificationManager(new ToastOptions(activity), defaultPlatformConfiguration);
-        }
-
-        /// <summary>
-        /// Add the notification manager and other services to the service collection. 
-        /// Services to be added to the collection:
-        /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
-        /// <seealso cref="INotificationManager"/>,<br/>
-        /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
-        /// <seealso cref="IAndroidNotificationManager"/>,<br/>
-        /// <seealso cref="ISystemEventSource"/>,<br/>
-        /// <seealso cref="INotificationEventSource"/>,<br/>
-        /// <seealso cref="IHistory"/>,<br/>
-        /// <seealso cref="IExtensionConfiguration{T}"/>
-        /// </summary>
-        /// <param name="this">Service collection</param>
-        /// <param name="options">Additional options</param>
+        /// <param name="configureAction">The delegate for configuring <see cref="IConfigurationBuilder"/>
+        /// that provides additional information for notification manager</param>
         /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
         /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, IToastOptions options,
+        /// <exception cref="InvalidOperationException">When
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Activity)"/> or
+        /// <see cref="ConfigurationBuilderExtensions.WithActivity(IConfigurationBuilder, Func{IServiceProvider, Activity})"/>
+        /// is not called.</exception>
+        public static IServiceCollection AddNotificationManager(
+            this IServiceCollection @this,
+            Action<IConfigurationBuilder> configureAction,
             Action<ISnackbarExtension> defaultSnackbarConfiguration)
         {
             _ = defaultSnackbarConfiguration ?? throw new ArgumentNullException(nameof(defaultSnackbarConfiguration));
-            return @this.AddNotificationManager(options)
+            return @this.AddNotificationManager(configureAction)
                 .AddSingleton<IExtensionConfiguration<ISnackbarExtension>>(
                 sp => new DefaultConfiguration<ISnackbarExtension>(defaultSnackbarConfiguration));
-        }
-
-        /// <summary>
-        /// Add the notification manager and other services to the service collection. 
-        /// Services to be added to the collection:
-        /// <seealso cref="IInitialization"/> with dummy implementation,<br/>
-        /// <seealso cref="INotificationManager"/>,<br/>
-        /// <seealso cref="IIntentManager"/>,<br/>
-        /// <seealso cref="IToastOptions"/>,<br/>
-        /// <seealso cref="IAndroidNotificationManager"/>,<br/>
-        /// <seealso cref="ISystemEventSource"/>,<br/>
-        /// <seealso cref="INotificationEventSource"/>,<br/>
-        /// <seealso cref="IHistory"/>,<br/>
-        /// <seealso cref="IExtensionConfiguration{T}"/>
-        /// </summary>z
-        /// <param name="this">Service collection</param>
-        /// <param name="activity">
-        /// Activity that:
-        /// <list type="bullet">
-        /// <item>will be activated in response to user interaction with the Android notification;</item>
-        /// <item>used to show a snackbar notification.</item>
-        /// </list>
-        /// </param>
-        /// <param name="defaultSnackbarConfiguration">Default configuration for <see cref="ISnackbarExtension"/></param>
-        /// <returns>Service collection from @this parameter</returns>
-        public static IServiceCollection AddNotificationManager(this IServiceCollection @this, Activity activity,
-            Action<ISnackbarExtension> defaultSnackbarConfiguration)
-        {
-            return @this.AddNotificationManager(new ToastOptions(activity), defaultSnackbarConfiguration);
         }
     }
 }

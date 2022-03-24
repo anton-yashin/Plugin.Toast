@@ -1,5 +1,6 @@
 ﻿using Google.Android.Material.Snackbar;
 using Plugin.Toast.Abstractions;
+using Plugin.Toast.Droid.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace Plugin.Toast.Droid
 {
     sealed class SnackbarBuilder : INotificationBuilder, ISnackbarExtension, ISnackbarBuilder
     {
-        private readonly IToastOptions options;
+        private readonly IActivityConfiguration activityConfiguration;
         private readonly IServiceProvider? serviceProvider;
         string? title;
         string? description;
@@ -30,9 +31,9 @@ namespace Plugin.Toast.Droid
             }
         }
 
-        public SnackbarBuilder(IToastOptions options, IServiceProvider? serviceProvider)
+        public SnackbarBuilder(IActivityConfiguration activityConfiguration, IServiceProvider? serviceProvider)
         {
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
+            this.activityConfiguration = activityConfiguration;
             this.serviceProvider = serviceProvider;
             this.UseConfigurationFrom<ISnackbarExtension>(serviceProvider);
         }
@@ -54,7 +55,7 @@ namespace Plugin.Toast.Droid
             if (buildCompleted == true)
                 throw Exceptions.ExceptionUtils.BuildTwice;
             buildCompleted = true;
-            return new SnackbarNotification(options: options, snackbarBuilder: this);
+            return new SnackbarNotification(activityConfiguration: activityConfiguration, snackbarBuilder: this);
         }
 
         public IBuilder WhenUsing<T>(Action<T> buildAction) where T : IBuilderExtension<T>

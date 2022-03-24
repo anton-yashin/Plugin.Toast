@@ -138,7 +138,7 @@ namespace DeviceTests
             return new ToastId((1, 2).GetHashCode(), Guid.NewGuid().ToString());
 #elif __IOS__
             return new ToastId(Guid.NewGuid().ToString());
-#elif NETFX_CORE
+#elif NETFX_CORE || MAUI_WINDOWS
             return new ToastId(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 #else
             throw new PlatformNotSupportedException();

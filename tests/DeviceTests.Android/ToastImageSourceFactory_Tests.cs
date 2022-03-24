@@ -12,14 +12,18 @@ using Plugin.Toast;
 using UnitTests;
 using UnitTests.Mocks;
 using Xunit;
-using Xamarin.Forms.Platform.Android;
 using Plugin.Toast.Images;
+using Plugin.Toast.Droid.Configuration;
 
 namespace DeviceTests.Android
 {
     public class ToastImageSourceFactory_Tests
     {
+#if NET6_0_OR_GREATER
+        const string KResource = "DeviceTests.Maui.Images.embedded_image.jpg";
+#else
         const string KResource = "DeviceTests.Android.Images.embedded_image.jpg";
+#endif
 
         [Fact]
         public async Task FromResourceAsync()
@@ -100,8 +104,10 @@ namespace DeviceTests.Android
         {
             var sc = new ServiceCollection();
             sc.AddMock<IHttpClientFactory>();
-            sc.AddSingleton<IResourceToBitmap>(sc => new ResourceToBitmap(fn
-                => global::Android.App.Application.Context.Resources.GetBitmapAsync(fn)));
+            sc.AddSingleton<IActivityConfiguration>(sp
+                => new ConfigurationBuilderExtensions.ActivityConfiguration(() => Platform.Activity));
+            sc.AddSingleton<IPackageNameConfiguration>(sp
+                => new ConfigurationBuilderExtensions.PackageNameConfiguration(Platform.Activity.PackageName ?? ""));
             sc.AddSingleton<ToastImageSourceFactory>();
             return sc.BuildServiceProvider();
         }

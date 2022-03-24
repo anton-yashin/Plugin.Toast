@@ -1,54 +1,74 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
-  <PropertyGroup>
-    <AssemblyName>Plugin.Toast</AssemblyName>
-    <RootNamespace>Plugin.Toast</RootNamespace>
-    <PackageId>Xamarin.Plugin.Toast</PackageId>
-    <Summary>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Summary>
-    <Description>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Description>
-    <PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast</PackageTags>
-    <Title>Plugin.Toast</Title>
-  </PropertyGroup>
-  
-  <Import Project="../../common.props" />
+	<PropertyGroup>
+		<AssemblyName>Plugin.Toast</AssemblyName>
+		<RootNamespace>Plugin.Toast</RootNamespace>
+		<PackageId>Xamarin.Plugin.Toast</PackageId>
+		<Summary>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Summary>
+		<Description>Xamarin.Plugin.Toast: Show local notifications inside your Xamarin application on UWP, iOS and Android platforms</Description>
+		<PackageTags>xamarin, windows, uwp, ios, android, plugin, notification, toast</PackageTags>
+		<Title>Plugin.Toast</Title>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" Condition=" $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" Condition=" ! $(TargetFramework.StartsWith('netstandard1.')) " />
-    <None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
-    <Compile Include="**\*.shared.cs" />
-    <Compile Include="**\*.shared.*.cs" />
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-    <Compile Include="**\*.netstandard.cs" />
-    <Compile Include="**\*.netstandard.*.cs" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
-    <Compile Include="**\*.uwp.cs" />
-    <Compile Include="**\*.uwp.*.cs" />
-    <SDKReference Include="WindowsMobile, Version=10.0.16299.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0" />
-    <Reference Include="System.Runtime.Serialization.dll" />
-    <Compile Include="**\*.android.cs" />
-    <Compile Include="**\*.android.*.cs" />
-    <AndroidResource Include="Resources\xml\*.xml" />
-  </ItemGroup>
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-    <Compile Include="**\*.ios.cs" />
-    <Compile Include="**\*.ios.*.cs" />
-    <Reference Include="System.Runtime.Serialization.dll" />
-  </ItemGroup>
+	<Import Project="../../common.props" />
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
+		<Compile Include="**\*.shared.cs" />
+		<Compile Include="**\*.shared.*.cs" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard1.')) ">
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" />
+		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.')) ">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" ( ! $(TargetFramework.StartsWith('net6.'))) AND ( ! $(TargetFramework.StartsWith('netstandard1.'))) ">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR '$(TargetFramework)' == 'net6.0' ">
+		<Compile Include="**\*.netstandard.cs" />
+		<Compile Include="**\*.netstandard.*.cs" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) OR $(TargetFramework.Contains('-windows'))  ">
+		<Compile Include="**\*.uwp.cs" />
+		<Compile Include="**\*.uwp.*.cs" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+		<SDKReference Include="WindowsMobile, Version=10.0.16299.0">
+			<Name>Windows Mobile Extensions for the UWP</Name>
+		</SDKReference>
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.1" />
+		<Reference Include="System.Runtime.Serialization.dll" />
+		<Compile Include="**\*.android.cs" />
+		<Compile Include="**\*.android.*.cs" />
+		<AndroidResource Include="Resources\xml\*.xml" />
+	</ItemGroup>
+	<ItemGroup Condition="  $(TargetFramework.StartsWith('net6.0-android')) ">
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.1" />
+		<Compile Include="**\*.android.cs" />
+		<Compile Include="**\*.android.*.cs" />
+		<AndroidResource Include="Resources\xml\*.xml" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+		<Compile Include="**\*.ios.cs" />
+		<Compile Include="**\*.ios.*.cs" />
+		<Reference Include="System.Runtime.Serialization.dll" />
+	</ItemGroup>
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-ios')) OR $(TargetFramework.StartsWith('net6.0-maccatalyst')) ">
+		<Compile Include="**\*.ios.cs" />
+		<Compile Include="**\*.ios.*.cs" />
+	</ItemGroup>
 </Project>

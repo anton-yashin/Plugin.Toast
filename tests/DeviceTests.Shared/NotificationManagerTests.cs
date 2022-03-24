@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using IXPlatformSpecificExtension = Plugin.Toast.Droid.IPlatformSpecificExtension;
 #elif __IOS__
 using IXPlatformSpecificExtension = Plugin.Toast.IOS.IPlatformSpecificExtension;
-#elif NETFX_CORE
+#elif NETFX_CORE || MAUI_WINDOWS
 using IXPlatformSpecificExtension = Plugin.Toast.UWP.IPlatformSpecificExtension;
 #endif
 
@@ -18,25 +18,6 @@ namespace DeviceTests
 {
     public class NotificationManagerTests
     {
-        [Fact]
-        public void ConstructOptions()
-        {
-#if __ANDROID__
-            var to = new ToastOptions(Platform.Activity);
-#else
-            var to = new ToastOptions();
-#endif
-            Assert.NotNull(to);
-        }
-
-#if __ANDROID__
-        [Fact]
-        public void CreateOptionsFailed()
-        {
-            Assert.Throws<ArgumentNullException>(() => new ToastOptions(null!));
-        }
-#endif
-
         [Fact]
         public void CreateNotificationManager()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UIKit;
 using UserNotifications;
 
 namespace Plugin.Toast.IOS
@@ -60,7 +61,14 @@ namespace Plugin.Toast.IOS
             public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
             {
                 GetRequest(new ToastId(notification.Request.Identifier))?.OnShown();
-                completionHandler(UNNotificationPresentationOptions.Alert);
+                var ca =
+#if NET6_0_OR_GREATER
+                OperatingSystem.IsIOSVersionAtLeast(14)
+#else
+                UIDevice.CurrentDevice.CheckSystemVersion(14, 0)
+#endif
+                ? (UNNotificationPresentationOptions.Banner | UNNotificationPresentationOptions.List) : UNNotificationPresentationOptions.Alert;
+                completionHandler(ca);
             }
 
             public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
