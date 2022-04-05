@@ -46,10 +46,10 @@ You can also use ToastOptions class or a builder action parameter to set some de
 
 ```csharp
 // register in IoC at android
-serviceCollection.AddNotificationManager(yourActivity);
+serviceCollection.AddNotificationManager(b => b.WithActivity(yourActivity));
 
 // for image support at android
-serviceCollection.AddNotificationManagerImagesSupport(fn => yourActivity.Resources.GetBitmapAsync(fn))));
+serviceCollection.AddNotificationManagerImagesSupport();
 
 // register in IoC at iOs
 serviceCollection.AddNotificationManager();
@@ -154,6 +154,12 @@ cancellationToken.Dispose(); // remove from schedule
 ```
 See also: [Droid.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/Droid/IPlatformSpecificExtension.android.cs),
 [IOS.IPlatformSpecificExtension](https://github.com/anton-yashin/Plugin.Toast/blob/master/src/Plugin.Toast/IOS/IPlatformSpecificExtension.ios.cs)
+
+### MAUI notes
+* ```Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory``` can be replaced with ```Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory```
+* You can obtain activity using [this code](https://github.com/anton-yashin/Plugin.Toast/blob/0d804f2b3ba87df9d8ba312d66908ebdbaa40899/tests/ManualTests.Maui/MauiProgram.cs#L50)
+* If you want a single instance support at WinUI 3 then [check this code](https://github.com/anton-yashin/Plugin.Toast/blob/0d804f2b3ba87df9d8ba312d66908ebdbaa40899/tests/ManualTests.Maui/Platforms/Windows/App.xaml.cs#L55)
+
 
 ### Work with notification history
 
