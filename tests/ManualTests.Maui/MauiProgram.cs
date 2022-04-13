@@ -34,7 +34,7 @@ namespace ManualTests.Maui
                 )
                 .AddNotificationManagerImagesSupport(
 #if WINDOWS
-                GetImageDirectory
+                () => Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory()
 #endif
                 )
                 .AddLogging(_ => _.AddDebug())
@@ -57,11 +57,6 @@ namespace ManualTests.Maui
                 select nw).FirstOrDefault()
             ?? throw new InvalidOperationException("activity not found");
 
-#endif
-
-#if WINDOWS
-        static string GetImageDirectory()
-            => Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory();
 #endif
     }
 }

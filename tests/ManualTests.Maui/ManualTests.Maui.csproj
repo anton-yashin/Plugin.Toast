@@ -15,6 +15,7 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.ManualTests.Maui</ApplicationId>
+		<ApplicationId Condition="$(TargetFramework.Contains('-windows'))">1B714BA0-A059-46A4-BB1A-2F034761F501</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationVersion>1</ApplicationVersion>
@@ -51,18 +52,12 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.635-beta">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,10 +76,5 @@
 	<ItemGroup>
 	  <Folder Include="Resources\drawable\" />
 	</ItemGroup>
-
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<OutputType>WinExe</OutputType>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	</PropertyGroup>
 
 </Project>

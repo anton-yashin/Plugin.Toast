@@ -15,6 +15,7 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.devicetests.maui</ApplicationId>
+		<ApplicationId Condition="$(TargetFramework.Contains('-windows'))">28F3A765-2457-48D9-9237-1670066ED297</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationVersion>1</ApplicationVersion>
@@ -81,16 +82,6 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-			<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.619-beta">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
-
 	<ItemGroup>
 	  <Content Include="Platforms\iOS\Entitlements.plist" />
 	</ItemGroup>
@@ -101,22 +92,21 @@
 
 	<ItemGroup>
 	  <PackageReference Include="LightMock.Generator" Version="1.1.1" />
-	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1041" />
+	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1043" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	  <PackageReference Include="xunit" Version="2.4.1" />
 	  <PackageReference Include="Xunit.Priority" Version="1.1.6" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.635-beta">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Plugin.Toast.Images\Plugin.Toast.Images.csproj" />
 	  <ProjectReference Include="..\..\src\Plugin.Toast\Plugin.Toast.csproj" />
 	</ItemGroup>
-
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<OutputType>WinExe</OutputType>
-		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-	</PropertyGroup>
 
 	<Import Project="..\DeviceTests.Shared\DeviceTests.Shared.projitems" Label="Shared" />
 

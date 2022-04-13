@@ -38,7 +38,7 @@ namespace ManualTests.Maui.WinUI
             await SingleInstanceLaunch();
             ProcessActivationArguments(LAppInstance.GetCurrent().GetActivatedEventArgs());
             base.OnLaunched(args);
-            Microsoft.Maui.Essentials.Platform.OnLaunched(args);
+            Microsoft.Maui.ApplicationModel.Platform.OnLaunched(args);
             LAppInstance.GetCurrent().Activated += OnAppActivated;
         }
 
