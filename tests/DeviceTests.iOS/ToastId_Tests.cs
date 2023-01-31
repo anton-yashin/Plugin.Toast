@@ -31,7 +31,7 @@ namespace DeviceTests.iOS
             Assert.Equal(expected, tid.GetPersistentHashCode());
         }
 
-        static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
+        public static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
         {
             yield return new object?[] { ToastId.KMagicSeed, null};
             yield return new object?[] { -103495992, "a" };
@@ -53,7 +53,7 @@ namespace DeviceTests.iOS
             Assert.NotEqual(expected, actual);
         }
 
-        static IEnumerable<object?[]> GetTestData_OperatorEquals()
+        public static IEnumerable<object?[]> GetTestData_OperatorEquals()
         {
             yield return new object?[] { true, new ToastId("abc"), new ToastId("abc") };
             yield return new object?[] { true, new ToastId(null!), new ToastId(null!) };

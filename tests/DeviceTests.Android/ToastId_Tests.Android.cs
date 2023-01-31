@@ -31,7 +31,7 @@ namespace DeviceTests.Android
             Assert.Equal(left.GetHashCode(), right.GetHashCode());
         }
 
-        static IEnumerable<object?[]> GetTestData_Equals_()
+        public static IEnumerable<object?[]> GetTestData_Equals_()
         {
             var r = new Random();
             yield return new object?[] { r.Next(), Guid.NewGuid().ToString() };
@@ -48,7 +48,7 @@ namespace DeviceTests.Android
             Assert.Equal(expected, tid.GetPersistentHashCode());
         }
 
-        static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
+        public static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
         {
             yield return new object?[] { -103495839, 456, null };
             yield return new object?[] { 879604673, 456, "a" };
@@ -70,7 +70,7 @@ namespace DeviceTests.Android
             Assert.NotEqual(expected, actual);
         }
 
-        static IEnumerable<object?[]> GetTestData_OperatorEquals()
+        public static IEnumerable<object?[]> GetTestData_OperatorEquals()
         {
             yield return new object?[] { true, new ToastId(123, "def"), new ToastId(123, "def") };
             yield return new object?[] { true, new ToastId(123, null!), new ToastId(123, null!) };

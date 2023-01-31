@@ -24,7 +24,7 @@ namespace DeviceTests.UWP
             Assert.Equal(left.GetHashCode(), right.GetHashCode());
         }
 
-        static IEnumerable<object?[]> GetEqualsData()
+        public static IEnumerable<object?[]> GetEqualsData()
         {
             yield return new object?[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString()};
             yield return new object?[] { null, Guid.NewGuid().ToString() };
@@ -72,7 +72,7 @@ namespace DeviceTests.UWP
             Assert.Equal(expected, tid.GetPersistentHashCode());
         }
 
-        static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
+        public static IEnumerable<object?[]> GetTestData_GetPersistentHashCode()
         {
             yield return new object?[] { 1558670046, null, null };
             yield return new object?[] { 1314885743, "ab", "cde" };
@@ -94,7 +94,7 @@ namespace DeviceTests.UWP
             Assert.NotEqual(expected, actual);
         }
 
-        static IEnumerable<object?[]> GetTestData_OperatorEquals()
+        public static IEnumerable<object?[]> GetTestData_OperatorEquals()
         {
             yield return new object?[] { true, new ToastId("abc", "def"), new ToastId("abc", "def") };
             yield return new object?[] { true, new ToastId("abc", null!), new ToastId("abc", null!) };

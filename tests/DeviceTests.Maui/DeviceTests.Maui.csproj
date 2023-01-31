@@ -91,12 +91,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="LightMock.Generator" Version="1.1.1" />
-	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1048" />
-	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-	  <PackageReference Include="xunit" Version="2.4.1" />
+	  <PackageReference Include="LightMock.Generator" Version="1.2.2" />
+	  <PackageReference Include="Maui.TestUtils" Version="1.0.0-preview.1050" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	  <PackageReference Include="xunit" Version="2.4.2" />
 	  <PackageReference Include="Xunit.Priority" Version="1.1.6" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.635-beta">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
