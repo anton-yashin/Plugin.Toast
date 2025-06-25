@@ -70,7 +70,7 @@ namespace Plugin.Toast
 
         string GetTypeHintByMime(string mime)
         {
-#if NET6_0_OR_GREATER
+#if net9_0_OR_GREATER
             if (OperatingSystem.IsIOSVersionAtLeast(14, 0))
 #else
             if (UIDevice.CurrentDevice.CheckSystemVersion(14, 0))

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Plugin.Toast;
-#if NET6_0_OR_GREATER == false
+#if net9_0_OR_GREATER == false
 
 /// <summary>
 /// Attribute stub for older versions .NET

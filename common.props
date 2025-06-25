@@ -1,20 +1,12 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;Xamarin.iOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;net6.0;net6.0-ios;net6.0-android;net6.0-maccatalyst;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.16299;</TargetFrameworks>
-	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>net9.0;net9.0-ios;net9.0-android;net9.0-maccatalyst;</TargetFrameworks>
+	<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net9.0-windows10.0.19041</TargetFrameworks>
 	  
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">15.0</SupportedOSPlatformVersion>
-	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-ios'">10.0</TargetPlatformMinVersion>
-	  
-	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">15.0</SupportedOSPlatformVersion>
-	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">10.13</TargetPlatformMinVersion>
-
-	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">31.0</SupportedOSPlatformVersion>
-	<TargetPlatformMinVersion   Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</TargetPlatformMinVersion>
-	  
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net9.0-ios'">14.0</SupportedOSPlatformVersion>
+	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net9.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+	<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net9.0-android'">26.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
-	<TargetPlatformMinVersion   Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
 
 	<Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>0.96.0.0</AssemblyVersion>
@@ -25,6 +17,7 @@
     <Authors>Anton Yashin</Authors>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Copyright © Anton Yashin 2022</Copyright>
+	  
     <RepositoryUrl>https://github.com/anton-yashin/Plugin.Toast</RepositoryUrl>
     <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/release-notes.txt"))</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

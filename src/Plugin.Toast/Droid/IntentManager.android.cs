@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using AndroidX.Core.Content;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Org.Json;
@@ -44,7 +45,10 @@ namespace Plugin.Toast.Droid
             intentFilter.AddAction(IntentConstants.KDismissed);
             intentFilter.AddAction(IntentConstants.KScheduled);
 
-            Application.Context.RegisterReceiver(receiver, intentFilter);
+            if (OperatingSystem.IsAndroidVersionAtLeast(33))
+                Application.Context.RegisterReceiver(receiver, intentFilter, ReceiverFlags.NotExported);
+            else
+                Application.Context.RegisterReceiver(receiver, intentFilter);
         }
 
         TaskCompletionSource<NotificationResult>? PopTask(ToastId toastId)

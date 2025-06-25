@@ -62,7 +62,7 @@ namespace Plugin.Toast.IOS
             {
                 GetRequest(new ToastId(notification.Request.Identifier))?.OnShown();
                 var ca =
-#if NET6_0_OR_GREATER
+#if net9_0_OR_GREATER
                 OperatingSystem.IsIOSVersionAtLeast(14)
 #else
                 UIDevice.CurrentDevice.CheckSystemVersion(14, 0)

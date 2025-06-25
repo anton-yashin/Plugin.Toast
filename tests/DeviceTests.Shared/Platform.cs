@@ -8,11 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Toast;
 
-#if NET6_0_OR_GREATER
 using XDevice = Microsoft.Maui.Controls.Device;
-#else
-using XDevice = Xamarin.Forms.Device;
-#endif
 
 namespace DeviceTests
 {

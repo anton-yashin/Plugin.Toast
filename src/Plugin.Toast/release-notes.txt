@@ -1,1 +1,1 @@
-﻿* .NET 6 support (⚠WARNING: net6.0-ios & xamarin-ios tested on emulator, net6.0-maccatalyst isn't tested⚠)
+﻿* .NET 9 support (⚠WARNING: net9.0-ios tested on emulator, net9.0-maccatalyst isn't tested⚠)

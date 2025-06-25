@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AssemblyName>Plugin.Toast</AssemblyName>
@@ -13,7 +13,7 @@
 	<Import Project="../../common.props" />
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 		<None Include="nugetreadme.txt" PackagePath="readme.txt" Pack="true" />
 		<Compile Include="**\*.shared.cs" />
 		<Compile Include="**\*.shared.*.cs" />
@@ -25,49 +25,32 @@
 		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.')) ">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net9.')) ">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" ( ! $(TargetFramework.StartsWith('net6.'))) AND ( ! $(TargetFramework.StartsWith('netstandard1.'))) ">
+	<ItemGroup Condition=" ( ! $(TargetFramework.StartsWith('net9.'))) AND ( ! $(TargetFramework.StartsWith('netstandard1.'))) ">
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
 		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR '$(TargetFramework)' == 'net6.0' ">
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR '$(TargetFramework)' == 'net9.0' ">
 		<Compile Include="**\*.netstandard.cs" />
 		<Compile Include="**\*.netstandard.*.cs" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) OR $(TargetFramework.Contains('-windows'))  ">
+	<ItemGroup Condition=" $(TargetFramework.Contains('-windows'))  ">
 		<Compile Include="**\*.uwp.cs" />
 		<Compile Include="**\*.uwp.*.cs" />
 	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
-		<SDKReference Include="WindowsMobile, Version=10.0.16299.0">
-			<Name>Windows Mobile Extensions for the UWP</Name>
-		</SDKReference>
-	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.1" />
-		<Reference Include="System.Runtime.Serialization.dll" />
+	<ItemGroup Condition="  $(TargetFramework.StartsWith('net9.0-android')) ">
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.11.0.3" />
 		<Compile Include="**\*.android.cs" />
 		<Compile Include="**\*.android.*.cs" />
 		<AndroidResource Include="Resources\xml\*.xml" />
 	</ItemGroup>
-	<ItemGroup Condition="  $(TargetFramework.StartsWith('net6.0-android')) ">
-		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.1" />
-		<Compile Include="**\*.android.cs" />
-		<Compile Include="**\*.android.*.cs" />
-		<AndroidResource Include="Resources\xml\*.xml" />
-	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
-		<Compile Include="**\*.ios.cs" />
-		<Compile Include="**\*.ios.*.cs" />
-		<Reference Include="System.Runtime.Serialization.dll" />
-	</ItemGroup>
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-ios')) OR $(TargetFramework.StartsWith('net6.0-maccatalyst')) ">
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net9.0-ios')) OR $(TargetFramework.StartsWith('net9.0-maccatalyst')) ">
 		<Compile Include="**\*.ios.cs" />
 		<Compile Include="**\*.ios.*.cs" />
 	</ItemGroup>

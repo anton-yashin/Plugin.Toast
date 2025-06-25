@@ -10,20 +10,11 @@ using System.Net.Http;
 using System.Text;
 #if __ANDROID__
 using Plugin.Toast.Droid.Configuration;
-#if NET6_0_OR_GREATER
 using Microsoft.Maui.Platform;
-#else
-using Xamarin.Forms.Platform.Android;
-#endif
 #endif
 #if WINDOWS
-#if NET6_0_OR_GREATER
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
-#else
-using Xamarin.Forms.Platform.UWP;
-using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
-#endif
 #endif
 using Xunit;
 
@@ -78,11 +69,7 @@ namespace DeviceTests
             // prepare & act
             var sc = new ServiceCollection();
             sc.AddNotificationManagerImagesSupport(
-#if NET6_0_OR_GREATER
                 Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory
-#else
-                Xamarin.Forms.Application.Current.OnThisPlatform().GetImageDirectory
-#endif
                 );
             using var sp = sc.BuildServiceProvider();
 

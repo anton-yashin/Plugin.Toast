@@ -13,13 +13,8 @@ using UnitTests;
 using Xunit;
 using System.Threading;
 using Plugin.Toast.Images;
-#if NET6_0_OR_GREATER
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
-#else
-using Xamarin.Forms.Platform.UWP;
-using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
-#endif
 
 namespace DeviceTests.UWP
 {
@@ -47,11 +42,7 @@ namespace DeviceTests.UWP
             // prepare
             using var sp = CreateServices();
             var factory = sp.GetRequiredService<ToastImageSourceFactory>();
-#if NET6_0_OR_GREATER
             Microsoft.Maui.Controls.Application.Current.OnThisPlatform().SetImageDirectory(imageDir);
-#else
-            Xamarin.Forms.Application.Current?.OnThisPlatform().SetImageDirectory(imageDir);
-#endif
 
             // act
             var result = await factory.FromFileAsync(arg);
@@ -70,7 +61,7 @@ namespace DeviceTests.UWP
 
         static string GetFullPath(string path)
         {
-#if NET6_0_OR_GREATER
+#if net9_0_OR_GREATER
             return Path.Combine(PackageInfo.GetRoot(), path);
 #else
             return Path.GetFullPath(path);
@@ -113,11 +104,7 @@ namespace DeviceTests.UWP
             var sc = new ServiceCollection();
             sc.AddMock<IImageCacher, IResourceToFileNameStrategy>();
             sc.AddSingleton<IImageDirectoryResolver>(sc => new ImageDirectoryResolver(
-#if NET6_0_OR_GREATER
                 () => Microsoft.Maui.Controls.Application.Current.OnThisPlatform().GetImageDirectory()
-#else
-                () => Xamarin.Forms.Application.Current?.OnThisPlatform().GetImageDirectory()
-#endif
             ));
 
             sc.AddSingleton<ToastImageSourceFactory>();

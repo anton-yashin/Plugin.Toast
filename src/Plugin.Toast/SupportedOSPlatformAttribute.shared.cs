@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Plugin.Toast;
-#if NET6_0_OR_GREATER == false
+#if net9_0_OR_GREATER == false
 
 /// <summary>
 /// Stub for previous versions of .NET
